@@ -1,0 +1,128 @@
+---
+triggers: [docs, planning, feature-work]
+requires: [core]
+see-also: [architecture, testing]
+severity-default: MUST
+---
+
+# Documentation Rules
+
+How the agent loads, creates, and updates durable documentation in a consumer repo. Authoritative source for load order, validation gates, creation-vs-update policy, and skeleton-to-doc mapping. `AGENTS.md` and `docs/docs-guide.md` must reference this file rather than duplicate it.
+
+Load when: any task that reads, writes, or relies on `docs/` artifacts, or that triggers a validation gate below.
+
+## Rules
+
+### DOC-1 Load just-in-time, not eagerly [MUST]
+
+Always load:
+- `AGENTS.md`
+- `agent-kit/agent-rules/core.md`
+- `docs/context/project.md` (when present)
+
+Load by task type:
+
+| Task type | Add to load |
+|---|---|
+| Touches an existing feature | `docs/features/<feature>/{requirements,design,tasks,CHANGELOG}.md` |
+| Uses business vocabulary | `docs/glossary.md` |
+| Placement or structure unclear | `agent-kit/agent-rules/repo-guide.md`, `docs/architecture.md` |
+| Architectural or system-boundary change | `agent-kit/agent-rules/architecture.md`, `docs/architecture.md` |
+| ORM, queries, migrations, sessions | `agent-kit/agent-rules/persistence.md`, `docs/database.md` |
+| Auth, secrets, trust boundaries, sensitive data | `agent-kit/agent-rules/security.md` |
+| Tests | `agent-kit/agent-rules/testing.md` |
+| Input checks, contracts, failure handling | `agent-kit/agent-rules/validation.md` |
+| Logs, metrics, tracing | `agent-kit/agent-rules/observability.md` |
+| Python code | `agent-kit/agent-rules/python.md` |
+
+Large context is not useful context. Do not load files whose content will not influence the current decision.
+
+### DOC-2 Satisfy validation gates before broad implementation [MUST]
+
+| Gate | Trigger | Required action |
+|---|---|---|
+| Requirements exist | New or changed behavior | Create or update `requirements.md` before broad implementation |
+| Design exists | Non-trivial, multi-step work | Create or update `design.md` before implementation |
+| Tasks exist | Work spans multiple slices | Create or update `tasks.md` before coding |
+| Glossary covers vocabulary | Ambiguous or new terms appear | Update `docs/glossary.md` before using in requirements or code |
+| Placement is clear | About to create a new folder or file | Consult `agent-kit/agent-rules/repo-guide.md` |
+| CHANGELOG entry | Non-trivial change to requirements / design / scope | Append entry under `[Unreleased]` in feature CHANGELOG |
+| Reconciliation done | Before commit | Code, requirements, design, tasks, CHANGELOG do not contradict each other |
+
+### DOC-3 Update existing artifacts in place; create new only when distinct [MUST]
+
+| Artifact | Create new when | Update existing when |
+|---|---|---|
+| Feature folder | Genuinely new feature with no existing folder | Always prefer updating in-place |
+| `requirements.md` | New feature | Acceptance criteria change; implementation clarifies details |
+| `design.md` | New feature | Approach evolves; new contracts identified |
+| `tasks.md` | New feature | Tasks shift; new slices appear; status changes |
+| `CHANGELOG.md` | New feature (created with the folder) | Append entry under `[Unreleased]` per non-trivial change |
+| `report.md` | When the feature ships | Per cycle, not per micro-change |
+
+Never create parallel folders for the same feature. Before creating a new feature folder, check whether `docs/features/<feature>/` already exists.
+
+### DOC-4 Instantiate from skeletons, never improvise format [MUST]
+
+If a target doc does not exist, create it from the matching skeleton in `agent-kit/skeletons/` rather than inventing a new shape.
+
+| Skeleton | Target doc |
+|---|---|
+| `agent-kit/skeletons/_project-context.md` | `docs/context/project.md` |
+| `agent-kit/skeletons/_architecture.md` | `docs/architecture.md` |
+| `agent-kit/skeletons/_database.md` | `docs/database.md` |
+| `agent-kit/skeletons/_glossary.md` | `docs/glossary.md` |
+| `agent-kit/skeletons/_docs-guide.md` | `docs/docs-guide.md` |
+| `agent-kit/skeletons/_requirements.md` | `docs/features/<feature>/requirements.md` |
+| `agent-kit/skeletons/_design.md` | `docs/features/<feature>/design.md` |
+| `agent-kit/skeletons/_tasks.md` | `docs/features/<feature>/tasks.md` |
+| `agent-kit/skeletons/_business-implementation-report.md` | `docs/features/<feature>/report.md` |
+| `agent-kit/skeletons/_changelog.md` | `docs/features/<feature>/CHANGELOG.md` |
+
+Manifest entry sections for feature artifacts are `requirements:`, `designs:`, `tasks:`, `reports:`, and `changelogs:`.
+
+### DOC-5 Treat `docs/docs-guide.md` as the project's authority on required docs [MUST]
+
+If `docs/docs-guide.md` exists, defer to it for the per-project list of required docs and any local overrides of load order or gates. This rule defines the defaults; the project doc lists what is actually required and any deviations.
+
+### DOC-6 Project overrides must not silently contradict this rule [MUST]
+
+Project-specific deviations (stricter gates, extra required docs, alternative load order) belong in the "Project-Specific Overrides" section of `docs/docs-guide.md` and must be stated explicitly so the agent can detect the override. Silent divergence between `AGENTS.md`, `docs/docs-guide.md`, and this file is a bug — align them before adding new rules.
+
+### DOC-7 Feature CHANGELOGs follow a single convention [MUST]
+
+Every feature `CHANGELOG.md` (instantiated from `agent-kit/skeletons/_changelog.md`) follows the same shape so reviewers do not have to re-learn the format per feature.
+
+- Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+- Most recent version on top.
+- One line per change; include the **why** (e.g. `Removed X (why: deprioritized)`).
+- Standard Keep-a-Changelog sections: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`.
+- Feature-work extension sections: `Requirements`, `Design`, `Tasks`, `Decided`. Use these under `[Unreleased]` to track in-flight scope changes.
+- In-flight work always lives under `[Unreleased]`. Do **not** use date-only headers (`## [2026-05-27]`) as a substitute — promote to a semver release (`## [1.1.0] — YYYY-MM-DD`) only when the feature actually ships.
+- Bump the semver section when shipping a meaningful new release of the feature; reference `report.md` from the release entry.
+- Do not duplicate git diffs — narrative only.
+
+A CHANGELOG that drifts from this shape is a bug; fix the CHANGELOG rather than inventing local conventions.
+
+### DOC-8 Keep `docs/manifest.yaml` in sync with the artifacts it lists [MUST]
+
+`docs/manifest.yaml` is the inventory of generated artifacts in the consumer repo. Update it whenever an artifact it tracks is created, renamed, archived, or superseded — not on a fixed cadence and not via a magic command.
+
+- One entry per artifact, under the matching section (`context`, `guides`, `agent_rules`, `requirements`, `designs`, `tasks`, `reports`, `changelogs`, `notebooks`).
+- Each entry sets `status` (`active` / `implemented` / `superseded` / `archived`) and `last_updated`.
+- If the artifact moves or is deleted, update or remove the entry in the same change — do not leave dangling paths.
+
+The manifest is read by humans and by future sessions; treating it as append-only or as a chat-log is a bug.
+
+## Anti-patterns
+
+- Loading every doc in `docs/` regardless of task type.
+- Creating a second feature folder because the existing one "feels off" instead of updating it.
+- Writing freeform docs in a shape that does not match any skeleton.
+- Restating load order or gates inside a feature doc instead of pointing at this rule.
+
+## See also
+
+- [core](core.md)
+- [architecture](architecture.md)
+- [testing](testing.md)
