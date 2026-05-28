@@ -1,72 +1,27 @@
 
-# AI Coding Assistant — Eurostars Data Science
+# EHC Agent Harness
 
-The operating system for AI-assisted Data Science and Data Engineering work.
-Rules, templates, workflows and role profiles that keep AI's speed without sacrificing review quality.
+Guides, rules and templates that make AI-assisted Data Science and Data Engineering work reproducible, reviewable and documented — without losing speed.
 
-
-## TL;DR
-
-- This is **not application code**. It's a *metarepo*: rules, skills, subagents and document skeletons.
-- You **copy a small kit** into your project repo and **reference** the rest from your IDE.
-- The result: requirements before building, plans before coding, small reviewable slices, docs that don't rot.
-
-> [!IMPORTANT]
-> **The core of this framework is the development cycle** — load the right context at each phase, then follow Context → Spec → Plan → Build → Document. That is what you must adopt.
->
-> Skills and subagents are automation on top of that cycle, currently in an exploration phase. Use them if they help, but don't depend on them as a foundation.
+![guides: stable](https://img.shields.io/badge/guides-stable-22c55e) ![harness: experimental](https://img.shields.io/badge/harness-experimental-eab308) ![installer: not built](https://img.shields.io/badge/installer-not%20built-94a3b8)
 
 ---
 
-## Table of contents
+## A metarepo, not a project
 
-- [AI Coding Assistant — Eurostars Data Science](#ai-coding-assistant--eurostars-data-science)
-  - [TL;DR](#tldr)
-  - [Table of contents](#table-of-contents)
-  - [What it solves](#what-it-solves)
-  - [Metarepo vs. project repo](#metarepo-vs-project-repo)
-  - [The development cycle](#the-development-cycle)
-  - [Repository structure](#repository-structure)
-  - [Adoption](#adoption)
-    - [Track 1 — Project repo setup](#track-1--project-repo-setup)
-    - [Track 2 — Developer IDE setup](#track-2--developer-ide-setup)
-  - [FAQ](#faq)
-  - [Contributing](#contributing)
-  - [Maintainers](#maintainers)
-
----
-
-## What it solves
-
-Without guardrails, AI-assisted work tends to produce large diffs from fuzzy requirements, where tests only run locally and docs are updated weeks later — if at all. Reviewers spend their time reconstructing intent rather than evaluating decisions.
-
-This framework adds the minimum scaffolding to keep AI speed honest:
-
-| | Without the framework | With the framework |
-|---|---|---|
-| **PR shape** | One 800-line diff | Three ~80-line slices |
-| **Reviewer's starting point** | Reads code to guess the design | Reads spec + plan + evidence |
-| **Tests** | "It runs on my machine" | Named, reproducible, scoped |
-| **Docs** | Drift silently | Updated as part of the cycle |
-| **AI instructions** | Scattered across files | One entrypoint (`AGENTS.md`) |
-
-The goal is not process for its own sake. It's **making AI-assisted work reviewable** without slowing it down.
-
----
-
-## Metarepo vs. project repo
+This repository is **not** application code. It is a **metarepo**: a single source of guides, rules, templates and (early) automations that other repositories and developers draw from. Three different audiences pull different parts of it.
 
 ```mermaid
 flowchart LR
     accTitle: Metarepo to Project Repo Relationship
-    accDescr: How the metarepo rules, skills, and skeletons flow into the project repo and developer IDE.
+    accDescr: How the metarepo guides, agent-kit, AGENTS.md, skills, and subagents flow into the project repo and developer IDE.
 
-    metarepo["This metarepo<br/>(rules, skills, agents, skeletons)"]
+    metarepo["This metarepo<br/>(guides, agent-kit + AGENTS.md, skills, subagents)"]
     target["Your project repo<br/>(real code + docs/)"]
     ide["Your IDE<br/>(Cursor / Claude Code / Codex)"]
 
-    metarepo -->|copy templates| target
-    metarepo -->|install skills & subagents| ide
+    metarepo -->|copy by hand| target
+    metarepo -->|reference| ide
     ide <-->|reads & writes| target
 
     classDef source fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
@@ -76,88 +31,97 @@ flowchart LR
     class target,ide node
 ```
 
-| What | Where it goes | How |
-|---|---|---|
-| `agent-kit/` (rules + skeletons) | **Committed** into the project repo | Copy once, evolve in-repo |
-| `skills/` (AI workflows) | **Installed** in each dev's IDE | Referenced, not copied |
-| `subagents/` (role profiles) | **Installed** in each dev's IDE | Loaded on demand |
-| `guides/` (theory + onboarding) | **Read by humans** | Never copied |
+| Folder                                                              | Audience                | How it is consumed                              | Status              |
+| ------------------------------------------------------------------- | ----------------------- | ----------------------------------------------- | ------------------- |
+| [`guides/`](./guides/)                                              | Developers learning     | Read in place. Never copied.                    | Stable              |
+| [`agent-kit/`](./agent-kit/) + [`AGENTS.md`](./agent-kit/AGENTS.md) | Project repositories    | Copied **by hand** into the project repo root.  | Stable (manual)     |
+| [`skills/`](./skills/)                                              | Developers' IDEs        | Referenced from the IDE.                        | Experimental        |
+| [`subagents/`](./subagents/)                                        | Developers' IDEs        | Referenced from the IDE.                        | Experimental        |
 
-<details>
-<summary><strong>Quick glossary</strong> (click to expand)</summary>
+> [!IMPORTANT]
+> The **stable core** is the development cycle plus the `AGENTS.md` + `agent-kit/` pair that lives in every project repo. That is what you are expected to adopt. Skills and subagents are automation on top of that core — useful, but still being validated.
 
-- **Plan Gate**: checklist that validates a plan before Build starts.
-- **PR Gate**: checklist that validates documentation before merge.
-- **Vertical slice**: a minimal end-to-end chunk of a feature (data → logic → output) rather than one full layer.
-- **AI entrypoint**: the single file (`AGENTS.md`) your IDE treats as project instructions.
-
-</details>
+> [!WARNING]
+> There is **no installer** yet. Today, `agent-kit/` and its `AGENTS.md` template are copied into the project repo manually, and skills/subagents are configured per developer in their IDE. Automation is on the [roadmap](#roadmap).
 
 ---
 
 ## The development cycle
 
-Five phases, two validation gates. Full reference in [`guides/onboarding/lifecycle.md`](./guides/onboarding/lifecycle.md).
+Five phases, three human review checkpoints, two AI-run gates. The stable core of the framework. Full reference in [`guides/onboarding/lifecycle.md`](./guides/onboarding/lifecycle.md).
 
 ```mermaid
 flowchart LR
-    accTitle: Development Cycle Phases and Gates
-    accDescr: Five development phases from Context to Document with two validation gates before merge.
+    accTitle: Development Cycle with Human Reviews and AI Gates
+    accDescr: Five phases from Context to Document, with Spec Review, Plan Review and PR Review as human checkpoints, and Plan Gate and PR Gate as AI-run checklists.
 
     ctx["Context"] --> spec["Spec"]
-    spec --> plan["Plan"]
-    plan -->|Plan Gate| build["Build"]
-    build --> doc["Document"]
-    doc -->|PR Gate| merge(("Merge"))
+    spec --> rev1(["Spec Review"])
+    rev1 --> plan["Plan"]
+    plan -->|Plan Gate| rev2(["Plan Review"])
+    rev2 --> build["Build"]
+    build -->|PR Gate| rev3(["PR Review"])
+    rev3 --> doc["Document"]
+    doc --> merge(("Merge"))
 
-    classDef phase fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef gate  fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
+    classDef phase    fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
+    classDef reviewer fill:#f8fafc,stroke:#475569,stroke-width:1.5px,color:#1e293b,stroke-dasharray:4
+    classDef gate     fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
 
     class ctx,spec,plan,build,doc phase
+    class rev1,rev2,rev3 reviewer
     class merge gate
 ```
 
-| Phase | What you do | Typical artefacts |
-|---|---|---|
-| **Context** | Read `AGENTS.md`, glossary, and project docs so the AI has accurate grounding | `AGENTS.md`, `docs/context/project.md`, glossary |
-| **Spec** | Define what must change, why, and what done looks like — before touching code | `docs/features/<feature>/requirements.md` |
-| **Plan** | Decide how to implement, slice, test, and document — passes the **Plan Gate** before Build | `design.md`, `tasks.md` |
-| **Build** | Implement in small, reviewable slices with evidence (test output, notebook runs) | code, tests, notebook outputs |
-| **Document** | Update every durable doc your change touched — passes the **PR Gate** before merge | glossary, CHANGELOG, business report |
+### Phases
 
-**Non-negotiable rule:** lightweight work can skip phases, but you must name what you skip and why — usually in the PR description or `CHANGELOG.md`.
+| Phase        | What you do                                                                                  | Typical artefacts                                  |
+| ------------ | -------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| **Context**  | Load `AGENTS.md` and project docs so the AI is grounded, not guessing.                       | `AGENTS.md`, `docs/context/project.md`, glossary   |
+| **Spec**     | Define what changes, why, and what "done" looks like — before touching code.                 | `docs/features/<feature>/requirements.md`          |
+| **Plan**     | Decide how to slice, test and document.                                                      | `design.md`, `tasks.md`                            |
+| **Build**    | Ship small, reviewable slices with evidence (test runs, notebook output).                    | code, tests, notebook outputs                      |
+| **Document** | Update every durable doc the change touched.                                                 | glossary, CHANGELOG, business report               |
 
-Both gates are short checklists: [`plan-gate`](./skills/utils-skills/plan-gate/SKILL.md) and [`pr-gate`](./skills/utils-skills/pr-gate/SKILL.md). Failing one means looping back, not pushing forward.
+### Human review checkpoints
 
----
+Three points where a person — not the AI — has to approve before work continues. The cycle does not move past a checkpoint without sign-off.
 
-## Repository structure
+| Checkpoint        | What is reviewed                                                | Who                          |
+| ----------------- | --------------------------------------------------------------- | ---------------------------- |
+| **Spec Review**   | `requirements.md` — scope, acceptance criteria, business rules. | Domain expert or lead        |
+| **Plan Review**   | `design.md` + `tasks.md` — approach, slices, evidence strategy. | Technical lead               |
+| **PR Review**     | PR diff, tests and updated docs.                                | Reviewer assigned to the PR  |
 
-| Folder | Purpose | Entry point |
-|---|---|---|
-| [`agent-kit/`](./agent-kit/) | Kit committed into target repos: `AGENTS.md` template, rules, doc skeletons | [`agent-kit/AGENTS.md`](./agent-kit/AGENTS.md) |
-| [`skills/`](./skills/) | Reusable AI workflows (slash commands), grouped by family | [`skills/README.md`](./skills/README.md) |
-| [`subagents/`](./subagents/) | Role-based agent profiles: DE, DS, DA, and review | [`subagents/README.md`](./subagents/README.md) |
-| [`guides/`](./guides/) | Theory and onboarding for humans — read, not copied | [`guides/onboarding/lifecycle.md`](./guides/onboarding/lifecycle.md) |
+### AI-run gates
+
+Two short checklists the agent runs as it exits a phase. They catch the mechanical mistakes a human reviewer should not have to spend time on.
+
+- [`plan-gate`](./skills/utils-skills/plan-gate/SKILL.md) — after Plan, before Plan Review. Checks blocking ambiguity is resolved, scope matches the spec, tests are planned, doc impact is known.
+- [`pr-gate`](./skills/utils-skills/pr-gate/SKILL.md) — after Build, before PR Review. Checks docs are updated, skipped steps are justified, no session artefacts are in the commit, a reviewer is assigned.
+
+Even without the skills installed, the **checklists themselves** are valuable — apply them by hand.
+
+**Non-negotiable rule:** lightweight work may skip phases, but the skipped ones must be named explicitly — usually in the PR description or `CHANGELOG.md`.
 
 ---
 
 ## Adoption
 
-Two parallel tracks: set up the project repo once, and set up each developer's IDE once.
+Two parallel tracks: set up the project repo once, and set up each developer's IDE once. Both are manual today.
 
-### Track 1 — Project repo setup
+### Track 1 — Project repo (manual)
 
-1. **Copy** `agent-kit/` into the project repo root.
-2. **Create** a root `AGENTS.md` from [`agent-kit/AGENTS.md`](./agent-kit/AGENTS.md).
-3. **Instantiate** the base docs from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`, `context/project.md`.
-4. **Per feature**, create `docs/features/<feature>/` with `requirements.md`, `design.md`, `tasks.md`, `CHANGELOG.md`. Add `report.md` only when the cycle closes.
+1. Copy [`agent-kit/`](./agent-kit/) into the project repo root (`cp -r`, drag-and-drop or `git subtree` — your call).
+2. Create a root `AGENTS.md` from the [`agent-kit/AGENTS.md`](./agent-kit/AGENTS.md) template and adapt it to the project.
+3. Instantiate the base docs from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`, `context/project.md`.
+4. Per feature, create `docs/features/<feature>/` with `requirements.md`, `design.md`, `tasks.md`, `CHANGELOG.md`. Add `report.md` only when the cycle closes.
 
 Resulting repo shape:
 
 ```text
 repo-root/
-├── AGENTS.md                    ← from agent-kit/AGENTS.md
+├── AGENTS.md                    ← from agent-kit/AGENTS.md template
 ├── agent-kit/                   ← copied from this metarepo
 └── docs/
     ├── architecture.md
@@ -171,54 +135,101 @@ repo-root/
         └── CHANGELOG.md
 ```
 
-### Track 2 — Developer IDE setup
+> [!NOTE]
+> Only `AGENTS.md` and `agent-kit/` are copied into the project repo. `skills/` and `subagents/` stay in this metarepo and are referenced from the IDE.
 
-Each developer installs their preferred tool and points it at the skills and subagents in this metarepo. They are **referenced, not copied** — updates here reach everyone automatically.
+### Track 2 — Developer IDE (optional, experimental)
 
-Full details: [`guides/onboarding/ai-configuration.md`](./guides/onboarding/ai-configuration.md).
+Each developer points their IDE at the skills and subagents in this metarepo. They are **referenced, not copied** — updates here reach everyone automatically.
 
-| Tool | Project instructions | Skills path | Subagents path |
-|---|---|---|---|
-| Claude Code | `CLAUDE.md` or `AGENTS.md` | `.claude/skills/` | `.claude/agents/` |
-| Cursor | `.cursor/rules/` or `AGENTS.md` | `.cursor/skills/` | `.cursor/agents/` |
-| Codex | `AGENTS.md` | `.agents/skills/` | `.codex/agents/` |
+Full details in [`guides/onboarding/ai-configuration.md`](./guides/onboarding/ai-configuration.md).
+
+| Tool          | Project instructions                               | Skills path                        | Subagents path                  |
+| ------------- | -------------------------------------------------- | ---------------------------------- | ------------------------------- |
+| Claude Code   | `CLAUDE.md` or `AGENTS.md`                         | `.claude/skills/`                  | `.claude/agents/`               |
+| Cursor 2.4+   | `AGENTS.md` or `.cursor/rules/`                    | `.cursor/skills/`                  | `.cursor/agents/`               |
+| Codex CLI     | `AGENTS.md` (root) + `~/.codex/AGENTS.md` (global) | — (no native skills directory)     | — (use Agents SDK, out of repo) |
+
+> [!NOTE]
+> `AGENTS.md` is the shared, cross-tool entrypoint — now an open standard adopted across Codex, Cursor, Claude Code, Gemini CLI and others. Codex does not natively support a skills or subagents directory; its agent extensibility lives in the separate Agents SDK.
+
+---
+
+## Repository map and glossary
+
+```text
+this-metarepo/
+├── guides/         ← theory, onboarding, cycle in detail (stable)
+├── agent-kit/      ← rules + doc skeletons + AGENTS.md template (stable, manual copy)
+├── skills/         ← slash-command workflows for your IDE (experimental)
+└── subagents/      ← role profiles for your IDE (experimental)
+```
+
+<details>
+<summary><strong>Quick glossary</strong></summary>
+
+- **Coding agent** — an LLM-driven tool (Claude Code, Cursor, Codex) that reads and edits the repo.
+- **Context engineering** — the practice of deliberately controlling what an agent sees, so its output is grounded.
+- **SDD (Spec-Driven Development)** — writing the spec before writing the code, so the agent has something to be measured against.
+- **AI entrypoint** — the single file (`AGENTS.md`) your IDE treats as project instructions. Lives at the project repo root and points to everything else.
+- **agent-kit** — the bundle of rules and doc skeletons (this repo's `agent-kit/`) that gets copied into a project repo alongside `AGENTS.md`.
+- **Plan Gate / PR Gate** — AI-run checklists that validate an artefact before a human reviews it.
+- **Vertical slice** — a minimal end-to-end chunk of a feature (data → logic → output) rather than one full layer.
+
+</details>
+
+---
+
+## Roadmap
+
+**Stable, use today**
+
+- [x] The guides
+- [x] The development cycle
+- [x] `AGENTS.md` + `agent-kit/` pair as reference templates
+
+**Experimental, expect changes**
+
+- [ ] `skills/` — naming, selection and scope still being tuned with real use
+- [ ] `subagents/` — role profiles still being tuned with real use
+
+**Not built yet**
+
+- [ ] CLI plugin to register skills and subagents in one step
+- [ ] Automatic delivery of `AGENTS.md` + `agent-kit/` into a target repo
+- [ ] Versioning between this metarepo and the repos that consume it
+
+Contributions welcome — see [Contributing](#contributing).
 
 ---
 
 ## FAQ
 
 <details>
-<summary><strong>Do I also need to copy <code>skills/</code> into my repo?</strong></summary>
+<summary><strong>Is this production-ready?</strong></summary>
 
-No. `skills/` and `subagents/` are referenced from the IDE — they don't travel to the project repo. Only `agent-kit/` gets copied.
+The **guides and the cycle** are — apply them today regardless of which AI tool you use. The **harness and the installation flow** are not. Read first, copy `AGENTS.md` + `agent-kit/` second, tinker with skills third.
 
 </details>
 
 <details>
-<summary><strong>What if my feature is trivial? Do I still run all 5 phases?</strong></summary>
+<summary><strong>What if my feature is trivial? Do I still run all five phases?</strong></summary>
 
-No. You can skip phases, but you must say explicitly what you skipped and why — usually in the PR description or `CHANGELOG.md`.
+No. You may skip phases, but you must state explicitly what you skipped and why — usually in the PR description or `CHANGELOG.md`.
 
 </details>
 
 <details>
 <summary><strong>Does it work if the team uses different IDEs?</strong></summary>
 
-Yes. `AGENTS.md` is the shared entrypoint. Each IDE may also read its own file (`CLAUDE.md`, `.cursor/rules/`), but `AGENTS.md` is the source of truth.
+Yes. `AGENTS.md` is the shared source of truth (now an open standard adopted across Codex, Cursor, Claude Code, Gemini CLI and others). Each IDE may also read its own file (`CLAUDE.md`, `.cursor/rules/`), but `AGENTS.md` is the canonical entrypoint.
 
 </details>
 
 <details>
 <summary><strong>Does this replace human code review?</strong></summary>
 
-No. It makes review more efficient: the reviewer arrives with spec, plan and evidence already aligned. Judgment on architecture, risk and trade-offs stays human.
-
-</details>
-
-<details>
-<summary><strong>What if a rule gets in the way?</strong></summary>
-
-Remove it. The goal is a framework that helps the team work better. Rules that don't meet that bar should not stay.
+No. The cycle has three explicit human review checkpoints (Spec, Plan, PR) precisely because architecture, risk and trade-off calls stay human. The AI gates only catch mechanical issues before a human spends time on the artefact.
 
 </details>
 
@@ -226,9 +237,9 @@ Remove it. The goal is a framework that helps the team work better. Rules that d
 
 ## Contributing
 
-1. Open an issue describing the problem or the improvement you want to make.
-2. For new rules or skills, include at least one real example where the addition would have changed an outcome.
-3. Keep PRs small and focused — the framework preaches this; we should practice it.
+1. Open an issue describing the problem or the improvement, especially for roadmap items.
+2. New rules or skills must include at least one real example where the addition would have changed an outcome.
+3. Keep PRs small and focused — the framework preaches this; the framework should practice it.
 4. If you modify a skill, test it end-to-end in your IDE before opening the PR.
 
 ---
@@ -236,5 +247,3 @@ Remove it. The goal is a framework that helps the team work better. Rules that d
 ## Maintainers
 
 Maintained by the **Eurostars Data Science** team. For questions, reach out through internal channels.
-
-For redistribution outside the Eurostars Group, consult the legal team before proceeding.
