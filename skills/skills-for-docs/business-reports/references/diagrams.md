@@ -43,6 +43,10 @@ The intention map is **not in `mermaid-diagrams`**; it's a composition pattern t
 Shape: `flowchart LR` with one `subgraph` per business area. Inside each subgraph, one node per intention. Subgraphs use white fill, black text, and a distinct stroke colour per area. Edges between subgraphs only if areas genuinely interact; otherwise leave them edge-free.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: <System> — Intention Map
     accDescr: Areas and intentions covered by the system.
@@ -58,10 +62,7 @@ flowchart LR
 
     Area_A --> Area_B
 
-    classDef intention fill:#f1f5f9,stroke:#475569,stroke-width:1px,color:#0f172a
-    class a1,a2,b1 intention
-
-    style Area_A fill:#ffffff,stroke:#2563eb,stroke-width:2px,color:#000000
+    style Area_A fill:#ffffff,stroke:#f97316,stroke-width:2px,color:#000000
     style Area_B fill:#ffffff,stroke:#16a34a,stroke-width:2px,color:#000000
 ```
 

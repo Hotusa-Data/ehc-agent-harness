@@ -1,6 +1,6 @@
 # How-To / Tutorial Guide Template
 
-> **Back to [Markdown Style Guide](../references/style.md)** — Read the style guide first for formatting, citation, and emoji rules.
+> **Style references** — [Mermaid rules](../references/style.md) for any diagram in this document, and [Markdown rules](../../../skills-for-docs/business-reports/references/style.md) for headings, lists, tables, and citations.
 
 **Use this template for:** Step-by-step tutorials, how-to guides, onboarding walkthroughs, runbooks, setup instructions, or any document whose primary job is teaching someone to do something. Designed so the reader succeeds on the first attempt.
 
@@ -32,7 +32,7 @@ _[Estimated time: N minutes] · [Difficulty: Beginner / Intermediate / Advanced]
 
 ---
 
-## 📋 Overview
+## Overview
 
 ### What you'll accomplish
 
@@ -47,6 +47,10 @@ _[Estimated time: N minutes] · [Difficulty: Beginner / Intermediate / Advanced]
 ### Process overview
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Tutorial Process Overview
     accDescr: High-level steps from prerequisites through setup, configuration, and verification
@@ -56,18 +60,14 @@ flowchart LR
     configure --> build["Build"]
     build --> verify(["Verify"])
 
-    classDef start_end fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef action    fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-    classDef done      fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
+    classDef ok fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
 
-    class prereqs start_end
-    class setup,configure,build action
-    class verify done
+    class verify ok
 ```
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before starting, ensure you have:
 
@@ -89,7 +89,7 @@ Before starting, ensure you have:
 
 ---
 
-## 🔧 Steps
+## Steps
 
 ### Step 1: [Action verb — Set up / Create / Configure / Install]
 
@@ -177,7 +177,7 @@ Before starting, ensure you have:
 
 ---
 
-## ✅ Verify it works
+## Verify it works
 
 Run through these checks to confirm everything is working:
 
@@ -187,13 +187,13 @@ Run through these checks to confirm everything is working:
 | [Check 2] | `[command]` | [What success looks like] |
 | [Check 3] | `[command]` | [What success looks like] |
 
-**All checks pass?** You're done. Jump to [What's next](#-whats-next).
+**All checks pass?** You're done. Jump to [What's next](#whats-next).
 
-**Something failed?** See [Troubleshooting](#-troubleshooting) below.
+**Something failed?** See [Troubleshooting](#troubleshooting) below.
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### "[Exact error message the reader will see]"
 
@@ -237,13 +237,13 @@ Run through these checks to confirm everything is working:
 
 ### Still stuck?
 
-- **Search existing issues:** [docs/project/issues/](../../docs/project/issues/)
-- **Ask for help:** [docs/project/kanban/](../../docs/project/kanban/)
-- **File a bug:** [issue template](../../docs/project/issues/issue-00000001-agentic-documentation-system.md)
+- **Open a feature/bug** through your team's issue tracker.
+- **Check the feature folder** under `docs/features/<feature>/` for `requirements.md`, `design.md`, and `CHANGELOG.md` context.
+- **Ask in your team channel** with the failing command and the error message.
 
 ---
 
-## 🚀 What's next
+## What's next
 
 Now that you've completed this guide:
 
@@ -252,7 +252,7 @@ Now that you've completed this guide:
 - **[Advanced topic]** — [Deeper dive for when you're ready](../operational_readiness.md)
 
 <details>
-<summary><strong>📋 Quick reference card</strong></summary>
+<summary><strong>Quick reference card</strong></summary>
 
 Key commands and values from this guide for future reference:
 
@@ -268,7 +268,7 @@ Key commands and values from this guide for future reference:
 
 ---
 
-## 🔗 References
+## References
 
 - [Official documentation](https://example.com) — [Which section is most relevant]
 - [Source repository](https://example.com/your-org/your-repo) — [For bug reports and contributions]

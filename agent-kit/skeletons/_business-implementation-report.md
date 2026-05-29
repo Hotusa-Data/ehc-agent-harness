@@ -35,6 +35,10 @@ code_commit: <sha | blank if not a git repo>
 One Mermaid diagram. Use `flowchart` for `business-flow`; `flowchart LR` with subgraphs, `block-beta`, or `C4Context` for `system-narrative`. Palette and classDef: see [`utils-skills/mermaid-diagrams/references/style.md`](../../skills/utils-skills/mermaid-diagrams/references/style.md).
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart TD
     accTitle: Implemented business flow
     accDescr: Business trigger, main decision, implemented outcomes.
@@ -49,15 +53,9 @@ flowchart TD
     decide -->|Yes| ok
     decide -->|No| ko
 
-    classDef start_end fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef action    fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-    classDef decision  fill:#f1f5f9,stroke:#475569,stroke-width:1.5px,color:#1e293b
-    classDef ok        fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
-    classDef ko        fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#991b1b
+    classDef ok fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+    classDef ko fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#7f1d1d
 
-    class start_event start_end
-    class apply_rule action
-    class decide decision
     class ok ok
     class ko ko
 ```

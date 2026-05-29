@@ -1,6 +1,6 @@
 # Pull Request Documentation Template
 
-> **Back to [Markdown Style Guide](../references/style.md)** — Read the style guide first for formatting, citation, and emoji rules.
+> **Style references** — [Mermaid rules](../references/style.md) for any diagram in this document, and [Markdown rules](../../../skills-for-docs/business-reports/references/style.md) for headings, lists, tables, and citations.
 
 **Use this template for:** Documenting pull requests as persistent, searchable markdown records. This file IS the PR — not a companion document. It captures everything: what changed, why, how to verify, security impact, deployment strategy, and what was learned.
 
@@ -49,7 +49,7 @@ Everything below the line is the template. Copy from here:
 
 ---
 
-## 📋 Summary
+## Summary
 
 ### What changed and why
 
@@ -66,7 +66,7 @@ Everything below the line is the template. Copy from here:
 
 ---
 
-## 🔍 Changes
+## Changes
 
 ### Change inventory
 
@@ -97,6 +97,10 @@ Everything below the line is the template. Copy from here:
 [If this PR changes how components interact, include a diagram. Skip this section for small changes.]
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Architecture Change
     accDescr: How this PR modifies the component interaction pattern
@@ -104,12 +108,10 @@ flowchart LR
     component_a["Component A"] -->|New path| component_b["Component B"]
     component_b --> data_store["Data Store"]
 
-    classDef action fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-    class component_a,component_b,data_store action
 ```
 
 <details>
-<summary><strong>📋 Detailed Change Notes</strong></summary>
+<summary><strong>Detailed Change Notes</strong></summary>
 
 [Extended context for complex PRs — design tradeoffs, alternative approaches considered, migration details, performance benchmarks, or anything that helps reviewers understand the depth of the change.]
 
@@ -117,7 +119,7 @@ flowchart LR
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### How to verify
 
@@ -145,7 +147,7 @@ flowchart LR
 
 ---
 
-## 🔒 Security
+## Security
 
 ### Security checklist
 
@@ -161,7 +163,7 @@ flowchart LR
 [If security-sensitive: **Reviewed by:** [security reviewer name, date]]
 
 <details>
-<summary><strong>🔐 Security Details</strong></summary>
+<summary><strong>Security Details</strong></summary>
 
 [For security-sensitive changes: threat model, attack vectors considered, mitigations applied. This section helps future security audits understand what was evaluated.]
 
@@ -169,7 +171,7 @@ flowchart LR
 
 ---
 
-## ⚡ Breaking Changes
+## Breaking Changes
 
 **This PR introduces breaking changes:** [Yes / No]
 
@@ -199,7 +201,7 @@ flowchart LR
 
 ---
 
-## 🔄 Rollback Plan
+## Rollback Plan
 
 [How to revert this change if something goes wrong in production.]
 
@@ -220,7 +222,7 @@ git revert [commit-sha]
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 ### Strategy
 
@@ -244,7 +246,7 @@ git revert [commit-sha]
 
 ---
 
-## 📡 Observability
+## Observability
 
 ### Monitoring
 
@@ -270,7 +272,7 @@ git revert [commit-sha]
 
 ---
 
-## ✅ Reviewer Checklist
+## Reviewer Checklist
 
 - [ ] Code follows project style guide and linting rules
 - [ ] No `TODO` or `FIXME` comments introduced without linked issues
@@ -287,7 +289,7 @@ git revert [commit-sha]
 
 ---
 
-## 💬 Discussion
+## Discussion
 
 [Capture key review feedback and decisions made during the review process. This is the institutional memory — future developers will read this.]
 
@@ -309,7 +311,7 @@ git revert [commit-sha]
 
 ---
 
-## 🔗 References
+## References
 
 - [Design document or ADR](../adr/ADR-001-agent-optimized-documentation-system.md)
 - [Related issue](../../docs/project/issues/issue-00000001-agentic-documentation-system.md)
