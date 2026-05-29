@@ -12,11 +12,15 @@ Guides, rules and templates that make AI-assisted Data Science and Data Engineer
 This repository is **not** application code. It is a **metarepo**: a single source of guides, rules, templates and (early) automations that other repositories and developers draw from. Three different audiences pull different parts of it.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Metarepo to Project Repo Relationship
     accDescr: How the metarepo guides, agent-kit, AGENTS.md, skills, and subagents flow into the project repo and developer IDE.
 
-    metarepo["This metarepo<br/>(guides, agent-kit + AGENTS.md, skills, subagents)"]
+    metarepo["This metarepo<br/>(guides, agent-kit, skills, subagents)"]
     target["Your project repo<br/>(real code + docs/)"]
     ide["Your IDE<br/>(Cursor / Claude Code / Codex)"]
 
@@ -24,25 +28,20 @@ flowchart LR
     metarepo -->|reference| ide
     ide <-->|reads & writes| target
 
-    classDef source fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef node   fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-
-    class metarepo source
-    class target,ide node
 ```
 
 | Folder                                                              | Audience                | How it is consumed                              | Status              |
 | ------------------------------------------------------------------- | ----------------------- | ----------------------------------------------- | ------------------- |
 | [`guides/`](./guides/)                                              | Developers learning     | Read in place. Never copied.                    | Stable              |
-| [`agent-kit/`](./agent-kit/) + [`AGENTS.md`](./agent-kit/AGENTS.md) | Project repositories    | Copied **by hand** into the project repo root.  | Stable (manual)     |
+| [`agent-kit/`](./agent-kit/)                                        | Project repositories    | Copied **by hand** into the project repo root.  | Stable (manual)     |
 | [`skills/`](./skills/)                                              | Developers' IDEs        | Referenced from the IDE.                        | Experimental        |
 | [`subagents/`](./subagents/)                                        | Developers' IDEs        | Referenced from the IDE.                        | Experimental        |
 
 > [!IMPORTANT]
-> The **stable core** is the development cycle plus the `AGENTS.md` + `agent-kit/` pair that lives in every project repo. That is what you are expected to adopt. Skills and subagents are automation on top of that core — useful, but still being validated.
+> The **stable core** is the development cycle plus the `agent-kit/` that lives in every project repo. That is what you are expected to adopt. Skills and subagents are automation on top of that core — useful, but still being validated.
 
 > [!WARNING]
-> There is **no installer** yet. Today, `agent-kit/` and its `AGENTS.md` template are copied into the project repo manually, and skills/subagents are configured per developer in their IDE. Automation is on the [roadmap](#roadmap).
+> There is **no installer** yet. Today, `agent-kit/` is copied into the project repo manually, and skills/subagents are configured per developer in their IDE. Automation is on the [roadmap](#roadmap).
 
 ---
 
@@ -51,6 +50,10 @@ flowchart LR
 Five phases, three human review checkpoints, two AI-run gates. The stable core of the framework. Full reference in [`guides/onboarding/lifecycle.md`](./guides/onboarding/lifecycle.md).
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Development Cycle with Human Reviews and AI Gates
     accDescr: Five phases from Context to Document, with Spec Review, Plan Review and PR Review as human checkpoints, and Plan Gate and PR Gate as AI-run checklists.
@@ -64,13 +67,9 @@ flowchart LR
     rev3 --> doc["Document"]
     doc --> merge(("Merge"))
 
-    classDef phase    fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef reviewer fill:#f8fafc,stroke:#475569,stroke-width:1.5px,color:#1e293b,stroke-dasharray:4
-    classDef gate     fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
+    classDef ok fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
 
-    class ctx,spec,plan,build,doc phase
-    class rev1,rev2,rev3 reviewer
-    class merge gate
+    class merge ok
 ```
 
 ### Phases
@@ -136,7 +135,7 @@ repo-root/
 ```
 
 > [!NOTE]
-> Only `AGENTS.md` and `agent-kit/` are copied into the project repo. `skills/` and `subagents/` stay in this metarepo and are referenced from the IDE.
+> Only `agent-kit/` is copied into the project repo (the root `AGENTS.md` is generated from its template in step 2). `skills/` and `subagents/` stay in this metarepo and are referenced from the IDE.
 
 ### Track 2 — Developer IDE (optional, experimental)
 
@@ -172,7 +171,7 @@ this-metarepo/
 - **Context engineering** — the practice of deliberately controlling what an agent sees, so its output is grounded.
 - **SDD (Spec-Driven Development)** — writing the spec before writing the code, so the agent has something to be measured against.
 - **AI entrypoint** — the single file (`AGENTS.md`) your IDE treats as project instructions. Lives at the project repo root and points to everything else.
-- **agent-kit** — the bundle of rules and doc skeletons (this repo's `agent-kit/`) that gets copied into a project repo alongside `AGENTS.md`.
+- **agent-kit** — the bundle of rules, doc skeletons and the `AGENTS.md` template (this repo's `agent-kit/`) that gets copied into a project repo.
 - **Plan Gate / PR Gate** — AI-run checklists that validate an artefact before a human reviews it.
 - **Vertical slice** — a minimal end-to-end chunk of a feature (data → logic → output) rather than one full layer.
 
@@ -186,7 +185,7 @@ this-metarepo/
 
 - [x] The guides
 - [x] The development cycle
-- [x] `AGENTS.md` + `agent-kit/` pair as reference templates
+- [x] `agent-kit/` as reference template
 
 **Experimental, expect changes**
 
@@ -196,7 +195,7 @@ this-metarepo/
 **Not built yet**
 
 - [ ] CLI plugin to register skills and subagents in one step
-- [ ] Automatic delivery of `AGENTS.md` + `agent-kit/` into a target repo
+- [ ] Automatic delivery of `agent-kit/` into a target repo
 - [ ] Versioning between this metarepo and the repos that consume it
 
 Contributions welcome — see [Contributing](#contributing).
@@ -208,7 +207,7 @@ Contributions welcome — see [Contributing](#contributing).
 <details>
 <summary><strong>Is this production-ready?</strong></summary>
 
-The **guides and the cycle** are — apply them today regardless of which AI tool you use. The **harness and the installation flow** are not. Read first, copy `AGENTS.md` + `agent-kit/` second, tinker with skills third.
+The **guides and the cycle** are — apply them today regardless of which AI tool you use. The **harness and the installation flow** are not. Read first, copy `agent-kit/` second, tinker with skills third.
 
 </details>
 

@@ -1,6 +1,6 @@
 # Decision Record (ADR/RFC) Template
 
-> **Back to [Markdown Style Guide](../references/style.md)** — Read the style guide first for formatting, citation, and emoji rules.
+> **Style references** — [Mermaid rules](../references/style.md) for any diagram in this document, and [Markdown rules](../../../skills-for-docs/business-reports/references/style.md) for headings, lists, tables, and citations.
 
 **Use this template for:** Architecture Decision Records (ADRs), Requests for Comment (RFCs), technical design documents, or any decision that needs to be documented with its context, options considered, and rationale. Designed so that future teams understand not just _what_ was decided, but _why_ — and can evaluate whether the decision still holds.
 
@@ -38,7 +38,7 @@ Everything below the line is the template. Copy from here:
 
 ---
 
-## 📋 Context
+## Context
 
 ### What prompted this decision?
 
@@ -49,6 +49,10 @@ Everything below the line is the template. Copy from here:
 [How things work today. What architecture, tool, or process is currently in place. Include a diagram if it helps.]
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Current State Architecture
     accDescr: How the system works today before this decision is implemented
@@ -56,8 +60,6 @@ flowchart LR
     current_component["Current component"] --> current_dependency["Current dependency"]
     current_dependency --> current_output["Current output"]
 
-    classDef action fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-    class current_component,current_dependency,current_output action
 ```
 
 ### Constraints
@@ -76,7 +78,7 @@ This decision must:
 
 ---
 
-## 🔍 Options Considered
+## Options Considered
 
 ### Option A: [Name]
 
@@ -138,7 +140,7 @@ This decision must:
 
 ---
 
-## 🎯 Decision
+## Decision
 
 **We chose Option [X]: [Name].**
 
@@ -151,7 +153,7 @@ This decision must:
 
 ---
 
-## ⚡ Consequences
+## Consequences
 
 ### Positive
 
@@ -173,6 +175,10 @@ This decision must:
 ### Implementation impact
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Post-Decision Architecture
     accDescr: How the system will work after this decision is implemented
@@ -180,13 +186,11 @@ flowchart LR
     new_component["New component"] --> new_dependency["New dependency"]
     new_dependency --> new_output["New output"]
 
-    classDef action fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-    class new_component,new_dependency,new_output action
 ```
 
 ---
 
-## 📋 Implementation plan
+## Implementation plan
 
 | Step     | Owner         | Target date | Status                             |
 | -------- | ------------- | ----------- | ---------------------------------- |
@@ -196,7 +200,7 @@ flowchart LR
 
 ---
 
-## 🔗 References
+## References
 
 - [Related ADR or RFC](../adr/ADR-001-agent-optimized-documentation-system.md)
 - [External documentation or benchmark](https://example.com)

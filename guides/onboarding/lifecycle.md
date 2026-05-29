@@ -7,6 +7,10 @@ This guide is for **developers** working in this framework. It assumes you use A
 ## Core Flow
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Development Lifecycle Flow
     accDescr: Five phases from Context through Document with human review stops and backward loops.
@@ -23,11 +27,6 @@ flowchart LR
     build -.->|assumptions change| plan
     document -.->|stale docs| build
 
-    classDef phase    fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef reviewer fill:#f8fafc,stroke:#475569,stroke-width:1.5px,color:#1e293b,stroke-dasharray:4
-
-    class context,spec,plan,build,document phase
-    class rev1,rev2,rev3 reviewer
 ```
 
 Five phases flow left to right. Three human review stops guard progress between phases — a person approves the spec, the plan, and the PR before work continues (see [Human Review](#human-review)). Each phase also has an AI-run exit checklist ([Plan Gate](#plan-gate), [PR Gate](#pr-gate)) described in the relevant section.

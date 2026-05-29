@@ -6,6 +6,27 @@ Canonical rules for Mermaid syntax and styling across the entire skill catalog. 
 
 ---
 
+## Mandatory frontmatter
+
+Every diagram opens with a YAML config block that sets the visual theme. This is the only sanctioned way to control appearance globally; `%%{init}` is forbidden (see below).
+
+```
+---
+config:
+  theme: neutral
+---
+flowchart LR
+    accTitle: ...
+    accDescr: ...
+```
+
+- **`theme: neutral`** — Mermaid's official built-in monochrome theme. Black, white, grays. No blue, no decorative colour. Suitable for technical docs, business reports, and print.
+- **Never `%%{init}`** — legacy directive, pre-dates the frontmatter API. The frontmatter `config:` block is the supported path.
+
+`classDef` is reserved for **terminal outcome semantics** (success / failure). The neutral theme already handles every other node. Keep `classDef` to the two-class catalog below.
+
+---
+
 ## Mandatory in every block
 
 ```
@@ -14,44 +35,48 @@ accDescr: One or two sentences explaining what this diagram shows.
 ```
 
 - **`accTitle` and `accDescr`** whenever the diagram type supports them. For Mermaid types outside the catalog that do not support them, place an italic paragraph just above the block: *"Diagram comparing X, Y, Z."*
-- **No `%%{init}` directives** — breaks dark-mode rendering on GitHub and forks. For color customization use `classDef` (below).
 - **No inline `style` on nodes** (`style nodeA fill:#abc`). Use `classDef` and apply with `class`. Exception: subgraphs cannot use `classDef`; style them with `style SubgraphName` instead (see below).
 - **No emojis in node labels.** Labels are plain text — no icons, no pictograms.
-- **Node IDs in `snake_case`**, semantically matching the label. `apply_tariff["💰 Apply tariff"]`, not `n1["💰 Apply tariff"]`.
+- **Node IDs in `snake_case`**, semantically matching the label. `apply_tariff["Apply tariff"]`, not `n1["Apply tariff"]`.
 - **Zero variable, function, or class names in labels.** Labels are domain. *"Compute pickup factor"*, not *"`calc_pickup_factor()`"*.
 
 ---
 
 ## Subgraph styling
 
-`classDef` does not apply to subgraphs in Mermaid. Use `style SubgraphName` instead. Always **white background and black text** — guarantees readability on any theme. Vary the `stroke` colour to distinguish areas.
+`classDef` does not apply to subgraphs in Mermaid. Prefer leaving subgraphs unstyled — `theme: neutral` already renders them with a subtle border. Only `style SubgraphName` when you need a distinct stroke to separate areas. White fill, black text. Vary only the `stroke` colour — and **never use blue** (it reads as "link" in many viewers).
 
 ```
-style Pricing     fill:#ffffff,stroke:#2563eb,stroke-width:2px,color:#000000
+style Pricing     fill:#ffffff,stroke:#f97316,stroke-width:2px,color:#000000
 style Inventory   fill:#ffffff,stroke:#16a34a,stroke-width:2px,color:#000000
 style Overbooking fill:#ffffff,stroke:#ca8a04,stroke-width:2px,color:#000000
 ```
 
 ---
 
-## `classDef` — standard palette
+## `classDef` — two semantic classes, that's it
 
-Three to five `classDef` per diagram is enough; more starts to look like a coloured spreadsheet. Standard palette for flowcharts — works on light and dark GitHub themes:
+The whole catalog is two classes. Anything beyond `ok` and `ko` is noise — let `theme: neutral` render the rest. No `action`, no `start_end`, no `decision`, no `external`: those distinctions are already conveyed by node shape (`[]` vs `{}` vs `()`) and edge labels.
 
 ```
-classDef start_end   fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-classDef action      fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-classDef decision    fill:#f1f5f9,stroke:#475569,stroke-width:1.5px,color:#1e293b
-classDef ok          fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
-classDef ko          fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#991b1b
-classDef external    fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#64748b,stroke-dasharray:5
+classDef ok fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+classDef ko fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#7f1d1d
 ```
+
+When to apply each:
+- **`ok`** — terminal success outcomes (a confirmed booking, an accepted request, a passing gate).
+- **`ko`** — terminal failure outcomes (a rejection, a hard failure, an expired state).
+- **Everything else** — no class. The neutral theme renders it as plain monochrome.
 
 Apply with `class node_id class_name` at the end of the block. Keep `classDef` declarations at the bottom of the diagram.
 
 Minimal flowchart example:
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     accTitle: Booking Acceptance
     accDescr: Decision flow for accepting or rejecting a booking request.
@@ -65,13 +90,9 @@ flowchart LR
     decision -->|yes| end_ok
     decision -->|no|  end_ko
 
-    classDef start_end fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef decision  fill:#f1f5f9,stroke:#475569,stroke-width:1.5px,color:#1e293b
-    classDef ok        fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
-    classDef ko        fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#991b1b
+    classDef ok fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+    classDef ko fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#7f1d1d
 
-    class start_node start_end
-    class decision decision
     class end_ok ok
     class end_ko ko
 ```

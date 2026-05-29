@@ -1,6 +1,6 @@
 # Project Documentation Template
 
-> **Back to [Markdown Style Guide](../references/style.md)** — Read the style guide first for formatting, citation, and emoji rules.
+> **Style references** — [Mermaid rules](../references/style.md) for any diagram in this document, and [Markdown rules](../../../skills-for-docs/business-reports/references/style.md) for headings, lists, tables, and citations.
 
 **Use this template for:** Software projects, open-source libraries, internal tools, APIs, platforms, or any product that needs documentation for users and contributors. Designed to take someone from "what is this?" to "I'm contributing" in a single read.
 
@@ -36,20 +36,20 @@ Everything below the line is the template. Copy from here:
 
 ---
 
-## 📋 Table of contents
+## Table of contents
 
-- [Quick start](#-quick-start)
-- [Architecture](#-architecture)
-- [Configuration](#-configuration)
-- [API reference](#-api-reference)
-- [Deployment](#-deployment)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [References](#-references)
+- [Quick start](#quick-start)
+- [Architecture](#architecture)
+- [Configuration](#configuration)
+- [API reference](#api-reference)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [References](#references)
 
 ---
 
-## 🚀 Quick start
+## Quick start
 
 ### Prerequisites
 
@@ -84,17 +84,21 @@ curl http://localhost:[port]/health
 # Expected: {"status": "ok", "version": "[version]"}
 ```
 
-> 💡 **First-time setup issues?** See [Troubleshooting](#-troubleshooting) for common problems.
+> 💡 **First-time setup issues?** See [Troubleshooting](#troubleshooting) for common problems.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### System overview
 
 [2–3 sentences explaining the high-level architecture — what the major components are and how they interact.]
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart TB
     accTitle: System Architecture Overview
     accDescr: High-level architecture showing client, API, services, and data layers with primary data flow paths
@@ -121,15 +125,7 @@ flowchart TB
     svc_b --> queue
     svc_b --> db
 
-    classDef client_node fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef svc         fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-    classDef data_node   fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
-
-    class client client_node
-    class api,svc_a,svc_b,svc_c svc
-    class db,cache,queue data_node
-
-    style services fill:#ffffff,stroke:#94a3b8,stroke-width:2px,color:#000000
+    style services fill:#ffffff,stroke:#78716c,stroke-width:2px,color:#000000
     style data     fill:#ffffff,stroke:#16a34a,stroke-width:2px,color:#000000
 ```
 
@@ -146,6 +142,10 @@ flowchart TB
 [Describe the primary request lifecycle — what happens when a user makes a typical request.]
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 sequenceDiagram
     accTitle: Primary Request Lifecycle
     accDescr: Sequence showing how a typical request flows through the API gateway, service layer, and data stores
@@ -165,7 +165,7 @@ sequenceDiagram
 ```
 
 <details>
-<summary><strong>📋 Detailed Architecture Notes</strong></summary>
+<summary><strong>Detailed Architecture Notes</strong></summary>
 
 ### Directory structure
 
@@ -193,7 +193,7 @@ sequenceDiagram
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment variables
 
@@ -215,7 +215,7 @@ sequenceDiagram
 
 ---
 
-## 📡 API Reference
+## API Reference
 
 ### Authentication
 
@@ -270,7 +270,7 @@ Obtain a token via `POST /auth/login`. Tokens expire after [duration].
 | `429`  | Rate limited | Exceeded [N] requests/minute |
 
 <details>
-<summary><strong>📡 Additional Endpoints</strong></summary>
+<summary><strong>Additional Endpoints</strong></summary>
 
 #### `POST /api/[resource]`
 
@@ -288,7 +288,7 @@ Obtain a token via `POST /auth/login`. Tokens expire after [duration].
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 ### Production deployment
 
@@ -320,7 +320,7 @@ Obtain a token via `POST /auth/login`. Tokens expire after [duration].
 | `GET /health/ready` | `200 OK` | Full readiness (DB, cache, dependencies) |
 
 <details>
-<summary><strong>🔧 CI/CD Pipeline Details</strong></summary>
+<summary><strong>CI/CD Pipeline Details</strong></summary>
 
 [Describe the deployment pipeline — build steps, test stages, deployment targets, rollback procedures.]
 
@@ -328,7 +328,7 @@ Obtain a token via `POST /auth/login`. Tokens expire after [duration].
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common issues
 
@@ -369,7 +369,7 @@ Obtain a token via `POST /auth/login`. Tokens expire after [duration].
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 ### Development setup
 
@@ -404,7 +404,7 @@ git clone https://github.com/[your-fork]/[repo].git
 
 ---
 
-## 🔗 References
+## References
 
 - [Official framework docs](https://example.com) — [What version and which sections are most relevant]
 - [API specification](https://example.com) — [OpenAPI/Swagger link if applicable]

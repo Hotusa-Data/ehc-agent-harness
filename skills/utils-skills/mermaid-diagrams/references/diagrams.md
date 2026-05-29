@@ -21,6 +21,10 @@ Catalog of the eight Mermaid diagram types covered by this skill, with exemplar 
 **Anti-use**: class hierarchies with methods (use `class`), processes (use `flowchart`).
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 erDiagram
     accTitle: Bookings Data Model
     accDescr: Relationships between customer, booking, room, and typology in the hotel reservation system.
@@ -72,6 +76,10 @@ erDiagram
 **For**: layered architecture. Container is the most common level for "what pieces, how they talk"; Context for "where the system ends".
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 C4Container
     title Overbooking Decision System — Container View
 
@@ -96,6 +104,7 @@ C4Container
 
 **Type-specific:**
 - **Conventions**: `Person()` for humans, `System_Ext()` for external systems, `Container()` for your components, `ContainerDb()` for databases, `ContainerQueue()` for queues/buses. `Rel()` with action verb and tech/protocol.
+- **Title**: C4 uses its own `title` directive (not `accTitle` / `accDescr`). One line, descriptive.
 - **Level**: Container as default. If a specific component deserves zoom, add a `C4Component` separately — **don't change the top-level view**.
 
 ---
@@ -105,6 +114,10 @@ C4Container
 **For**: when the system is really a topology of named cloud services (S3, Lambda, RDS, etc.) and C4 expresses it worse than icon-bearing boxes.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 architecture-beta
     group hotel_cloud(cloud)[Hotel Cloud]
 
@@ -130,6 +143,10 @@ architecture-beta
 **For**: when **spatial arrangement** matters (layers, columns, areas), not the flow between pieces.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 block-beta
     columns 3
     a["Presentation Layer"]:3
@@ -149,6 +166,10 @@ block-beta
 **For**: process steps, decisions with branches, conditional logic. Most versatile type.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart TD
     accTitle: Booking Acceptance Flow
     accDescr: Process the system follows when a booking request arrives, from availability check to confirmation or rejection, including overbooking decision if the typology is apparently full.
@@ -168,15 +189,9 @@ flowchart TD
     ob_margin -->|yes| accept
     ob_margin -->|no| reject
 
-    classDef start_end fill:#1e293b,stroke:#1e293b,stroke-width:2px,color:#f1f5f9
-    classDef action    fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a
-    classDef decision  fill:#f1f5f9,stroke:#475569,stroke-width:1.5px,color:#1e293b
-    classDef ok        fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#15803d
-    classDef ko        fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#991b1b
+    classDef ok fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+    classDef ko fill:#fef2f2,stroke:#dc2626,stroke-width:1.5px,color:#7f1d1d
 
-    class start_node start_end
-    class check,assign,confirm action
-    class available,ob_margin decision
     class accept ok
     class reject ko
 ```
@@ -192,6 +207,10 @@ flowchart TD
 **For**: how several actors/components talk over time. Natural type for *"what happens when a request comes in"*.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 sequenceDiagram
     accTitle: Booking Acceptance Request
     accDescr: Sequence of messages from the PMS asking whether to accept a booking to the response, including risk calculation and inventory check.
@@ -225,6 +244,10 @@ sequenceDiagram
 **For**: an entity's lifecycle with event-triggered transitions.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 stateDiagram-v2
     accTitle: Booking Lifecycle
     accDescr: States a booking goes through from customer creation to completion, with expected transitions and the ones that release inventory.
@@ -244,7 +267,8 @@ stateDiagram-v2
 ```
 
 **Type-specific:**
-- **State names** in `Snake_Case` or `Title Case`. Transitions labeled with their triggering event.
+- **State names** in `Title_Case`. Multi-word states use underscores (`Pending_Payment`) because Mermaid identifiers cannot contain spaces. Pick one convention and keep it consistent across the diagram.
+- **Transitions** labeled with their triggering event.
 - **Don't mix** automatic transitions with event-driven ones without marking them (*"30 days"*, *"automatic"*).
 
 ---
@@ -254,6 +278,10 @@ stateDiagram-v2
 **For**: hierarchically organized concepts without a linear flow between them.
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 mindmap
   root((Revenue System))
     Pricing
