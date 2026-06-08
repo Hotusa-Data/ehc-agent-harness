@@ -1,8 +1,15 @@
 {
   "name": "test-plugin",
+  "displayName": "Test Plugin",
   "description": "Local test plugin for Cursor",
   "version": "0.0.1",
   "author": {
     "name": "Ignacio Freire"
-  }
+  },
+  "keywords": [
+    "testing",
+    "experiment"
+  ],
+  "license": "UNLICENSED",
+  "repository": "https://github.com/Hotusa-Data/ehc-agent-harness"
 }

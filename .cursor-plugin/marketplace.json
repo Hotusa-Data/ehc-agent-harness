@@ -1,5 +1,6 @@
 {
   "name": "ehc-agent-harness-marketplace",
+  "displayName": "EHC Agent Harness",
   "owner": {
     "name": "Ignacio Freire"
   },
