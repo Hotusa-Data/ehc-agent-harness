@@ -1,0 +1,16 @@
+{
+  "name": "ehc-agent-harness-marketplace",
+  "owner": {
+    "name": "Ignacio Freire"
+  },
+  "metadata": {
+    "description": "Marketplace for EHC Agent Harness plugins"
+  },
+  "plugins": [
+    {
+      "name": "test-plugin",
+      "source": "test-plugin",
+      "description": "Local test plugin for Cursor"
+    }
+  ]
+}
