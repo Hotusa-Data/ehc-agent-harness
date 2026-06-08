@@ -1,4 +1,4 @@
-﻿---
+---
 name: grill-me
 phase: cross-cutting
 description: |

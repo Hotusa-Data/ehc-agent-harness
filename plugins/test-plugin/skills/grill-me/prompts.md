@@ -1,4 +1,4 @@
-﻿# Trigger tests for pre-grill-me
+# Trigger tests for pre-grill-me
 
 ## Should trigger
 

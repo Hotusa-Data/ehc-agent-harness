@@ -4,7 +4,8 @@
     "name": "Ignacio Freire"
   },
   "metadata": {
-    "description": "Marketplace for EHC Agent Harness plugins"
+    "description": "Marketplace for EHC Agent Harness plugins",
+    "pluginRoot": "plugins"
   },
   "plugins": [
     {
