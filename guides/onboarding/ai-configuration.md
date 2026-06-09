@@ -1,637 +1,222 @@
-# Working With AI
+# How To Use Cursor
 
-This guide explains how to set up and use AI development tools in this framework.
+This guide covers the minimum Cursor setup and habits for safe day-to-day development: modes, models, context, rules, permissions, and team defaults.
 
-It is written for a developer onboarding into a repo that may use Codex, Claude Code, Cursor, or a combination of them. The goal is practical: configure the tools, understand the differences, point agents at the right context, choose models and modes, and verify that the agent is working with the right information.
+For workflow depth, use [lifecycle.md](lifecycle.md). For context strategy, use [managing-context.md](managing-context.md).
 
-For the delivery workflow itself, see [lifecycle.md](lifecycle.md). For context theory, see [../theory/context-engineering.md](../theory/context-engineering.md).
+## Quick Setup
 
-## Quickstart
+Start here before asking the agent to change code.
 
-If you are configuring a new repository, start here.
+1. Open `Cursor Settings` with `Ctrl+Shift+J`.
+2. Import VS Code settings from `General > Account > VS Code Import`.
+3. Set your default model in `Cursor Settings > Models`.
+4. Enable `Privacy Mode` if your team requires prompts and code context not to be stored or trained on by model providers.
+5. Let `Codebase Indexing` finish after opening a repo.
+6. Set `Cursor Settings > Agents > Run Mode` to `Auto-review` or stricter.
+7. Review keyboard shortcuts with `Preferences: Open Keyboard Shortcuts`.
 
-| Step | What to do | Why it matters |
-| --- | --- | --- |
-| 1 | Add a short root instruction file: `AGENTS.md`, `CLAUDE.md`, or Cursor rules. | Gives the agent stable repo behavior without bloating every chat. |
-| 2 | Add durable project context under `docs/`. | Keeps architecture, glossary, domain facts, and decisions outside chat memory. |
-| 3 | Choose the tool-specific config surface. | Codex, Claude Code, and Cursor store settings differently. |
-| 4 | Set conservative permissions first. | Let the agent read widely, edit locally, and ask before risky commands. |
-| 5 | Choose a default model and reasoning level. | Avoid overpaying for mechanical tasks and underpowering ambiguous work. |
-| 6 | Add skills or subagents only when a workflow repeats. | Do not turn every prompt into infrastructure too early. |
-| 7 | Verify what context is loaded. | A confident answer from the wrong files is still wrong. |
+Cursor can import VS Code extensions, themes, settings, and keybindings. Keep editor setup boring; spend the attention on model choice, privacy, indexing, and command permissions.
 
-Recommended first prompt after setup:
+## Core Controls
 
-```text
-Do not edit yet. Read the active repo instructions and the relevant docs.
-Then list:
-- instruction files you loaded
-- project docs you loaded
-- active model and reasoning setting, if visible
-- permission or approval mode, if visible
-- assumptions before doing work
-```
-
-## Choosing A Tool Surface
-
-The tools overlap, but they are optimized for slightly different working styles.
-
-| Tool | Best fit | Typical entry point | Main config surface |
-| --- | --- | --- | --- |
-| Codex | Terminal-first and repo-agent workflows with explicit sandboxing, skills, plugins, MCP, and subagents. | `codex` CLI or Codex app surfaces | `~/.codex/config.toml`, `AGENTS.md`, `.agents/skills/`, `.codex/agents/` |
-| Claude Code | Terminal-first workflows with strong permission controls, plan mode, goals, skills, and subagents. | `claude` CLI | `~/.claude/settings.json`, `.claude/settings.json`, `CLAUDE.md` or `AGENTS.md`, `.claude/skills/`, `.claude/agents/` |
-| Cursor | IDE-first workflows where file tabs, rules, composer/agent mode, and project context are central. | Cursor IDE or `cursor-agent` | `.cursor/rules/`, `AGENTS.md`, Cursor settings, `.cursor/skills/` or `.agents/skills/`, `.cursor/agents/` |
-
-Use one shared repo convention when possible. A simple `AGENTS.md` plus durable docs under `docs/` is a good minimum that several tools can understand or be instructed to load.
-
-## Core Concepts
-
-Think of AI tooling as layers. Each layer should have one job.
-
-| Concept | What it is for | Where it usually lives |
-| --- | --- | --- |
-| Instructions | Stable guidance the agent should always consider. | `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/` |
-| Project context | Durable facts about the product, architecture, features in scope, and vocabulary. | `docs/architecture.md`, `docs/context/project.md`, `docs/glossary.md` |
-| Skills | Repeatable workflows loaded on demand. | `SKILL.md`, `.agents/skills/`, `.claude/skills/`, `.cursor/skills/` or `.agents/skills/` |
-| Subagents | Specialist workers with their own role, model, and context. | `.codex/agents/`, `.claude/agents/`, `.cursor/agents/` |
-| Plugins | Shareable bundles of skills, agents, hooks, MCP servers, or app integrations. | `.codex-plugin/plugin.json`, `.claude-plugin/plugin.json` |
-| MCP / tools | Connections to external systems such as GitHub, databases, docs, Slack, or Figma. | MCP config, tool settings, plugin config |
-| Permissions | Boundaries for reads, edits, shell commands, network access, and autonomous action. | Tool settings, session flags, allowlists, denylists |
-| Plan mode | A reviewable planning phase before edits. | `/plan`, plan mode UI, explicit planning prompts, `agent-kit/skeletons/_design.md` |
-| Goals | Persistent objectives or checklists for bounded loops. | `/goal`, prompt templates, skills, subagents |
-| Model settings | Default model and temporary model overrides. | `/model`, `--model`, `model`, provider settings |
-| Reasoning settings | How much extra thinking the model should spend. | `/effort`, `--effort`, `model_reasoning_effort`, thinking mode |
-
-Rules of thumb:
-
-- Put durable repository behavior in instructions.
-- Put durable project truth in `docs/`.
-- Put repeatable procedures in skills.
-- Put specialist judgment in subagents.
-- Put reusable bundles in plugins.
-- Put external system access in MCP or tool config.
-
-## Recommended Repo Baseline
-
-Every consumer repository should start with a small, explicit structure.
-
-```text
-repo-root/
-|-- AGENTS.md
-|-- agent-kit/
-|   |-- agent-rules/
-|   `-- skeletons/
-`-- docs/
-    |-- architecture.md
-    |-- database.md
-    |-- glossary.md
-    |-- repo-guide.md
-    |-- docs-guide.md
-    |-- context/
-    |   `-- project.md
-    `-- features/
-        `-- <feature>/
-            |-- requirements.md
-            |-- design.md
-            |-- tasks.md
-            `-- CHANGELOG.md
-```
-
-`AGENTS.md` should stay short. It should tell the agent:
-
-- how to work in this repository
-- which project docs to load first
-- which commands are safe and expected
-- which decisions require human confirmation
-- where feature docs, tests, and durable docs live
-
-Do not put the whole handbook into the root instruction file. Large procedures should move into skills. Role-specific behavior should move into subagents. Long project truth should live in `docs/`, not in chat.
-
-## Setup Matrix
-
-Use this as the practical map when configuring tools.
-
-| Need | Codex | Claude Code | Cursor |
-| --- | --- | --- | --- |
-| Root repo instructions | `AGENTS.md` | `CLAUDE.md` or `AGENTS.md` by instruction | `AGENTS.md` or `.cursor/rules/` |
-| Personal settings | `~/.codex/config.toml` | `~/.claude/settings.json` | Cursor settings |
-| Project settings | repo instructions, plugin config, MCP config, local conventions | `.claude/settings.json` | `.cursor/rules/`, MCP config, workspace settings |
-| Local private overrides | personal config or ignored local files | `.claude/settings.local.json` | local Cursor settings |
-| Skills | `.agents/skills/<name>/SKILL.md` | `.claude/skills/<name>/SKILL.md` | `.cursor/skills/` or `.agents/skills/` |
-| Subagents | `.codex/agents/*.toml` | `.claude/agents/*.md` | `.cursor/agents/`, plus compatible agent dirs where supported |
-| Plugins | `.codex-plugin/plugin.json` | `.claude-plugin/plugin.json` | usually rules, MCP, extensions, or workspace config |
-| MCP | `codex mcp` and MCP config | `/mcp` and MCP config | `mcp.json` |
-| Change model | `codex -m <model>` | `/model` or `claude --model <model>` | model picker or `cursor-agent --model <model>` |
-| Change reasoning | `codex -c model_reasoning_effort=<level>` | `/effort <level>` where supported | model-dependent |
-| Inspect context | Ask Codex to list loaded sources; inspect logs if enabled | `/context`, `/config`, `/cost` | Agent sidebar, explicit file mentions, ask for loaded sources |
-
-Tool details change over time. Prefer the official docs linked in [References](#references) for exact flag names and newly supported settings.
-
-## Configuring Codex
-
-Use Codex when you want a terminal-first coding agent with explicit sandboxing, approvals, skills, plugins, MCP, and subagents.
-
-Common personal config lives in:
-
-```text
-~/.codex/config.toml
-```
-
-Example:
-
-```toml
-model = "<default-coding-model>"
-model_reasoning_effort = "medium"
-model_reasoning_summary = "auto"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
-```
-
-Use `AGENTS.md` for repo instructions. Codex can also load nested instruction files closer to the current working directory. Keep them short and specific.
-
-Useful commands:
-
-| Need | Command |
+| Control | Use |
 | --- | --- |
-| Start Codex | `codex` |
-| Use a model for one run | `codex -m <model>` |
-| Override reasoning effort once | `codex -c model_reasoning_effort=high` |
-| Work from a subdirectory | `codex --cd <path>` |
-| List available models | `codex debug models` |
-| Manage MCP servers | `codex mcp` |
-| Open plugins | `/plugins` |
-| Invoke skills explicitly | `$skill-name` or `/skills` where available |
+| `Ctrl+I` | Open or toggle the Agent panel. |
+| `Ctrl+L` | Open chat or send the current selection to chat. |
+| `Ctrl+K` | Inline edit selected code, or open the terminal prompt bar when focus is in a terminal. |
+| `Ctrl+/` | Open the model picker. |
+| `Shift+Tab` | Switch between modes. |
+| `Ctrl+.` | Open the mode menu. |
+| `Ctrl+T` | Open a new chat tab. |
+| `Tab` | Accept a completion suggestion. |
+| `@` | Add files, folders, docs, terminals, diffs, branches, commits, browser context, or past chats. |
+| `/` | Use available slash commands. Check the command menu before relying on a command name. |
 
-Verify setup:
+Use `@file` or `@folder` when the source matters. Use `@diff` for reviews. Use terminal context only when the output is relevant.
 
-```bash
-codex --ask-for-approval never "Summarize the current instructions and list the instruction files you loaded."
-codex --cd services/payments --ask-for-approval never "Show which instruction files are active."
-```
+## Modes
 
-Use Codex plugins when you want to package skills, MCP config, hooks, or app integrations for reuse. A plugin has a required `.codex-plugin/plugin.json`; keep plugin-owned `skills/`, `hooks/`, `.mcp.json`, `.app.json`, and `assets/` at the plugin root.
-
-## Configuring Claude Code
-
-Use Claude Code when you want a terminal-first workflow with strong permission controls, planning, goals, skills, and subagents.
-
-Claude Code settings are scoped. Pick the narrowest scope that matches the intent.
-
-| Scope | Location | Use for |
+| Mode | What It Does | Use When |
 | --- | --- | --- |
-| User | `~/.claude/settings.json` | Personal defaults across projects |
-| Project | `.claude/settings.json` | Team-shared settings committed to the repo |
-| Local | `.claude/settings.local.json` | Personal repo-specific overrides, usually gitignored |
-| Managed | Admin-managed settings | Organization policy |
+| `Ask` | Reads and explains. It should not edit files. | You are learning a repo, reviewing errors, or asking for architecture context. |
+| `Agent` | Edits files and can run approved tools or commands. | The task is scoped and you know what should change. |
+| `Plan` | Investigates and writes a plan before implementation. | The task is broad, risky, ambiguous, or multi-file. |
+| `Debug` | Troubleshoots with runtime evidence. | A bug needs logs, repro steps, tests, or terminal output to diagnose correctly. |
 
-Typical project settings:
+Good default:
 
-```json
-{
-  "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "model": "sonnet",
-  "effortLevel": "medium",
-  "permissions": {
-    "allow": [
-      "Bash(npm run lint)",
-      "Bash(npm run test *)"
-    ],
-    "deny": [
-      "Read(./.env)",
-      "Read(./secrets/**)"
-    ]
-  }
-}
-```
+- Start in `Ask` in unfamiliar code.
+- Use `Plan` before broad or risky work.
+- Use `Agent` for scoped implementation.
+- Use `Debug` when the problem is evidence-driven.
+- Start a new chat when the task changes.
 
-Use `CLAUDE.md`, `.claude/CLAUDE.md`, or `AGENTS.md` for project memory. Use `.claude/skills/<skill-name>/SKILL.md` for reusable workflows and `.claude/agents/<agent-name>.md` for subagents.
+## Models And Privacy
 
-Useful commands:
+Choose models deliberately.
 
-| Need | Command |
-| --- | --- |
-| Inspect active configuration | `/config` |
-| Change model during session | `/model` |
-| Change reasoning effort | `/effort` |
-| Create or manage subagents | `/agents` |
-| Manage plugins | `/plugin` |
-| Manage MCP servers | `/mcp` |
-| Visualize context | `/context` |
-| Check token usage and cost | `/cost` |
-| Create or pursue a goal | `/goal` |
+- Use the model picker or `Ctrl+/` for one-off changes.
+- Set the default model in `Cursor Settings > Models`.
+- Use stronger models for specs, architecture, security-sensitive work, and hard debugging.
+- Use faster or cheaper models for mechanical edits, summaries, and documentation polish.
+- Use `Max Mode` only when a larger context window is worth the extra usage.
 
-Use Claude Code plugins when standalone `.claude/` configuration is ready to be shared. Plugins use `.claude-plugin/plugin.json` and can include `skills/`, `agents/`, `hooks/`, `.mcp.json`, `.lsp.json`, `monitors/`, `bin/`, and `settings.json`.
+Cursor's current usage language includes the `Auto` and `Composer` pool, API pool, premium routing, and `Max Mode`. The exact model list changes often, so prefer Cursor Settings over hard-coded team docs.
 
-## Configuring Cursor
+If you bring your own API key, configure it in `Cursor Settings > Models`. BYOK applies to chat models, not necessarily to every Cursor feature such as Tab completion. Cursor's zero data retention guarantees for hosted models do not automatically apply to requests sent through your own provider key.
 
-Use Cursor when you want an IDE-first agent that benefits from open files, selected code, diagnostics, project rules, and interactive editing.
+Use `Privacy Mode` for work where prompts, code context, or chat content should not be stored or used for training by model providers. Teams can enforce this centrally.
 
-Cursor supports persistent instructions through:
+## Context And Indexing
 
-- Project Rules in `.cursor/rules/`
-- User Rules in Cursor settings
-- root `AGENTS.md` for simple project-wide guidance
-- legacy `.cursorrules`, which should be migrated when possible
+Cursor builds context from visible chat history, attached files, indexed code, rules, tools, skills, MCP servers, subagents, and summaries. The context ring near the prompt shows how full the current context window is and what is consuming it.
 
-Use `.cursor/rules/` when instructions need metadata, file globs, or composition. Use `AGENTS.md` when the project only needs a simple readable instruction file.
+Keep context small and relevant:
 
-Rule types:
+- Mention exact files before folders.
+- Attach folders only when the whole area matters.
+- Prefer `@diff` for code review.
+- Remove stale references before changing tasks.
+- Use a new chat when the previous task no longer matters.
 
-| Rule type | When it loads |
-| --- | --- |
-| Always | Included in every relevant agent context |
-| Auto Attached | Included when matching file globs are referenced |
-| Agent Requested | Available for the agent to pull in when relevant |
-| Manual | Used when explicitly invoked |
+`Codebase Indexing` powers semantic code search and repo-aware answers. It runs automatically when a repo opens and syncs periodically. Check indexing status or trigger a reindex from `Cursor Settings > Indexing` if search feels stale.
 
-Good Cursor rules are:
+Use `.cursorignore` and `.gitignore` to keep generated, private, or noisy files out of Cursor indexing and normal context. Use `.cursorindexingignore` when a file should be excluded from search indexing but remain available to other AI features. Do not treat ignore files as a security boundary: terminal commands, package scripts, and MCP tools can still access files outside Cursor's indexing controls.
 
-- focused
-- concrete enough to act on
-- scoped with globs when possible
-- split instead of becoming one giant handbook
-- short enough that the agent can reliably follow them
+For handoffs, compaction, and durable context rules, see [managing-context.md](managing-context.md).
 
-Cursor CLI can be used with `cursor-agent`.
+## Rules, Skills, Subagents, MCP
 
-```bash
-cursor-agent
-cursor-agent "refactor the auth module to use JWT tokens"
-cursor-agent -p "review these changes for security issues" --model "<model>"
-cursor-agent resume
-cursor-agent --version
-```
+Use the smallest mechanism that solves the problem.
 
-Cursor can also connect tools through MCP using `mcp.json`. Use MCP when you repeatedly copy data from another system into chat.
-
-## Modes And Permissions
-
-Permissions decide how far the agent can move without stopping. Start narrow, expand only for the current task, and keep destructive or secret-touching actions behind explicit approval.
-
-| Mode | Use when | Avoid when |
+| Mechanism | Lives In | Use For |
 | --- | --- | --- |
-| Read-only or restrictive | Exploring a new repo, reviewing, planning, threat modeling, or working near secrets. | The task is already scoped and needs straightforward edits. |
-| Workspace-write with approvals | Normal repo work where files are known and verification commands are expected. | The agent needs to mutate global config, install packages, or touch production systems. |
-| Auto-edit / accept-edits | The plan is approved, edits are mechanical, and verification is fast. | The change is ambiguous, cross-cutting, or security-sensitive. |
-| Full-auto / bypass-style | Disposable branch, worktree, container, or sandbox with no secrets and clear stop condition. | Normal application repos, production-like environments, or unclear goals. |
+| Project Rules | `.cursor/rules/*.mdc` | Persistent repo instructions for Agent, Ask, Plan, and Debug. |
+| Cursor Plugins | `plugins/*/` | Packaged rules, skills, and hook scripts shared across repos. |
+| User Rules | Cursor user settings | Personal preferences that should follow you across repos. |
+| Team Rules | Team configuration | Organization-wide rules and safety defaults. |
+| `AGENTS.md` | Repo root or nested directories | Plain-markdown agent guidance, especially for cross-tool compatibility. |
+| Agent Skills | `.cursor/skills/`, `.agents/skills/`, plugin `skills/`, or user-level equivalents | Reusable workflows with instructions and supporting files. |
+| Subagents | `.cursor/agents/` or user-level equivalents | Specialist assistants with their own context windows. |
+| MCP | `.cursor/mcp.json` or `~/.cursor/mcp.json` | External tools and data sources through the Model Context Protocol. |
 
-Practical defaults for this repo:
+Project Rules must use `.mdc`; plain `.md` files inside `.cursor/rules` are ignored. Keep each rule short and specific. Use `alwaysApply` for rules that should always load, `globs` for file-scoped rules, and `description` to help Cursor decide when a rule is relevant.
 
-- Use repo-local writes for changes under `guides/`, `skills/`, `subagents/`, and `agent-kit/`.
-- Ask before installing packages, accessing private services, mutating global configuration, or touching files outside the workspace.
-- Keep reviewer subagents mostly read-only unless the user explicitly asks them to patch.
-- Treat `agent-kit/agent-rules/security.md`, `agent-kit/agent-rules/testing.md`, and `agent-kit/agent-rules/validation.md` as policy anchors when deciding whether more autonomy is appropriate.
+Rule precedence is team, then project, then user. Rules do not apply to Cursor Tab, and user rules do not apply to Inline Edit.
 
-Tool-specific notes:
+MCP servers can expose tools, prompts, resources, roots, elicitation, and MCP apps. Keep MCP enabled only when useful for the current work because tool schemas and server descriptions also consume context.
 
-| Tool | Permission language to know |
-| --- | --- |
-| Codex | `sandbox_mode`, `approval_policy`, writable roots, command approvals, network restrictions. |
-| Claude Code | permission modes, allow/deny rules, plan mode, `acceptEdits`, hooks, managed settings. |
-| Cursor | agent modes, project rules, model/tool permissions, IDE-mediated file edits, MCP trust boundaries. |
+## Permissions And Run Mode
 
-## Planning And Goals
+Run Mode controls shell, MCP, and fetch tool execution.
 
-Use planning when the cost of the wrong edit is higher than the cost of a short thinking pass.
-
-Use plan mode for:
-
-- ambiguous user requests
-- multi-file changes
-- migrations
-- architecture changes
-- security-sensitive work
-- tasks that cross from theory docs into implementation
-
-Skip formal plan mode for:
-
-- typos
-- tiny documentation edits
-- one-line fixes with obvious verification
-- questions where the user only wants an explanation
-
-A good plan should include:
-
-- context loaded
-- assumptions
-- files or areas likely to change
-- ordered steps
-- verification strategy
-- stop conditions
-
-For this repo, tie plans back to:
-
-- [managing-context.md](managing-context.md)
-- [lifecycle.md](lifecycle.md)
-- [agent-kit/skeletons/_design.md](../../agent-kit/skeletons/_design.md)
-
-This repo uses two AI-run gate skills at transition points in the delivery cycle:
-
-| Gate | When to run | Skill |
-| --- | --- | --- |
-| Plan Gate | Before starting Build | `/plan-gate` |
-| PR Gate | Before merging | `/pr-gate` |
-
-These gates verify that the plan or PR meets defined quality criteria. A failing gate means looping back, not pushing forward. See [AGENTS.md](../../agent-kit/AGENTS.md) for the full working cycle.
-
-Goals are useful when an agent needs a bounded objective active through several turns. Claude Code exposes this directly with `/goal`; in other tools, the same pattern can be written as a prompt, skill, or task checklist.
-
-Example:
+Open:
 
 ```text
-Goal: Make the auth session tests pass.
-Context: Read guides/onboarding/lifecycle.md, src/auth/session.ts, and tests/auth/session.test.ts first.
-Constraints: Only edit src/auth/ and tests/auth/.
-Stop when: The auth test command passes, or a blocker is found.
-Report: Changed files, verification output, and any residual risk.
+Cursor Settings > Agents > Run Mode
 ```
 
-Use goals when success can be checked with tests, lint, screenshots, docs diffs, or explicit acceptance criteria. Avoid goals like "improve the architecture" because the stop condition is subjective.
-
-## Models And Reasoning
-
-Do not pick the largest model by habit. Match the model and reasoning effort to the task.
-
-| Task | Good default |
-| --- | --- |
-| Small docs edits, formatting, obvious fixes | Fast or cheaper model |
-| Routine coding with local tests | Balanced coding model |
-| Architecture, ambiguous requirements, migrations | Stronger reasoning model |
-| Security, data contracts, business-critical behavior | Stronger model plus explicit verification |
-| Large repo exploration | Balanced model with tight file targeting or subagents |
-| Noisy parallel research | Cheaper subagents with narrow summaries |
-
-Reasoning effort is a cost, latency, and quality knob.
-
-| Use lower effort for | Use higher effort for |
-| --- | --- |
-| straightforward edits | ambiguous requirements |
-| known patterns | architectural tradeoffs |
-| formatting | debugging failures with weak signals |
-| docs cleanup | security-sensitive changes |
-| command output summarization | data correctness and business rules |
-
-Higher effort is not a substitute for context. If the agent lacks the right files, docs, or acceptance criteria, more thinking often just makes a wrong path more polished.
-
-Model examples:
-
-```bash
-codex -m <model>
-codex -c model_reasoning_effort=high
-claude --model <model>
-cursor-agent -p "review this diff for security issues" --model "<model>"
-```
-
-Prefer model aliases for everyday work when you want provider improvements automatically. Pin exact models only when reproducibility matters.
-
-## Pointing AI At Specific Files
-
-Good file targeting saves context and improves answers. Be explicit about both the files and what role each file plays.
-
-Instead of:
-
-```text
-Review the auth flow.
-```
-
-Use:
-
-```text
-Review the auth flow using:
-- src/auth/session.ts as the implementation
-- tests/auth/session.test.ts as expected behavior
-- docs/features/auth/ as feature context
-
-Focus on token refresh behavior. Do not review unrelated login UI.
-```
-
-Useful targeting patterns:
-
-| Need | Prompt pattern |
-| --- | --- |
-| Explain one file | `Explain @path/to/file.ts, especially the error handling around <function>.` |
-| Compare implementation and tests | `Compare @src/foo.py with @tests/test_foo.py and identify behavior not covered by tests.` |
-| Update docs from code | `Use @src/domain/rules.py and @docs/features/<feature>/requirements.md. Update only the feature docs that are now stale.` |
-| Limit scope | `Only inspect files under src/payments/ and tests/payments/ unless you find a direct dependency.` |
-| Ask for placement | `Before editing, inspect repo structure and tell me where this behavior should live.` |
-| Preserve reviewability | `Make the smallest cohesive change and list every file you touched.` |
-
-When the tool supports file mentions, use them. When it does not, provide paths in plain text and ask the agent to read them first.
-
-Avoid:
-
-- "look at everything"
-- dumping long files into chat when the agent can read them
-- attaching stale snippets without naming the source path
-- asking for broad implementation and broad review in the same prompt
-
-## Verifying Context
-
-The agent does not automatically know the repo. The harness selects what the model sees on each turn. Verify setup directly when the task matters.
-
-Useful prompts:
-
-```text
-Before answering, list the instruction files, rules, skills, and project docs you loaded for this task.
-```
-
-```text
-Show the active model, reasoning setting, sandbox or approval mode, and any project-specific instruction files you are using.
-```
-
-```text
-Do not edit yet. Read AGENTS.md, docs/context/project.md, and docs/features/payments/requirements.md, then summarize the constraints that matter for this task.
-```
-
-Tool-specific checks:
-
-| Tool | How to verify |
-| --- | --- |
-| Codex | Ask it to list loaded instruction sources; use `codex --cd <subdir>` to test nested instruction behavior; inspect logs/session files if enabled. |
-| Claude Code | Use `/config`, `/context`, `/cost`, `/model`, and `/effort`. |
-| Cursor | Check the Agent sidebar, use explicit file mentions, ask for loaded files, and split rules by scope. |
-
-If the conversation becomes noisy, start a fresh session or write a handoff. For the underlying theory, see [../theory/context-engineering.md](../theory/context-engineering.md).
-
-## Skills, Subagents, Plugins, And MCP
-
-Use the smallest abstraction that solves the problem.
-
-| Need | Use | Why |
+| Run Mode | Meaning | Recommendation |
 | --- | --- | --- |
-| One-off instruction | Prompt | Fastest and lowest ceremony. |
-| Repeatable workflow | Skill | Captures steps, references, scripts, examples, and validation. |
-| Specialist role | Subagent | Isolates context and can use a different model or permissions. |
-| External system access | MCP / tool | Gives the agent structured access to systems outside the repo. |
-| Reusable package across repos | Plugin | Bundles skills, agents, hooks, MCP config, and assets. |
-| New durable doc | Skeleton | Starting template for a required doc; live in `agent-kit/skeletons/`. |
+| `Auto-review` | Cursor checks allowlists, sandbox support, and a command classifier before deciding whether to run or ask. | Good default for normal work. |
+| `Allowlist` | Only allowlisted commands run automatically. | Good when you want stricter control. |
+| `Allowlist (with Sandbox)` | Uses an allowlist plus sandbox where available. | Best conservative option when supported. |
+| `Run Everything` | Runs commands automatically. | Avoid outside disposable sandboxes. |
 
-Use a skill when:
+Recommended protections:
 
-- you keep pasting the same checklist
-- the workflow is stable enough to version
-- the result is verifiable
-- the instructions are procedural rather than role-based
+- Enable file-deletion protection.
+- Enable dotfile protection.
+- Enable external-file protection.
+- Enable browser protection.
+- Require approval for package installs, migrations, deploys, releases, and publishing.
+- Keep Git history-changing commands manual until the team explicitly changes this policy.
 
-Use a subagent when:
+`Auto-review` is a convenience layer, not a security boundary. On Windows, sandbox support requires WSL2; otherwise Cursor may fall back to asking for approval.
 
-- the work is noisy and should not flood the main context
-- the role has a clear specialty
-- the role should have narrower tools or a different model
-- the parent agent only needs a concise summary back
+## Team Safety Policy
 
-Use MCP when:
+This repository ships the safety policy through the Cursor plugin at `plugins/test-plugin/`:
 
-- the agent repeatedly needs data from GitHub, Slack, databases, docs, Figma, or another system
-- copying data manually into chat is error-prone
-- the tool can return compact, task-specific results
-
-Do not connect MCP servers casually. Every enabled tool schema consumes context, and every external tool adds trust and prompt-injection risk.
-
-For deeper guides:
-
-- [../theory/skills.md](../theory/skills.md)
-- [../theory/subagents.md](../theory/subagents.md)
-
-## Shell Command Practices
-
-Shell access is a capability boundary. It can read, write, execute, fetch, delete, and chain other programs.
-
-Use shell commands for:
-
-- repo inspection such as `rg`, `ls`, `git status`, `git diff`, and `git log`
-- project-owned scripts such as `npm test`, `pytest`, `cargo test`, or `make lint`
-- deterministic build, test, format, and codegen commands
-- one-off diagnostics when the command is easy to review
-
-Prefer built-in file tools over shell when:
-
-- reading or editing specific files
-- applying small patches
-- searching a known path
-- the command needs complex quoting, globbing, or control operators
-
-Be careful with:
-
-- compound commands using `&&`, `||`, `;`, pipes, or newlines
-- wrappers such as `npx`, `docker exec`, `devbox run`, `mise exec`, `timeout`, `xargs`, or `find -exec`
-- broad globs such as `**/*`
-- network commands such as `curl`, `wget`, package installs, or custom download scripts
-- commands that mutate state indirectly, such as generators, migrations, cleanup scripts, and snapshot tests
-
-PowerShell note: on Windows, prefer native PowerShell commands end-to-end for file operations. Do not enumerate paths in PowerShell and pass them to another shell for deletion or moving. Resolve paths first and keep destructive actions approval-gated.
-
-Practical rules:
-
-- Use `rg` for search when available.
-- Ask before installing packages, running network commands, or changing global config.
-- Keep command approval narrow: approve `npm test` or `pytest tests/foo`, not a broad shell prefix.
-- Do not let reviewer subagents run destructive commands.
-- When a command produces evidence, summarize the exact command and result in the final report.
-
-## Workflow Fit
-
-Use permissions, planning, goals, skills, and subagents inside the development lifecycle, not as separate habits.
-
-| Repo phase | Best AI setup | Why |
+| Component | Path | Role |
 | --- | --- | --- |
-| Intake | Short prompt, clarify scope, identify risk. | Avoid solving the wrong problem. |
-| Context | Restrictive permissions, read-heavy prompts, explicit file references. | The agent should understand local conventions before changing anything. |
-| Spec | Plan mode or explicit planning prompt. | Ambiguity is cheaper to resolve before code exists. |
-| Plan | Written plan for broad work. | Name affected files, assumptions, test strategy, and documentation updates. |
-| Build | Workspace-write permissions with approvals for commands outside the repo. | Most implementation work needs edits but still benefits from boundaries. |
-| Verify | Test-focused prompts or specialist subagents. | Use focused review and evidence before claiming completion. |
-| Document | Skills and repo guides. | When a workflow repeats, promote it from prompt memory into a durable asset. |
+| Rule | `plugins/test-plugin/rules/team-safety-policy.mdc` | Team instructions loaded by the plugin. |
+| Hook script | `plugins/test-plugin/hooks/team-safety-policy.js` | Programmatic enforcement for shell commands and file edits. |
+| Hook registration | `.cursor/hooks.json` | Workspace pointer that wires Cursor events to the plugin hook script. |
+| Runtime state | `plugins/test-plugin/hooks/.state/` | Temporary read-before-edit state; gitignored and must not be committed. |
 
-The lifecycle in [lifecycle.md](lifecycle.md) is the spine. Permissions become more capable only when the task is understood. Goals or autonomous loops belong after the plan is clear and the stop condition is verifiable.
+Cursor only loads `hooks.json` from `.cursor/hooks.json`, so that file stays in the repo as a thin pointer. The rule and hook logic live in the plugin as the reviewable source of truth.
 
-## Installation And Updates
+The policy is:
 
-Keep installation details in official docs rather than copying full vendor instructions here.
+- Cursor agents must never publish code to a remote. Do not run `git push`, `npm publish`, `docker push`, or similar commands. A human must always publish.
+- Cursor agents must not run commands through subshells or interpreters (`bash -c`, `node -e`, `python -c`, etc.) without explicit human approval.
+- Cursor agents must read the current contents of a file before editing it.
+- File edits and destructive shell commands are gated by hooks that request human approval automatically. Agents should not ask for approval a second time.
+- If a user request conflicts with the policy, the agent must stop and ask for clarification.
 
-| Tool | Install / setup | Configuration docs |
-| --- | --- | --- |
-| Codex | [Codex CLI](https://developers.openai.com/codex/cli) | [Config basics](https://developers.openai.com/codex/config-basic), [AGENTS.md](https://developers.openai.com/codex/guides/agents-md) |
-| Claude Code | [Advanced setup](https://code.claude.com/docs/en/setup) | [Settings](https://code.claude.com/docs/en/settings), [Model configuration](https://code.claude.com/docs/en/model-config) |
-| Cursor | [Cursor CLI installation](https://docs.cursor.com/en/cli/installation) | [Rules](https://docs.cursor.com/en/context), [MCP](https://docs.cursor.com/context/model-context-protocol), [Models](https://docs.cursor.com/models) |
+Hook enforcement details:
 
-Check versions regularly:
+- **Publish commands** (`git push`, `npm publish`, `docker push`, `gh pr merge`, etc.) are blocked.
+- **Deletion commands** (`rm`, `del`, `Remove-Item`, etc.) require human approval.
+- **Indirect execution** (`bash -c`, `node -e`, `python -c`, etc.) requires human approval.
+- **File edits** require human approval and are denied if the target file was not read since its last modification.
 
-```bash
-codex --version
-claude --version
-claude doctor
-cursor-agent --version
+For team-wide enforcement outside this repository, copy the same policy into `Cursor Dashboard > Team Rules`. Keep the plugin files in the repo as the reviewable source of truth, and use the dashboard rule to make the behavior consistent across workspaces.
+
+## Team Defaults
+
+Use this as the safe baseline for this repo:
+
+- Import VS Code settings first.
+- Keep `Privacy Mode` on when handling proprietary code or customer data.
+- Use `Auto-review` or `Allowlist (with Sandbox)`.
+- Keep allowlists narrow.
+- Let indexing finish before broad codebase questions.
+- Use `Ask` for exploration, `Plan` for risky changes, `Agent` for scoped edits, and `Debug` for evidence-heavy bugs.
+- Keep `.cursor/rules/*.mdc` and plugin rules short and specific.
+- In this metarepo, use the Cursor plugin at `plugins/test-plugin/` for shared team behavior:
+  - `rules/entrypoint.mdc` points Cursor to `agent-kit/AGENTS.md`; do not duplicate the kit rules there.
+  - `rules/team-safety-policy.mdc` and `hooks/team-safety-policy.js` define the team safety policy.
+  - `skills/` holds reusable agent workflows such as `grill-me`.
+- Prefer `AGENTS.md` for simple, portable repo instructions.
+- Enable MCP servers only when they are needed.
+- Keep Git, releases, deployments, and package publishing as human-controlled steps.
+
+Typical implementation prompt:
+
+```text
+Use @src/payments/session.ts and @tests/payments/session.test.ts.
+Fix only token refresh behavior.
+Do not edit unrelated files.
+Before editing, explain the files you will touch.
+After editing, list changed files, verification, and remaining risk.
 ```
 
-## Best Practices
+Typical review prompt:
 
-- Keep always-loaded instructions short.
-- Move workflows into skills once they repeat.
-- Use subagents for bounded specialist work, especially noisy research or review.
-- Use plugins when a workflow needs to travel across repositories or teams.
-- Start with restrictive permissions and expand only for the current task.
-- Use plan mode for ambiguous, risky, or multi-file changes before edits begin.
-- Convert approved plans into bounded goals only when success is verifiable.
-- Prefer explicit file paths over vague scope.
-- Ask the agent to name assumptions before implementing.
-- Give autonomous loops clear stop conditions.
-- Ask for evidence before accepting "done".
-- Start a new session when the task changes substantially.
-- Keep durable decisions in `docs/`, not only in chat.
+```text
+Review @diff for bugs, missing tests, and risky behavior.
+Prioritize findings.
+Do not rewrite code unless I ask.
+```
 
-## Anti-patterns
-
-- one giant instruction file that tries to be the whole handbook
-- broad prompts with no files, acceptance criteria, or constraints
-- expensive models for mechanical changes
-- high reasoning effort without enough context
-- auto or bypass permissions in a repo that contains secrets or production access
-- pursue-goal loops with vague objectives or no stop condition
-- plan mode used as theater, with no files, assumptions, tests, or acceptance criteria
-- subagents that are really just vague prompts
-- skills that contain long theory instead of operational steps
-- plugins before the underlying workflow has been tested locally
-- MCP servers connected without considering trust and prompt-injection risk
-- copying proprietary prompts, source, or harness logic into a project
-- running unofficial cloned agent binaries with shell access
-
-## Related Guides
-
-- [managing-context.md](managing-context.md)
-- [lifecycle.md](lifecycle.md)
-- [../theory/context-engineering.md](../theory/context-engineering.md)
-- [../theory/skills.md](../theory/skills.md)
-- [../theory/subagents.md](../theory/subagents.md)
+Avoid vague requests such as "fix everything", "look at the whole repo", or "make it better". Give the agent scope, evidence, and stopping conditions.
 
 ## References
 
-Official docs first:
+Official Cursor docs:
 
-- Codex: [Config basics](https://developers.openai.com/codex/config-basic)
-- Codex: [Configuration reference](https://developers.openai.com/codex/config-reference)
-- Codex: [Custom instructions with AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
-- Codex: [Permissions](https://developers.openai.com/codex/permissions)
-- Codex: [Agent Skills](https://developers.openai.com/codex/skills)
-- Codex: [Plugins](https://developers.openai.com/codex/plugins)
-- Codex: [Subagents](https://developers.openai.com/codex/subagents)
-- Claude Code: [Settings](https://code.claude.com/docs/en/settings)
-- Claude Code: [Permissions](https://code.claude.com/docs/en/permissions)
-- Claude Code: [Goal](https://code.claude.com/docs/en/goal)
-- Claude Code: [Model configuration](https://code.claude.com/docs/en/model-config)
-- Claude Code: [Extend Claude with skills](https://code.claude.com/docs/en/skills)
-- Claude Code: [Create custom subagents](https://code.claude.com/docs/en/sub-agents)
-- Claude Code: [Connect to tools via MCP](https://code.claude.com/docs/en/mcp)
-- Claude Code: [Create plugins](https://code.claude.com/docs/en/plugins)
-- Cursor: [Rules](https://docs.cursor.com/en/context)
-- Cursor: [Plan Mode](https://cursor.com/blog/plan-mode)
-- Cursor: [Agent best practices](https://cursor.com/blog/agent-best-practices/)
-- Cursor: [Cursor CLI installation](https://docs.cursor.com/en/cli/installation)
-- Cursor: [Model Context Protocol](https://docs.cursor.com/context/model-context-protocol)
-- Cursor: [Models](https://docs.cursor.com/models)
-
-Further reading:
-
-- Anthropic: [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
-- Anthropic: [Claude Code auto mode](https://www.anthropic.com/engineering/claude-code-auto-mode)
-- Open standard: [Agent Skills](https://agentskills.io/home)
+- [Agent overview](https://cursor.com/docs/agent/overview)
+- [Plan Mode](https://cursor.com/docs/agent/plan-mode)
+- [Prompting and context](https://cursor.com/docs/agent/prompting)
+- [Semantic and agentic search](https://cursor.com/docs/agent/tools/search)
+- [Terminal tools and Run Mode](https://cursor.com/docs/agent/tools/terminal)
+- [Permissions reference](https://cursor.com/docs/reference/permissions)
+- [Rules](https://cursor.com/docs/rules)
+- [MCP](https://cursor.com/docs/mcp)
+- [Models and pricing](https://cursor.com/docs/models-and-pricing)
+- [Ignore files](https://cursor.com/docs/reference/ignore-file)
+- [Keyboard shortcuts](https://cursor.com/docs/reference/keyboard-shortcuts)
+- [Migrate from VS Code](https://cursor.com/docs/configuration/migrations/vscode)

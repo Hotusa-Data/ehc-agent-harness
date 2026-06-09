@@ -151,6 +151,7 @@ Full details in [`guides/onboarding/ai-configuration.md`](./guides/onboarding/ai
 
 > [!NOTE]
 > `AGENTS.md` is the shared, cross-tool entrypoint — now an open standard adopted across Codex, Cursor, Claude Code, Gemini CLI and others. Codex does not natively support a skills or subagents directory; its agent extensibility lives in the separate Agents SDK.
+> The Cursor plugin includes a minimal `rules/entrypoint.mdc` rule that points back to `agent-kit/AGENTS.md`; the kit remains the canonical source.
 
 ---
 
@@ -170,7 +171,7 @@ this-metarepo/
 - **Coding agent** — an LLM-driven tool (Claude Code, Cursor, Codex) that reads and edits the repo.
 - **Context engineering** — the practice of deliberately controlling what an agent sees, so its output is grounded.
 - **SDD (Spec-Driven Development)** — writing the spec before writing the code, so the agent has something to be measured against.
-- **AI entrypoint** — the single file (`AGENTS.md`) your IDE treats as project instructions. Lives at the project repo root and points to everything else.
+- **AI entrypoint** — the instruction entry your IDE treats as project guidance. For portable project repos this is `AGENTS.md`; for Cursor, the plugin's `rules/entrypoint.mdc` points back to `agent-kit/AGENTS.md`.
 - **agent-kit** — the bundle of rules, doc skeletons and the `AGENTS.md` template (this repo's `agent-kit/`) that gets copied into a project repo.
 - **Plan Gate / PR Gate** — AI-run checklists that validate an artefact before a human reviews it.
 - **Vertical slice** — a minimal end-to-end chunk of a feature (data → logic → output) rather than one full layer.
