@@ -93,7 +93,7 @@ Use the smallest mechanism that solves the problem.
 | Mechanism | Lives In | Use For |
 | --- | --- | --- |
 | Project Rules | `.cursor/rules/*.mdc` | Persistent repo instructions for Agent, Ask, Plan, and Debug. |
-| Cursor Plugins | `plugins/*/` | Packaged rules, skills, and hook scripts shared across repos. |
+| Cursor Plugins | `plugins/*/` | Packaged rules, skills, hooks, and scripts shared across repos. |
 | User Rules | Cursor user settings | Personal preferences that should follow you across repos. |
 | Team Rules | Team configuration | Organization-wide rules and safety defaults. |
 | `AGENTS.md` | Repo root or nested directories | Plain-markdown agent guidance, especially for cross-tool compatibility. |
@@ -142,11 +142,13 @@ This repository ships the safety policy through the Cursor plugin at `plugins/te
 | Component | Path | Role |
 | --- | --- | --- |
 | Rule | `plugins/test-plugin/rules/team-safety-policy.mdc` | Team instructions loaded by the plugin. |
-| Hook script | `plugins/test-plugin/hooks/team-safety-policy.js` | Programmatic enforcement for shell commands and file edits. |
-| Hook registration | `.cursor/hooks.json` | Workspace pointer that wires Cursor events to the plugin hook script. |
-| Runtime state | `plugins/test-plugin/hooks/.state/` | Temporary read-before-edit state; gitignored and must not be committed. |
+| Hook registration | `plugins/test-plugin/hooks/hooks.json` | Plugin hook manifest; discovered automatically when the plugin is installed. |
+| Hook script | `plugins/test-plugin/scripts/team-safety-policy.js` | Programmatic enforcement for shell commands and file edits. |
+| Runtime state | `plugins/test-plugin/scripts/.state/` | Temporary read-before-edit state; gitignored and must not be committed. |
 
-Cursor only loads `hooks.json` from `.cursor/hooks.json`, so that file stays in the repo as a thin pointer. The rule and hook logic live in the plugin as the reviewable source of truth.
+Per the [Cursor Plugins reference](https://cursor.com/docs/reference/plugins), hooks are a first-class plugin component. Cursor discovers them at `hooks/hooks.json` inside the plugin directory and runs hook scripts relative to the plugin root. No workspace-level `.cursor/hooks.json` is required when the plugin is installed from the team marketplace or loaded locally.
+
+To test the plugin before publishing, symlink it into `~/.cursor/plugins/local/test-plugin` and run **Developer: Reload Window**. Hook command paths in `hooks/hooks.json` are relative to the plugin root (for example, `./scripts/team-safety-policy.js`).
 
 The policy is:
 
@@ -178,7 +180,7 @@ Use this as the safe baseline for this repo:
 - Keep `.cursor/rules/*.mdc` and plugin rules short and specific.
 - In this metarepo, use the Cursor plugin at `plugins/test-plugin/` for shared team behavior:
   - `rules/entrypoint.mdc` points Cursor to `agent-kit/AGENTS.md`; do not duplicate the kit rules there.
-  - `rules/team-safety-policy.mdc` and `hooks/team-safety-policy.js` define the team safety policy.
+  - `rules/team-safety-policy.mdc`, `hooks/hooks.json`, and `scripts/team-safety-policy.js` define the team safety policy.
   - `skills/` holds reusable agent workflows such as `grill-me`.
 - Prefer `AGENTS.md` for simple, portable repo instructions.
 - Enable MCP servers only when they are needed.
