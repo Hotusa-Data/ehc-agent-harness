@@ -7,15 +7,10 @@
         "failClosed": true
       }
     ],
-    "beforeReadFile": [
-      {
-        "command": "node ./scripts/team-safety-policy.js beforeReadFile",
-        "failClosed": false
-      }
-    ],
     "preToolUse": [
       {
         "command": "node ./scripts/team-safety-policy.js preToolUse",
+        "matcher": "Write|StrReplace|Delete|ApplyPatch|MultiEdit|EditNotebook",
         "failClosed": true
       }
     ]

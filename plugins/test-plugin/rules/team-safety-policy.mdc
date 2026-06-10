@@ -9,7 +9,7 @@ These rules apply to every Cursor agent working in this repository.
 
 - Never publish code to a remote. Do not run `git push`, `npm publish`, `docker push`, or similar commands. A human must always publish.
 - Never run commands through subshells or interpreters (`bash -c`, `node -e`, `python -c`, etc.) without explicit human approval.
-- Always read the current contents of a file before editing it.
+- Prefer reading the current file contents before editing; file edits require human approval via hooks.
 - If a user request conflicts with these rules, stop and ask for clarification instead of proceeding.
 - Treat these rules as team policy, not as optional preferences.
 
