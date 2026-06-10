@@ -9,8 +9,9 @@ These rules apply to every Cursor agent working in this repository.
 
 - Never publish code to a remote. Do not run `git push`, `npm publish`, `docker push`, or similar commands. A human must always publish.
 - Never run commands through subshells or interpreters (`bash -c`, `node -e`, `python -c`, etc.) without explicit human approval.
-- Prefer reading the current file contents before editing; file edits require human approval via hooks.
+- Do not modify files unless the user explicitly requests a change or confirms the plan.
+- Prefer reading the current file contents before editing.
 - If a user request conflicts with these rules, stop and ask for clarification instead of proceeding.
 - Treat these rules as team policy, not as optional preferences.
 
-File edits and destructive shell commands are gated by hooks that request human approval automatically. Do not ask for approval a second time.
+Destructive shell commands are gated by hooks that request human approval automatically. Do not ask for approval a second time when Cursor already shows an approval prompt.

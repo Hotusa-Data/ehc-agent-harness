@@ -6,13 +6,6 @@
         "command": "node ./scripts/team-safety-policy.js beforeShellExecution",
         "failClosed": true
       }
-    ],
-    "preToolUse": [
-      {
-        "command": "node ./scripts/team-safety-policy.js preToolUse",
-        "matcher": "Write|StrReplace|Delete|ApplyPatch|MultiEdit|EditNotebook",
-        "failClosed": true
-      }
     ]
   }
 }

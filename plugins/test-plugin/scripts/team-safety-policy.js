@@ -202,30 +202,14 @@ async function main() {
     return;
   }
 
-  if (eventName === "preToolUse") {
-    respond({
-      permission: "ask",
-      user_message:
-        "Team policy requires human approval before Cursor changes files.",
-      agent_message:
-        "Ask for explicit human approval before changing files.",
-    });
-    return;
-  }
-
   respond({ permission: "allow" });
 }
 
 main().catch((error) => {
-  const message = error instanceof Error ? error.message : String(error);
-  const permission = eventName === "preToolUse" ? "ask" : "deny";
-
   respond({
-    permission,
+    permission: "deny",
     user_message:
-      permission === "ask"
-        ? "Team safety hook encountered an error. Please review before approving this file change."
-        : "Team safety hook failed closed. Review the hook output before proceeding.",
-    agent_message: message,
+      "Team safety hook failed closed. Review the hook output before proceeding.",
+    agent_message: error instanceof Error ? error.message : String(error),
   });
 });

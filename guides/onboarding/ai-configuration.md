@@ -143,7 +143,7 @@ This repository ships the safety policy through the Cursor plugin at `plugins/te
 | --- | --- | --- |
 | Rule | `plugins/test-plugin/rules/team-safety-policy.mdc` | Team instructions loaded by the plugin. |
 | Hook registration | `plugins/test-plugin/hooks/hooks.json` | Plugin hook manifest; discovered automatically when the plugin is installed. |
-| Hook script | `plugins/test-plugin/scripts/team-safety-policy.js` | Programmatic enforcement for shell commands and file edits. |
+| Hook script | `plugins/test-plugin/scripts/team-safety-policy.js` | Programmatic enforcement for shell commands (publish, deletion, subshells). |
 
 Per the [Cursor Plugins reference](https://cursor.com/docs/reference/plugins), hooks are a first-class plugin component. Cursor discovers them at `hooks/hooks.json` inside the plugin directory and runs hook scripts relative to the plugin root. No workspace-level `.cursor/hooks.json` is required when the plugin is installed from the team marketplace or loaded locally.
 
@@ -154,7 +154,8 @@ The policy is:
 - Cursor agents must never publish code to a remote. Do not run `git push`, `npm publish`, `docker push`, or similar commands. A human must always publish.
 - Cursor agents must not run commands through subshells or interpreters (`bash -c`, `node -e`, `python -c`, etc.) without explicit human approval.
 - Cursor agents should prefer reading the current contents of a file before editing it.
-- File edits and destructive shell commands are gated by hooks that request human approval automatically. Agents should not ask for approval a second time.
+- Cursor agents must not modify files unless the user explicitly requests a change or confirms the plan.
+- Destructive shell commands are gated by hooks that request human approval automatically. Agents should not ask for approval a second time when Cursor already shows an approval prompt.
 - If a user request conflicts with the policy, the agent must stop and ask for clarification.
 
 Hook enforcement details:
@@ -162,7 +163,9 @@ Hook enforcement details:
 - **Publish commands** (`git push`, `npm publish`, `docker push`, `gh pr merge`, etc.) are blocked.
 - **Deletion commands** (`rm`, `del`, `Remove-Item`, etc.) require human approval.
 - **Indirect execution** (`bash -c`, `node -e`, `python -c`, etc.) requires human approval.
-- **File edits** (`Write`, `StrReplace`, `Delete`, etc.) require human approval via a `preToolUse` hook matcher; reading files is unrestricted.
+- **File edits** are not gated by plugin hooks. Cursor `Run Mode` (for example `Auto-review`) and team rules control when agents may change files. Reading files is unrestricted.
+
+Note: `preToolUse` hooks cannot reliably gate file edits today. Cursor documents that `permission: "ask"` is not enforced for `preToolUse`; only `deny` is reliable. Do not use a `preToolUse` hook expecting approval prompts on `Write` or `StrReplace`.
 
 For team-wide enforcement outside this repository, copy the same policy into `Cursor Dashboard > Team Rules`. Keep the plugin files in the repo as the reviewable source of truth, and use the dashboard rule to make the behavior consistent across workspaces.
 
