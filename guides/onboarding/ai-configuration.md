@@ -80,7 +80,7 @@ Keep context small and relevant:
 - Remove stale references before changing tasks.
 - Use a new chat when the previous task no longer matters.
 
-`Codebase Indexing` powers semantic code search and repo-aware answers. It runs automatically when a repo opens and syncs periodically. Check indexing status or trigger a reindex from `Cursor Settings > Indexing` if search feels stale.
+`Codebase Indexing` powers semantic code search and repo-aware answers. It runs automatically when a repo opens and syncs periodically. Check indexing status or trigger a reindex from `Cursor Settings > Indexing` if search feels stale. On large repos, semantic search is unavailable until indexing reaches roughly 80%; within a team, Cursor can reuse a teammate's index to cut time-to-first-query from hours to seconds. See [Secure indexing of large codebases](https://cursor.com/es/blog/secure-codebase-indexing) for how Merkle trees, simhash matching, and content proofs keep that reuse safe.
 
 Use `.cursorignore` and `.gitignore` to keep generated, private, or noisy files out of Cursor indexing and normal context. Use `.cursorindexingignore` when a file should be excluded from search indexing but remain available to other AI features. Do not treat ignore files as a security boundary: terminal commands, package scripts, and MCP tools can still access files outside Cursor's indexing controls.
 
@@ -216,6 +216,7 @@ Official Cursor docs:
 - [Plan Mode](https://cursor.com/docs/agent/plan-mode)
 - [Prompting and context](https://cursor.com/docs/agent/prompting)
 - [Semantic and agentic search](https://cursor.com/docs/agent/tools/search)
+- [Secure indexing of large codebases](https://cursor.com/es/blog/secure-codebase-indexing) (research blog — Merkle-tree sync, team index reuse, content proofs)
 - [Terminal tools and Run Mode](https://cursor.com/docs/agent/tools/terminal)
 - [Permissions reference](https://cursor.com/docs/reference/permissions)
 - [Rules](https://cursor.com/docs/rules)
