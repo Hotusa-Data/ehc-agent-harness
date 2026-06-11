@@ -59,9 +59,9 @@ When the user states how something works, check whether the code agrees. If you 
 
 ## Update docs/glossary.md inline
 
-When a term is resolved, update `docs/glossary.md` right there. Don't batch these up — capture them as they happen. Use the format in `agent-kit/skeletons/_glossary.md`.
+When a term is resolved, update `docs/glossary.md` right there. Don't batch these up — capture them as they happen. Use the format in `agent-kit/skeletons/_glossary.md`: meaning in Definition columns; code, schema, and display identifiers in the designated identifier columns only.
 
-`docs/glossary.md` should be totally devoid of implementation details. Do not treat it as a spec, a scratch pad, or a repository for implementation decisions. It is a glossary and nothing else.
+Do not put classes, modules, file paths, or implementation decisions in Definition columns. Do not treat the glossary as a spec or scratch pad. Canonical identifiers belong in §2–§4; legacy or conflicting names belong in §6 only.
 
 > **Ownership note.** This skill is the **editor** of `docs/glossary.md`; it adds or refines individual terms during interviews. Wholesale creation and refresh of the glossary is owned by [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — defer there when the request is "build the glossary" rather than "resolve this term".
 

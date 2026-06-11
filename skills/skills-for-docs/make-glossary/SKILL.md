@@ -17,7 +17,7 @@ metadata:
 
 # Make Glossary
 
-Create or refresh a domain glossary that business experts, developers, analysts, notebooks, specs, tests, dashboards, and reports can share. Capture domain meaning, not implementation trivia.
+Create or refresh a domain glossary that business experts, developers, analysts, notebooks, specs, tests, dashboards, and reports can share. Capture domain meaning in Definition columns; put code, schema, and report identifiers only in the skeleton's designated identifier columns.
 
 The live glossary lives at `docs/glossary.md` in the target repo. If it exists, update it in place — never create a competing one. If it does not exist, create it at that path using the structure described under "Required Structure" below.
 
@@ -52,8 +52,8 @@ Do not let the glossary introduce new feature scope. If terminology work reveals
 4. Remove generic programming terms unless they carry domain meaning.
 5. Identify synonyms, aliases, overloaded terms, vague labels, translation mismatches, and naming drift between business language and code/docs.
 6. Choose one canonical term per concept. Prefer the term domain experts use when precise; otherwise choose the clearest term.
-7. Add definitions, aliases to avoid, relationships, cardinality, metrics constraints, code/doc mappings, flagged ambiguities, open questions, and change log entries.
-8. Write or update the glossary using the template structure.
+7. Add definitions, identifiers (code, schema, display labels), aliases to avoid, relationships, cardinality, metrics constraints, legacy drift mappings, flagged ambiguities, open questions, and change log entries.
+8. Write or update the glossary using the template structure. Follow the skeleton's Instantiation Guidance order when creating from scratch.
 9. Summarize changes and call out blocking terminology questions.
 
 Ask before writing only when ambiguity blocks a safe glossary update, such as two plausible canonical terms with different business meaning. Otherwise make a reasonable recommendation and mark the ambiguity as open.
@@ -67,20 +67,21 @@ Ask before writing only when ambiguity blocks a safe glossary update, such as tw
 
 Use the `agent-kit/skeletons/_glossary.md` skeleton as the canonical layout. Sections, in order:
 
-- **0. Metadata** — scope/area, owner, business reviewer, status (`draft | reviewed | implemented | superseded`), last reviewed.
-- **1. Principles** — naming principles for this scope.
-- **2. Canonical Terms** — grouped into Domain Objects, Roles, Lifecycle States and Events. Each table includes the term, one-sentence definition, and aliases to avoid inline.
-- **3. Domain Verbs** — business actions only, with actor and object.
-- **4. Metrics, Labels, Derived Concepts** — with source/formula, display label, units, grain, window, null handling, and constraints when relevant.
-- **5. Relationships** — with cardinality where obvious.
-- **6. Code / Schema / Report Mapping** — only mappings that prevent naming drift; not a class/module catalog.
+- **0. Metadata** — scope/area, owner, business reviewer, business language, code/schema language, naming notes, status (`draft | reviewed | implemented | superseded`), last reviewed.
+- **1. Principles** — naming principles for this scope, plus **Naming Conventions** (project overrides for Python, SQL, API, reports, suffixes, acronyms).
+- **2. Canonical Terms** — grouped into Domain Objects, Roles, Lifecycle States and Events. Each row includes term, one-sentence definition, code identifier, schema label (when applicable), display label, and aliases to avoid inline.
+- **3. Domain Verbs** — business actions with actor, object, code action, and event name (if any).
+- **4. Metrics, Labels, Derived Concepts** — with source/formula, code/SQL alias, display label, grain, window, unit, and null handling when relevant.
+- **5. Relationships** — structured table with from, to, cardinality, trigger/rule, and code/FK hint.
+- **6. Legacy And Drift Mapping** — only when canonical identifiers in §2–§4 differ from existing code, schema, or reports; not a class/module catalog.
 - **7. Flagged Ambiguities** — term, problem, recommendation, status.
 - **8. Example Dialogue** — short conversation using canonical terms, showing at least one boundary, relationship, or lifecycle rule.
 - **9. Open Questions** — with blocking status and owner.
 - **10. Change Log** — date, change, reason.
+- **Instantiation Guidance** — suggested fill order when creating from scratch.
 - **Review Checklist** — see below.
 
-Aliases to avoid live inline in the canonical-terms tables, not as a separate section. Keep sections that do not apply as `not applicable` with a short reason when creating a formal glossary. For a small refresh, preserve the existing structure and add only what is needed.
+Canonical identifiers live in §2–§4 columns. §6 records legacy exceptions only. Aliases to avoid live inline in the canonical-terms tables, not as a separate section. Keep sections that do not apply as `not applicable` with a short reason when creating a formal glossary. For a small refresh, preserve the existing structure and add only what is needed.
 
 ## Rules
 
@@ -92,7 +93,8 @@ Aliases to avoid live inline in the canonical-terms tables, not as a separate se
 - Include aliases to avoid when synonyms are common or risky.
 - Flag vague terms that hide business rules, thresholds, labels, or decision criteria.
 - Include examples for edge cases, lifecycle boundaries, metrics, and overloaded terms.
-- Use code mappings only to prevent naming drift.
+- Put canonical identifiers in §2–§4 columns; use §6 only for legacy or drift exceptions.
+- Do not restate implementation trivia in Definition columns — classes, modules, and file paths belong in identifier columns or §6 when they prevent drift.
 - If a blocking assumption affects requirements, contracts, privacy, or acceptance criteria, surface it as a question for the spec.
 
 ## Review Checklist
@@ -101,7 +103,10 @@ Aliases to avoid live inline in the canonical-terms tables, not as a separate se
 - [ ] Canonical terms are opinionated; aliases to avoid are listed where useful.
 - [ ] Ambiguities are flagged explicitly.
 - [ ] Relationships and cardinality are documented where useful.
-- [ ] Metrics include meaning, source/formula, units, grain, window, and constraints when applicable.
+- [ ] Every code-visible term has a Code identifier (or explicit `not applicable`).
+- [ ] Verbs that become functions or events have Code action / Event name filled.
+- [ ] Metrics include meaning, source/formula, grain, window, unit, and null handling when applicable.
+- [ ] Legacy mappings in §6 are exceptions, not duplicates of §2–§4.
 - [ ] Example dialogue uses canonical terms naturally.
 - [ ] Specs, ACs, tests, notebooks, dashboards, reports, and code labels can reference the glossary without drift.
 - [ ] Open questions are marked blocking or safe-to-defer.
