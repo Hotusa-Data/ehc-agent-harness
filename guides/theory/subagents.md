@@ -1,33 +1,59 @@
 # Subagents
 
-A practical introduction to Subagents for developers — what they are, when they beat a skill or a plain prompt, and how to set them up in Claude Code and Cursor.
+A practical introduction to subagents for developers — what they are, when they beat a skill or a plain prompt, and how to set them up in Claude Code and Cursor.
 
 ## TL;DR
 
-A subagent is a specialized AI assistant that handles a bounded task in its own context window, with its own system prompt, model, and tool restrictions. The parent agent delegates to it, the subagent works, and only the summary returns. Use one when a side task would flood your main conversation, or when you keep spawning the same kind of worker.
+A subagent is a **context tool**: a bounded worker that runs in its own context window, with its own system prompt, model, and tool restrictions. The parent agent delegates to it, the subagent works, and only the summary returns. Use one when a side task would flood your main conversation, when you need parallel investigations, or when you keep spawning the same kind of isolated worker.
+
+The goal is **not** to anthropomorphize synthetic experts ("data engineer", "code reviewer"). The general model already carries domain knowledge; shared rules live in `agent-kit/agent-rules/` and `docs/`. Subagents exist to **delegate work with its own context** — not to simulate job titles.
 
 ```markdown
 ---
-name: code-reviewer
-description: Reviews recent code changes for quality, security and best practices. Use proactively after edits.
+name: diff-scanner
+description: Scans the current diff for correctness and security issues. Returns findings only — never edits files. Use after substantive edits.
 tools: Read, Grep, Glob, Bash
 model: sonnet
+readonly: true
 ---
 
-You are a senior code reviewer. Analyze the diff and return specific,
-actionable findings — never edit files yourself.
+Scan the files changed in this task. Return specific, actionable findings.
+Do not edit files. Do not restate unchanged code.
 ```
+
+## Subagents Are Context Tools, Not Personas
+
+Treat subagents as **isolated execution contexts**, not as synthetic team members.
+
+| Wrong mental model | Right mental model |
+|---|---|
+| "I need a data-engineer subagent because this is pipeline work" | "I need an isolated context to explore three ingestion modules in parallel without flooding the main chat" |
+| "The subagent is the expert; the parent is the manager" | "The subagent is a sandboxed run; the parent orchestrates and synthesizes" |
+| "More personas = better coverage" | "More isolated contexts = cleaner parent context and optional parallelism" |
+
+The general model already knows data engineering, testing, security review, and the rest. What it lacks in a long session is **room** — every search result, log dump, and exploration trace competes for the same window. Subagents buy space by moving verbose work off-stage.
+
+What you get:
+- **Context isolation** — exploration and high-volume output stay in a separate window; only the summary returns
+- **Parallelism** — independent tasks dispatched simultaneously, each with its own context
+- **Constraint enforcement** — restrict tools, permissions, or models per delegation unit
+- **Reusability** — the same worker definition runs across sessions and projects
+- **Cost control** — route cheap, repetitive exploration to a faster or cheaper model without touching the main session
+
+What subagents are **not** for:
+- replacing domain expertise the general model already has
+- standing in for [skills](skills.md) that encode repeatable workflows
+- creating a cast of job-title personas that duplicate `agent-kit/agent-rules/`
 
 ## Why Subagents Exist
 
-The main conversation is a public good: every search result, log dump, and exploration trace competes for the same context window. Subagents move that work off-stage. The parent gets back a summary; the verbose work stays inside the subagent.
+The main conversation is a public good. Subagents move work off-stage so the parent stays focused on orchestration and synthesis.
 
-What you get:
-- **Context preservation** — exploration and high-volume output stay isolated
-- **Constraint enforcement** — restrict tools, permissions, or models per role
-- **Reusability** — the same worker definition runs across sessions and projects
-- **Cost control** — route cheap, repetitive work to Haiku without touching the main model
-- **Specialization** — a focused system prompt makes the worker better at one thing
+Typical triggers:
+- a task produces verbose output (test runs, log scans, wide repo searches)
+- several independent investigations can run at once
+- you want enforced tool restrictions for a bounded pass (read-only scan, no writes)
+- you want a different model or prompt for one leg of work without changing the parent session
 
 ## Subagent vs Skill vs Prompt vs Tool
 
@@ -36,11 +62,11 @@ What you get:
 | Tool | What action can I take? | Single capability (run a script, call an API) |
 | Prompt | What do I want right now? | One-off instruction |
 | Skill | How should this kind of task be done? | Reusable workflow + context |
-| Subagent | Who should handle this task? | Specialist role with its own context |
+| Subagent | Where should this work run? | Isolated context for a bounded delegation |
 
 Rules of thumb:
 - repeatable workflow → **skill** (see [skills.md](skills.md))
-- specialist judgment → **subagent**
+- isolated context or parallel delegation → **subagent**
 - single atomic action → **tool**
 - one-time ask → **prompt**
 
@@ -52,20 +78,21 @@ A subagent is a markdown file with YAML frontmatter (config) followed by the sys
 
 ```markdown
 ---
-name: code-reviewer
-description: Reviews recent code changes for quality, security and best practices. Use proactively after edits.
+name: diff-scanner
+description: Scans the current diff for correctness and security issues. Returns findings only — never edits files. Use after substantive edits.
 tools: Read, Grep, Glob, Bash
 model: sonnet
+readonly: true
 ---
 
-You are a senior code reviewer. When invoked, analyze the diff and return
-specific, actionable findings — never edit files yourself.
+Scan the files changed in this task. Return specific, actionable findings.
+Do not edit files. Do not restate unchanged code.
 ```
 
 Frontmatter rules:
-- `name`: lowercase letters and hyphens. Unique within its scope.
+- `name`: lowercase letters and hyphens. Name the **task or context boundary**, not a job title. Unique within its scope.
 - `description`: tells the parent agent **when to delegate**. Write in third person, name the trigger, add "use proactively" if you want automatic delegation.
-- Body: becomes the subagent's system prompt — it *replaces* the default Claude Code prompt rather than extending it. Be explicit about role, tone, and what the subagent must not do.
+- Body: becomes the subagent's system prompt — it *replaces* the default Claude Code prompt rather than extending it. State the bounded task, output shape, and hard constraints (especially what the worker must not do).
 
 ## When To Use A Subagent (And When Not To)
 
@@ -84,9 +111,11 @@ Frontmatter rules:
 
 ## Authoring Best Practices
 
-### Bound the role narrowly
+### Bound the task narrowly
 
-Each subagent should answer one question: "who owns this?". A subagent that does data engineering *and* code review *and* security has fuzzy routing and weak constraints. Split it.
+Each subagent should answer one question: "what bounded work gets its own context?". A worker that scans logs *and* edits code *and* writes tests has fuzzy routing and weak constraints. Split it.
+
+Do not name subagents after org-chart roles (`data-engineer`, `test-engineer`). Name them after the delegation unit (`ingestion-explorer`, `diff-scanner`, `coverage-gap-finder`). Domain rules belong in `agent-kit/agent-rules/`, not in persona prose.
 
 ### Restrict tools intentionally
 
@@ -114,18 +143,21 @@ Routing a noisy "find all usages and summarize" subagent to Haiku can cut cost d
 The parent agent routes based on `description`. Specifics beat platitudes.
 
 ```yaml
-# Bad — Claude won't know when to fire it
+# Bad — no trigger, no boundary
 description: Helps with code
 
-# Good — names the trigger and the role
-description: Reviews recent code changes for quality, security and best practices. Use proactively after edits.
+# Bad — persona label, not a delegation trigger
+description: Acts as a senior data engineer for pipeline work
+
+# Good — names the trigger, output, and constraints
+description: Scans the current diff for correctness and security issues. Returns findings only — never edits files. Use after substantive edits.
 ```
 
 The phrase "use proactively" is a known signal that increases automatic delegation.
 
 ### Context: fresh vs forked
 
-A subagent starts with a **fresh context window** by default — it does not see conversation history, files Claude already read, or skills already invoked. `CLAUDE.md` and project memory still load (except for the built-in `Explore` and `Plan`). When you delegate manually, write the task message as if briefing a smart colleague who just walked into the room. Forked subagents are the alternative: they inherit the parent context instead of starting clean.
+A subagent starts with a **fresh context window** by default — it does not see conversation history, files the parent already read, or skills already invoked. `CLAUDE.md` and project memory still load (except for the built-in `Explore` and `Plan`). When you delegate manually, include everything the worker needs in the task message: scope, files, constraints, and expected output shape. Forked subagents are the alternative: they inherit the parent context instead of starting clean.
 
 ### Memory and isolation (advanced)
 
@@ -196,15 +228,16 @@ Invocation:
 - explicit slash — `/verifier confirm the auth flow is complete`
 - natural mention — "Use the verifier subagent to confirm the auth flow"
 
-The parent dispatches subagents via parallel Task tool calls, so independent investigations run simultaneously. Each subagent starts with a clean context, so brief it like a colleague who just walked in.
+The parent dispatches subagents via parallel Task tool calls, so independent investigations run simultaneously. Each subagent starts with a clean context — include scope, files, constraints, and the expected output shape in the delegation message.
 
 ## Anti-patterns
 
+- **persona catalogs** — `data-engineer`, `data-scientist`, `code-reviewer` as if the model needs a job title to do the work; use shared rules and skills instead
 - vague descriptions that won't route (`description: Helps with code`)
 - one giant subagent spanning unrelated jobs
-- inheriting all tools when the role doesn't need them — a "reviewer" with `Write` is actually an editor
+- inheriting all tools when the task doesn't need them — a read-only scanner with `Write` is actually an editor
 - spawning many parallel subagents that each return a long summary; the verbosity comes back into the main context
-- treating subagents like skills — if there's no specialist role boundary, a skill is enough
+- treating subagents like skills — if the value is a repeatable workflow, write a skill
 - expecting nested delegation: subagents cannot spawn other subagents
 - using a subagent for tasks that need iterative back-and-forth with the user
 
@@ -215,25 +248,29 @@ Before shipping a subagent:
 - [ ] `description` is specific, third person, names the trigger (with "use proactively" if you want auto-delegation)
 - [ ] Tools are an explicit allowlist for sensitive roles
 - [ ] Model chosen on purpose (cheap for noisy work, default for balance, expensive for deep reasoning)
-- [ ] System prompt states the role *and* what the subagent must not do
+- [ ] System prompt states the bounded task, output shape, and what the subagent must not do
 - [ ] Tested both via `@-mention` and via natural-language delegation
 - [ ] No assumption of nested delegation
 
 ## Subagents In This Framework
 
-This repo uses subagents mainly for role-specialized coding work. Current examples live under `subagents/coding-agents/` and cover roles such as:
+This metarepo does **not** ship a catalog of job-title subagents. Domain expertise lives in:
 
-- data engineer
-- data scientist
-- data analyst
+- the general model
+- `agent-kit/agent-rules/` — engineering and collaboration rules
+- `docs/` — project-specific knowledge in the consumer repo
+- `skills/` — repeatable workflows
 
-They should build on shared rules from `agent-kit/agent-rules/` rather than duplicating generic engineering principles.
+Create subagents in your IDE (`.cursor/agents/`, `.claude/agents/`) when a **task** needs an isolated context or parallel execution — for example, scanning three modules at once, running a read-only security pass, or exploring a noisy log file without polluting the parent chat.
+
+The optional `subagents/` folder here is for team-specific templates, not predefined personas. See [subagents/README.md](../../subagents/README.md).
 
 ## Where To Look Next
 
-- Subagent catalog in this repo: [subagents/README.md](../../subagents/README.md)
+- Optional subagent templates: [subagents/README.md](../../subagents/README.md)
 - Reusable workflows: [skills.md](skills.md)
-- The lifecycle these roles operate in: [../onboarding/lifecycle.md](../onboarding/lifecycle.md)
+- Context strategy: [context-engineering.md](context-engineering.md)
+- The lifecycle subagents support: [../onboarding/lifecycle.md](../onboarding/lifecycle.md)
 
 ## References
 

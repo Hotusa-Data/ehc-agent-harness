@@ -153,7 +153,7 @@ this-metarepo/
 ├── guides/         ← theory, onboarding, cycle in detail (stable)
 ├── agent-kit/      ← rules + doc skeletons + AGENTS.md template (stable, manual copy)
 ├── skills/         ← slash-command workflows for your IDE (experimental)
-└── subagents/      ← role profiles for your IDE (experimental)
+└── subagents/      ← optional context-delegation templates for your IDE (experimental)
 ```
 
 <details>
@@ -181,7 +181,7 @@ this-metarepo/
 **Experimental, expect changes**
 
 - [ ] `skills/` — naming, selection and scope still being tuned with real use
-- [ ] `subagents/` — role profiles still being tuned with real use
+- [ ] `subagents/` — context-delegation patterns still being tuned with real use
 
 **Not built yet**
 

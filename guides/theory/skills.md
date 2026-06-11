@@ -32,11 +32,11 @@ What you get:
 | Tool | What action can I take? | Single capability (run a script, call an API) |
 | Prompt | What do I want right now? | One-off instruction |
 | Skill | How should this kind of task be done? | Reusable workflow + context |
-| Subagent | Who should handle this task? | Specialist role |
+| Subagent | Where should this work run? | Isolated context for a bounded delegation |
 
 Rules of thumb:
 - repeatable workflow → **skill**
-- specialist judgment → **subagent** (see [subagents.md](subagents.md))
+- isolated context or parallel delegation → **subagent** (see [subagents.md](subagents.md))
 - single atomic action → **tool**
 - one-time ask → **prompt**
 
@@ -105,7 +105,7 @@ Frontmatter rules:
 - the task is one-off
 - the workflow is still highly unstable
 - a clearer system prompt is enough
-- the main value is specialist judgment — write a [subagent](subagents.md) instead
+- the main value is an isolated context or parallel run — write a [subagent](subagents.md) instead
 - the agent already handles it well without your help (test before assuming)
 
 ## Authoring Best Practices
