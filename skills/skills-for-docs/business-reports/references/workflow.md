@@ -188,7 +188,7 @@ Each Mermaid block passes a sanity check before inclusion. A broken block can br
 3. If a block flags: fix once and re-run.
 4. If still broken: return to phase 2 with a concrete question on how to represent what the diagram was trying to show. **Don't ship a broken diagram or a *"diagram omitted due to error"* note.**
 
-A self-check Claude can apply mentally: every `flowchart`/`stateDiagram-v2`/`sequenceDiagram` block starts with the type keyword on its own line, every `{...}` or `[...]` is closed, every decision node has labeled branches on all exits, every `classDef` line follows the `classDef name fill:#...,stroke:#...` shape. If any of these fail visually, fix before running the script.
+A self-check the agent can apply mentally: every `flowchart`/`stateDiagram-v2`/`sequenceDiagram` block starts with the type keyword on its own line, every `{...}` or `[...]` is closed, every decision node has labeled branches on all exits, every `classDef` line follows the `classDef name fill:#...,stroke:#...` shape. If any of these fail visually, fix before running the script.
 
 ### Hard return to phase 2 if something new surfaces
 

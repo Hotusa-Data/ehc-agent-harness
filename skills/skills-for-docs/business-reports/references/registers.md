@@ -28,7 +28,7 @@ Language follows the rules in `SKILL.md` (glossary's language by default; user o
 
 ### Self-check before delivering
 
-After writing each section, apply this check mentally — Claude can run it on its own draft without external input:
+After writing each section, apply this check mentally — the agent can run it on its own draft without external input:
 
 1. **Identifier scan.** Search the section for backticks. Any backticks in prose (excluding the appendix and `<details>` blocks)? If yes, replace with the domain term or drop. The appendix is the only place identifiers live.
 2. **Jargon scan.** Re-read looking for the jargon list above (API, endpoint, cache, queue, microservice…). Any hits? Rewrite in domain terms.

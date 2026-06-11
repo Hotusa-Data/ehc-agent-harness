@@ -2,7 +2,7 @@
 
 How to develop features with AI: the phases, what you do at each step, how to leverage AI agents, and when to gate progress.
 
-This guide is for **developers** working in this framework. It assumes you use AI agents (Codex, Claude Code, Cursor) as collaborators and that you have already read the theory guides in [`guides/theory/`](../theory/) — in particular [spec-driven-development.md](../theory/spec-driven-development.md) and [context-engineering.md](../theory/context-engineering.md). If you are setting up tools for the first time, start with [ai-configuration.md](ai-configuration.md).
+This guide is for **developers** working in this framework. It assumes you use Cursor agents as collaborators and that you have already read the theory guides in [`guides/theory/`](../theory/) — in particular [spec-driven-development.md](../theory/spec-driven-development.md) and [context-engineering.md](../theory/context-engineering.md). If you are setting up tools for the first time, start with [ai-configuration.md](ai-configuration.md).
 
 ## Core Flow
 
@@ -47,7 +47,7 @@ Not every task needs the full process. See [Adapt The Cycle To Your Style](#adap
 **How:**
 
 - **Ask a more experienced teammate.** A short conversation with someone who knows the technology saves hours of wrong-direction exploration.
-- **Explore with AI in a separate session.** Open an independent Claude conversation with no project context loaded. Ask freely, follow tangents, and use [`/grill-me`](../../skills/utils-skills/grill-me/) to test your understanding until concepts click. Keep this session isolated — it is exploration, not implementation.
+- **Explore with AI in a separate session.** Open an independent Cursor chat with no project context loaded. Ask freely, follow tangents, and use [`/grill-me`](../../skills/utils-skills/grill-me/) to test your understanding until concepts click. Keep this session isolated — it is exploration, not implementation.
 
 **Done when:** you could explain the approach to a colleague. Move to Context.
 

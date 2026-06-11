@@ -1,6 +1,6 @@
 # Skills
 
-A practical introduction to Skills for developers who have never used one — what they are, when to reach for one, and how to set them up in Claude Code or Cursor.
+A practical introduction to Skills for developers who have never used one — what they are, when to reach for one, and how to set them up in Cursor.
 
 ## TL;DR
 
@@ -69,7 +69,7 @@ allowed-tools:
 ```
 
 Frontmatter rules:
-- `name`: lowercase letters, numbers, hyphens. Max 64 chars. No reserved words (`anthropic`, `claude`). Prefer gerunds (`processing-pdfs`) or noun phrases (`pdf-processing`); avoid generic names like `helper` or `utils`.
+- `name`: lowercase letters, numbers, hyphens. Max 64 chars. No reserved words per the [open spec](https://agentskills.io/home). Prefer gerunds (`processing-pdfs`) or noun phrases (`pdf-processing`); avoid generic names like `helper` or `utils`.
 - `description`: max 1024 chars. Write in **third person** ("Summarizes X", not "I can help with X"). Include **what it does and when to use it** — agents route on this field, so be specific.
 - `allowed-tools`: explicit list of tools the skill may use. Use `[]` for read-only skills.
 
@@ -97,7 +97,7 @@ Frontmatter rules:
 
 **Good candidates**
 - you keep pasting the same instructions or checklist
-- a section of `CLAUDE.md` / `AGENTS.md` has grown from a fact into a procedure
+- a section of `AGENTS.md` or `.cursor/rules/` has grown from a fact into a procedure
 - the workflow is repeated, stable, and error-prone enough to deserve guardrails
 - the result is verifiable
 
@@ -159,34 +159,9 @@ Run the task without the skill, log where the agent fails, write just enough to 
 identify gap -> write minimal skill -> test -> observe trace -> refine
 ```
 
-## Setting Up Skills In Claude Code
-
-Claude Code discovers skills from the filesystem — no upload, no API call. Three layers, precedence project < personal < enterprise:
-
-| Scope | Path | Visible to |
-|---|---|---|
-| Personal | `~/.claude/skills/<skill-name>/SKILL.md` | All your projects |
-| Project | `.claude/skills/<skill-name>/SKILL.md` | This repo only |
-| Plugin | `<plugin>/skills/<skill-name>/SKILL.md` | Wherever the plugin is enabled |
-
-Create one in 60 seconds — `mkdir -p .claude/skills/summarize-changes`, then drop `SKILL.md` inside. Claude loads it automatically when the user's request matches the `description`, or you can invoke it manually with `/summarize-changes`.
-
-**Useful frontmatter knobs (Claude Code extends the open spec):**
-
-| Field | What it does |
-|---|---|
-| `disable-model-invocation: true` | Only the user can run it (good for `/deploy`, `/commit`) |
-| `user-invocable: false` | Only Claude can load it (good for background context the user shouldn't trigger) |
-| `allowed-tools: Read Grep` | Pre-approve tools while the skill is active |
-| `paths: "src/**/*.ts"` | Auto-load only when working in matching files |
-| `model: opus` / `effort: high` | Override model or thinking effort for this skill |
-| `context: fork` | Run the skill in a forked subagent context |
-
-Claude Code watches skill directories live: edits take effect inside a running session without restart.
-
 ## Setting Up Skills In Cursor
 
-Cursor follows the same open standard. Drop the folder into one of these paths:
+Cursor discovers skills from the filesystem — no upload, no API call. Drop the folder into one of these paths:
 
 | Scope | Path |
 |---|---|
@@ -203,7 +178,22 @@ Cursor recursively discovers any `SKILL.md` under those folders, so you can grou
     `-- using-datadog-mcp/SKILL.md
 ```
 
+Create one in 60 seconds — `mkdir -p .cursor/skills/summarize-changes`, then drop `SKILL.md` inside. Cursor loads it automatically when the user's request matches the `description`, or you can invoke it manually with `/summarize-changes`.
+
+**Useful frontmatter knobs:**
+
+| Field | What it does |
+|---|---|
+| `disable-model-invocation: true` | Only the user can run it (good for `/deploy`, `/commit`) |
+| `user-invocable: false` | Only the agent can load it (good for background context the user shouldn't trigger) |
+| `allowed-tools: Read Grep` | Pre-approve tools while the skill is active |
+| `paths: "src/**/*.ts"` | Auto-load only when working in matching files |
+| `model: inherit` / model ID | Override model for this skill |
+| `context: fork` | Run the skill in a forked subagent context |
+
 Activation: the agent picks skills based on the `description` and any `paths` glob. Type `/` to invoke one manually. Run `/migrate-to-skills` to convert legacy Rules and slash commands — Skills are the modern replacement, though older Rules still work.
+
+Cursor watches skill directories live: edits take effect inside a running session without restart.
 
 ## Anti-patterns
 

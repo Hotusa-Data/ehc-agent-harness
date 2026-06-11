@@ -22,7 +22,7 @@ flowchart LR
 
     metarepo["This metarepo<br/>(guides, agent-kit, skills, subagents)"]
     target["Your project repo<br/>(real code + docs/)"]
-    ide["Your IDE<br/>(Cursor / Claude Code / Codex)"]
+    ide["Your IDE<br/>(Cursor)"]
 
     metarepo -->|copy by hand| target
     metarepo -->|reference| ide
@@ -134,15 +134,12 @@ Each developer points their IDE at the skills and subagents in this metarepo. Th
 
 Full details in [`guides/onboarding/ai-configuration.md`](./guides/onboarding/ai-configuration.md).
 
-| Tool          | Project instructions                               | Skills path                        | Subagents path                  |
-| ------------- | -------------------------------------------------- | ---------------------------------- | ------------------------------- |
-| Claude Code   | `CLAUDE.md` or `AGENTS.md`                         | `.claude/skills/`                  | `.claude/agents/`               |
-| Cursor 2.4+   | `AGENTS.md` or `.cursor/rules/`                    | `.cursor/skills/`                  | `.cursor/agents/`               |
-| Codex CLI     | `AGENTS.md` (root) + `~/.codex/AGENTS.md` (global) | — (no native skills directory)     | — (use Agents SDK, out of repo) |
+| Tool        | Project instructions            | Skills path       | Subagents path   |
+| ----------- | ------------------------------- | ----------------- | ---------------- |
+| Cursor 2.4+ | `AGENTS.md` or `.cursor/rules/` | `.cursor/skills/` | `.cursor/agents/` |
 
 > [!NOTE]
-> `AGENTS.md` is the shared, cross-tool entrypoint — now an open standard adopted across Codex, Cursor, Claude Code, Gemini CLI and others. Codex does not natively support a skills or subagents directory; its agent extensibility lives in the separate Agents SDK.
-> The Cursor plugin includes a minimal `rules/entrypoint.mdc` rule that points back to `agent-kit/AGENTS.md`; the kit remains the canonical source.
+> `AGENTS.md` is the portable project entrypoint. The Cursor plugin includes a minimal `rules/entrypoint.mdc` rule that points back to `agent-kit/AGENTS.md`; the kit remains the canonical source.
 
 ---
 
@@ -159,7 +156,7 @@ this-metarepo/
 <details>
 <summary><strong>Quick glossary</strong></summary>
 
-- **Coding agent** — an LLM-driven tool (Claude Code, Cursor, Codex) that reads and edits the repo.
+- **Coding agent** — an LLM-driven tool (Cursor) that reads and edits the repo.
 - **Context engineering** — the practice of deliberately controlling what an agent sees, so its output is grounded.
 - **SDD (Spec-Driven Development)** — writing the spec before writing the code, so the agent has something to be measured against.
 - **AI entrypoint** — the instruction entry your IDE treats as project guidance. For portable project repos this is `AGENTS.md`; for Cursor, the plugin's `rules/entrypoint.mdc` points back to `agent-kit/AGENTS.md`.
@@ -198,7 +195,7 @@ Contributions welcome — see [Contributing](#contributing).
 <details>
 <summary><strong>Is this production-ready?</strong></summary>
 
-The **guides and the cycle** are — apply them today regardless of which AI tool you use. The **harness and the installation flow** are not. Read first, copy `agent-kit/` second, tinker with skills third.
+The **guides and the cycle** are — apply them today in Cursor. The **harness and the installation flow** are not. Read first, copy `agent-kit/` second, tinker with skills third.
 
 </details>
 
@@ -210,9 +207,9 @@ No. You may skip phases, but you must state explicitly what you skipped and why 
 </details>
 
 <details>
-<summary><strong>Does it work if the team uses different IDEs?</strong></summary>
+<summary><strong>Does everyone need the same Cursor setup?</strong></summary>
 
-Yes. `AGENTS.md` is the shared source of truth (now an open standard adopted across Codex, Cursor, Claude Code, Gemini CLI and others). Each IDE may also read its own file (`CLAUDE.md`, `.cursor/rules/`), but `AGENTS.md` is the canonical entrypoint.
+Yes. `AGENTS.md` is the shared source of truth for project guidance. Cursor also reads `.cursor/rules/` and plugin rules, but `AGENTS.md` remains the canonical entrypoint. Install the team plugin so safety rules and shared skills load consistently.
 
 </details>
 

@@ -93,9 +93,9 @@ A static spec from sprint 1 will diverge from production by sprint 3. Either com
 
 Catching "this isn't what we wanted" at PR review is too late — the implementation cost is already sunk. The cheap moment to redirect is **after the spec, before the plan**.
 
-## SDD In Claude Code And Cursor
+## SDD In Cursor
 
-The workflow is tool-agnostic. The most direct way to adopt it in either tool is **GitHub Spec Kit**, which installs slash commands for the four phases and works across Claude Code, Cursor, Copilot, Codex, Gemini, and others. In this metarepo, skills under `skills-for-planning/` and `skills-for-docs/` operationalize the same phases natively — no separate toolkit required.
+In this metarepo, skills under `skills-for-planning/` and `skills-for-docs/` operationalize the four phases natively in Cursor — no separate toolkit required.
 
 ## Anti-patterns
 

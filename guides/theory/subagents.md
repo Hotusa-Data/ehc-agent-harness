@@ -1,6 +1,6 @@
 # Subagents
 
-A practical introduction to subagents for developers — what they are, when they beat a skill or a plain prompt, and how to set them up in Claude Code and Cursor.
+A practical introduction to subagents for developers — what they are, when they beat a skill or a plain prompt, and how to set them up in Cursor.
 
 ## TL;DR
 
@@ -70,7 +70,7 @@ Rules of thumb:
 - single atomic action → **tool**
 - one-time ask → **prompt**
 
-A subagent can use one or more skills — they compose. Claude Code ships built-in subagents (Explore, Plan, general-purpose, plus a couple of helper agents); the official docs keep the current list.
+A subagent can use one or more skills — they compose. Cursor ships built-in subagents (Explore, generalPurpose, shell, and others); the official docs keep the current list.
 
 ## Anatomy Of A Subagent
 
@@ -92,7 +92,7 @@ Do not edit files. Do not restate unchanged code.
 Frontmatter rules:
 - `name`: lowercase letters and hyphens. Name the **task or context boundary**, not a job title. Unique within its scope.
 - `description`: tells the parent agent **when to delegate**. Write in third person, name the trigger, add "use proactively" if you want automatic delegation.
-- Body: becomes the subagent's system prompt — it *replaces* the default Claude Code prompt rather than extending it. State the bounded task, output shape, and hard constraints (especially what the worker must not do).
+- Body: becomes the subagent's system prompt — it *replaces* the default Cursor agent prompt rather than extending it. State the bounded task, output shape, and hard constraints (especially what the worker must not do).
 
 ## When To Use A Subagent (And When Not To)
 
@@ -157,15 +157,7 @@ The phrase "use proactively" is a known signal that increases automatic delegati
 
 ### Context: fresh vs forked
 
-A subagent starts with a **fresh context window** by default — it does not see conversation history, files the parent already read, or skills already invoked. `CLAUDE.md` and project memory still load (except for the built-in `Explore` and `Plan`). When you delegate manually, include everything the worker needs in the task message: scope, files, constraints, and expected output shape. Forked subagents are the alternative: they inherit the parent context instead of starting clean.
-
-### Memory and isolation (advanced)
-
-Two opt-in features worth knowing about:
-- `memory: user|project|local` gives the subagent a persistent directory it reads and writes across sessions — useful for building institutional knowledge.
-- `isolation: worktree` runs the subagent in a temporary git worktree, giving it an isolated copy of the repo — useful for risky changes that shouldn't touch the parent branch.
-
-Both are detailed in the Anthropic docs linked at the bottom.
+A subagent starts with a **fresh context window** by default — it does not see conversation history, files the parent already read, or skills already invoked. `AGENTS.md`, `.cursor/rules/`, and project memory still load. When you delegate manually, include everything the worker needs in the task message: scope, files, constraints, and expected output shape. Forked subagents are the alternative: they inherit the parent context instead of starting clean.
 
 ## Common Patterns
 
@@ -177,39 +169,17 @@ Both are detailed in the Anthropic docs linked at the bottom.
 | **Restrict tools** | Read-only researcher, no-edit reviewer, Bash-only DB reader with a `PreToolUse` hook. |
 | **Preload skills** | Inject domain knowledge at startup with `skills: [api-conventions]` instead of waiting for discovery. |
 
-## Setting Up In Claude Code
-
-Subagents live in markdown files. Five scopes, project < personal in everyday use:
-
-| Scope | Path | Precedence |
-|---|---|---|
-| Managed (org) | `.claude/agents/` in managed settings | 1 (highest) |
-| CLI session | `--agents '{...}'` JSON flag | 2 |
-| Project | `.claude/agents/<name>.md` | 3 |
-| Personal | `~/.claude/agents/<name>.md` | 4 |
-| Plugin | `<plugin>/agents/<name>.md` | 5 |
-
-Easiest path to create one: run `/agents` in Claude Code and let the wizard generate the file. Higher scopes win when names collide. Files added on disk need a session restart to load; subagents created through `/agents` take effect immediately.
-
-**Invocation patterns**
-
-| Trigger | What happens |
-|---|---|
-| Natural language ("use the code-reviewer to check this") | Claude decides whether to delegate |
-| `@code-reviewer (agent)` | Forces that subagent for one turn |
-| `claude --agent code-reviewer` | Whole session adopts the subagent's prompt, tools, and model |
-| `"agent": "code-reviewer"` in `.claude/settings.json` | Default subagent for every session in the project |
-
 ## Setting Up In Cursor
 
-Cursor added subagents in version 2.4 (January 2026) and follows the same open-standard layout — your existing `.claude/agents/` files are picked up natively. Discovered paths:
+Cursor added subagents in version 2.4 (January 2026). Subagents live in markdown files with YAML frontmatter. Discovered paths:
 
 | Scope | Path |
 |---|---|
-| Project | `.cursor/agents/` (also reads `.claude/agents/` and `.codex/agents/`) |
-| Personal | `~/.cursor/agents/` (also `~/.claude/agents/`, `~/.codex/agents/`) |
+| Project | `.cursor/agents/` |
+| Personal | `~/.cursor/agents/` |
+| Plugin | `<plugin>/agents/<name>.md` |
 
-Frontmatter is a subset of Claude Code's — `name`, `description`, `model` (`inherit` or an ID like `composer-2`), `readonly: true` for no-write roles, and `is_background: true` to run without blocking the parent.
+Frontmatter fields include `name`, `description`, `model` (`inherit` or an ID like `composer-2`), `readonly: true` for no-write roles, and `is_background: true` to run without blocking the parent.
 
 ```markdown
 ---
@@ -261,7 +231,7 @@ This metarepo does **not** ship a catalog of job-title subagents. Domain experti
 - `docs/` — project-specific knowledge in the consumer repo
 - `skills/` — repeatable workflows
 
-Create subagents in your IDE (`.cursor/agents/`, `.claude/agents/`) when a **task** needs an isolated context or parallel execution — for example, scanning three modules at once, running a read-only security pass, or exploring a noisy log file without polluting the parent chat.
+Create subagents in `.cursor/agents/` when a **task** needs an isolated context or parallel execution — for example, scanning three modules at once, running a read-only security pass, or exploring a noisy log file without polluting the parent chat.
 
 The optional `subagents/` folder here is for team-specific templates, not predefined personas. See [subagents/README.md](../../subagents/README.md).
 

@@ -14,10 +14,10 @@ This metarepo does not ship predefined role profiles (data engineer, code review
 
 ## Where to put definitions
 
-| Scope | Cursor | Claude Code |
-|---|---|---|
-| Project | `.cursor/agents/` | `.claude/agents/` |
-| Personal | `~/.cursor/agents/` | `~/.claude/agents/` |
+| Scope | Path |
+|---|---|
+| Project | `.cursor/agents/` |
+| Personal | `~/.cursor/agents/` |
 
 Definitions here are optional reference material for teams that want shared, versioned subagent templates. Most teams define subagents directly in the IDE paths above.
 

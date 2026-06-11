@@ -96,7 +96,7 @@ Use the smallest mechanism that solves the problem.
 | Cursor Plugins | `plugins/*/` | Packaged rules, skills, hooks, and scripts shared across repos. |
 | User Rules | Cursor user settings | Personal preferences that should follow you across repos. |
 | Team Rules | Team configuration | Organization-wide rules and safety defaults. |
-| `AGENTS.md` | Repo root or nested directories | Plain-markdown agent guidance, especially for cross-tool compatibility. |
+| `AGENTS.md` | Repo root or nested directories | Plain-markdown agent guidance for the repo. |
 | Agent Skills | `.cursor/skills/`, `.agents/skills/`, plugin `skills/`, or user-level equivalents | Reusable workflows with instructions and supporting files. |
 | Subagents | `.cursor/agents/` or user-level equivalents | Specialist assistants with their own context windows. |
 | MCP | `.cursor/mcp.json` or `~/.cursor/mcp.json` | External tools and data sources through the Model Context Protocol. |
