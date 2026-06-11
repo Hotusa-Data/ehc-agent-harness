@@ -145,4 +145,3 @@ For each new or modified function:
 - [`grill-me`](../../utils-skills/grill-me/SKILL.md) — resolve spec ambiguity before designing.
 - [`notebook-mockup`](../notebook-mockup/SKILL.md) — validate logic with synthetic data before committing to the design.
 - [`tasks-write`](../tasks-write/SKILL.md) — successor: approved design → ordered task slices.
-- [`plan-gate`](../../utils-skills/plan-gate/SKILL.md) — gate that runs after `tasks-write`; failing means looping back here.

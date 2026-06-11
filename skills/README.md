@@ -13,7 +13,7 @@ For the conceptual guide, see [guides/theory/skills.md](../guides/theory/skills.
 Skills slot into the five-phase lifecycle. The arrows show the primary sequence; cross-cutting skills can be invoked at any point.
 
 ```
-Context ──► Spec ──[Spec Review]──► Plan ──[Plan Review]──► [Plan Gate] ──► Build ──[PR Review]──► Document
+Context ──► Spec ──[Spec Review]──► Plan ──[Plan Review]──► Build ──[PR Review]──► Document
 ```
 
 | Phase | Skill | What it produces |
@@ -24,12 +24,10 @@ Context ──► Spec ──[Spec Review]──► Plan ──[Plan Review]─�
 | Spec | [`spec-write`](./skills-for-planning/spec-write/SKILL.md) | `docs/features/<feature>/requirements.md` |
 | Plan | [`design-write`](./skills-for-planning/design-write/SKILL.md) | `docs/features/<feature>/design.md` |
 | Plan | [`tasks-write`](./skills-for-planning/tasks-write/SKILL.md) | `docs/features/<feature>/tasks.md`; optional tracker issues |
-| Plan gate | [`plan-gate`](./utils-skills/plan-gate/SKILL.md) | Gate pass/fail before Build starts |
 | Build | [`notebook-mockup`](./skills-for-planning/notebook-mockup/SKILL.md) | Validated logic notebook before production code |
 | Document | [`context-update`](./utils-skills/context-update/SKILL.md) | All durable docs reconciled at cycle close |
 | Document | [`business-reports`](./skills-for-docs/business-reports/SKILL.md) | Business-facing report at cycle close |
 | Document | [`pr-summary`](./skills-for-docs/pr-summary/SKILL.md) | Structured PR description for the reviewer |
-| PR gate | [`pr-gate`](./utils-skills/pr-gate/SKILL.md) | Gate pass/fail before merge |
 | Cross-cutting | [`handoff`](./utils-skills/handoff/SKILL.md) | Session handoff notes for the next agent |
 | Cross-cutting | [`mermaid-diagrams`](./utils-skills/mermaid-diagrams/SKILL.md) | Architecture or flow diagrams |
 
@@ -65,8 +63,6 @@ See [guides/onboarding/lifecycle.md](../guides/onboarding/lifecycle.md) for the 
 | `grill-me` | cross-cutting | [utils-skills/grill-me/SKILL.md](./utils-skills/grill-me/SKILL.md) |
 | `handoff` | cross-cutting | [utils-skills/handoff/SKILL.md](./utils-skills/handoff/SKILL.md) |
 | `mermaid-diagrams` | cross-cutting | [utils-skills/mermaid-diagrams/SKILL.md](./utils-skills/mermaid-diagrams/SKILL.md) |
-| `plan-gate` | cross-cutting | [utils-skills/plan-gate/SKILL.md](./utils-skills/plan-gate/SKILL.md) |
-| `pr-gate` | cross-cutting | [utils-skills/pr-gate/SKILL.md](./utils-skills/pr-gate/SKILL.md) |
 
 ## SKILL.md structure
 
@@ -97,7 +93,7 @@ metadata:
 ## Related skills                  (required — at least 2 links)
 ```
 
-Narrow skills (gates, handoff) may ship with only purpose + workflow + Related.
+Narrow skills (handoff) may ship with only purpose + workflow + Related.
 
 When adding or editing a skill, run `python skills/lint.py` from the repo root to validate the `SKILL.md` frontmatter, required fields, folder/`name:` match, and internal links before committing. It does not scaffold a new skill — it only checks what already exists.
 

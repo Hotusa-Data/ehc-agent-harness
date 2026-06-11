@@ -155,13 +155,12 @@ Do NOT close or modify any parent issue.
 | Publishing issues before writing `tasks.md` | The durable artifact lives in the repo, not the tracker. Always write the file first. |
 | Publishing issues in the wrong dependency order | "Blocked by" references break because the blocker has no real ID yet. |
 | Skipping user confirmation on the breakdown | Granularity is the most opinionated part of this skill. Always confirm before writing. |
-| Running before Plan Review and plan-gate pass | Tasks published from an unapproved design carry unresolved decisions into Build. |
+| Running before Plan Review passes | Tasks published from an unapproved design carry unresolved decisions into Build. |
 
 ---
 
 ## Related skills
 
 - [`design-write`](../design-write/SKILL.md) — predecessor: `design.md` is the primary input.
-- [`plan-gate`](../../utils-skills/plan-gate/SKILL.md) — must pass after this skill; failing means looping back to design or spec.
 - [`build-slice`](../build-slice/SKILL.md) — consumer: each task in `tasks.md` becomes one TDD slice.
 - [`spec-write`](../spec-write/SKILL.md) — upstream Spec skill that produces `requirements.md`.

@@ -47,7 +47,7 @@ flowchart LR
 
 ## The development cycle
 
-Five phases, three human review checkpoints, two AI-run gates. The stable core of the framework. Full reference in [`guides/onboarding/lifecycle.md`](./guides/onboarding/lifecycle.md).
+Five phases, three human review checkpoints. The stable core of the framework. Full reference in [`guides/onboarding/lifecycle.md`](./guides/onboarding/lifecycle.md).
 
 ```mermaid
 ---
@@ -55,15 +55,15 @@ config:
   theme: neutral
 ---
 flowchart LR
-    accTitle: Development Cycle with Human Reviews and AI Gates
-    accDescr: Five phases from Context to Document, with Spec Review, Plan Review and PR Review as human checkpoints, and Plan Gate and PR Gate as AI-run checklists.
+    accTitle: Development Cycle with Human Reviews
+    accDescr: Five phases from Context to Document, with Spec Review, Plan Review and PR Review as human checkpoints.
 
     ctx["Context"] --> spec["Spec"]
     spec --> rev1(["Spec Review"])
     rev1 --> plan["Plan"]
-    plan -->|Plan Gate| rev2(["Plan Review"])
+    plan --> rev2(["Plan Review"])
     rev2 --> build["Build"]
-    build -->|PR Gate| rev3(["PR Review"])
+    build --> rev3(["PR Review"])
     rev3 --> doc["Document"]
     doc --> merge(("Merge"))
 
@@ -91,15 +91,6 @@ Three points where a person — not the AI — has to approve before work contin
 | **Spec Review**   | `requirements.md` — scope, acceptance criteria, business rules. | Domain expert or lead        |
 | **Plan Review**   | `design.md` + `tasks.md` — approach, slices, evidence strategy. | Technical lead               |
 | **PR Review**     | PR diff, tests and updated docs.                                | Reviewer assigned to the PR  |
-
-### AI-run gates
-
-Two short checklists the agent runs as it exits a phase. They catch the mechanical mistakes a human reviewer should not have to spend time on.
-
-- [`plan-gate`](./skills/utils-skills/plan-gate/SKILL.md) — after Plan, before Plan Review. Checks blocking ambiguity is resolved, scope matches the spec, tests are planned, doc impact is known.
-- [`pr-gate`](./skills/utils-skills/pr-gate/SKILL.md) — after Build, before PR Review. Checks docs are updated, skipped steps are justified, no session artefacts are in the commit, a reviewer is assigned.
-
-Even without the skills installed, the **checklists themselves** are valuable — apply them by hand.
 
 **Non-negotiable rule:** lightweight work may skip phases, but the skipped ones must be named explicitly — usually in the PR description or `CHANGELOG.md`.
 
@@ -173,7 +164,6 @@ this-metarepo/
 - **SDD (Spec-Driven Development)** — writing the spec before writing the code, so the agent has something to be measured against.
 - **AI entrypoint** — the instruction entry your IDE treats as project guidance. For portable project repos this is `AGENTS.md`; for Cursor, the plugin's `rules/entrypoint.mdc` points back to `agent-kit/AGENTS.md`.
 - **agent-kit** — the bundle of rules, doc skeletons and the `AGENTS.md` template (this repo's `agent-kit/`) that gets copied into a project repo.
-- **Plan Gate / PR Gate** — AI-run checklists that validate an artefact before a human reviews it.
 - **Vertical slice** — a minimal end-to-end chunk of a feature (data → logic → output) rather than one full layer.
 
 </details>
@@ -229,7 +219,7 @@ Yes. `AGENTS.md` is the shared source of truth (now an open standard adopted acr
 <details>
 <summary><strong>Does this replace human code review?</strong></summary>
 
-No. The cycle has three explicit human review checkpoints (Spec, Plan, PR) precisely because architecture, risk and trade-off calls stay human. The AI gates only catch mechanical issues before a human spends time on the artefact.
+No. The cycle has three explicit human review checkpoints (Spec, Plan, PR) precisely because architecture, risk and trade-off calls stay human.
 
 </details>
 

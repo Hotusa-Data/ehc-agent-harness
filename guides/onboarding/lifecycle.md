@@ -29,9 +29,9 @@ flowchart LR
 
 ```
 
-Five phases flow left to right. Three human review stops guard progress between phases — a person approves the spec, the plan, and the PR before work continues (see [Human Review](#human-review)). Each phase also has an AI-run exit checklist ([Plan Gate](#plan-gate), [PR Gate](#pr-gate)) described in the relevant section.
+Five phases flow left to right. Three human review stops guard progress between phases — a person approves the spec, the plan, and the PR before work continues (see [Human Review](#human-review)).
 
-When an arrow loops back, stop and resolve before pushing forward. Gates exist to catch these disconnects.
+When an arrow loops back, stop and resolve before pushing forward. Review stops exist to catch these disconnects.
 
 > [!TIP]
 > For complex work, use **one phase per session**. A single session spanning Context through Build is often too long for reliable reasoning. Clear between phases.
@@ -164,24 +164,6 @@ Define:
 
 ---
 
-## Plan Gate
-
-Before you start coding, invoke the [`plan-gate`](../../skills/utils-skills/plan-gate/) skill:
-
-```text
-/plan-gate
-```
-
-The skill checks: blocking ambiguity resolved, scope matches spec, technical approach justified, tests planned, documentation impact known.
-
-If any check fails, loop back to Spec or Plan.
-
-**Exit criteria:**
-
-- [ ] Plan Gate passed (run [`plan-gate`](../../skills/utils-skills/plan-gate/) skill)
-
----
-
 ## Build
 
 **What you do:** Implement in small, reviewable slices. One cohesive behavior per slice.
@@ -247,25 +229,6 @@ Typical updates:
 
 ---
 
-## PR Gate
-
-Before merge, invoke the [`pr-gate`](../../skills/utils-skills/pr-gate/) skill:
-
-```text
-/pr-gate
-```
-
-The skill checks: docs updated, code and context consistent, skipped steps justified, no session artifacts in the commit, reviewer assigned when required.
-
-If any check fails, loop back to Build or Document.
-
-**Exit criteria:**
-
-- [ ] PR Gate passed (run [`pr-gate`](../../skills/utils-skills/pr-gate/) skill)
-- [ ] PR is ready for merge
-
----
-
 ## Human Review
 
 Three human review points guard the lifecycle. They are not AI phases — a person reads the artifact and approves it before the next phase begins.
@@ -276,7 +239,7 @@ Three human review points guard the lifecycle. They are not AI phases — a pers
 | **Post-Plan** | `design.md` + `tasks.md` — approach, slices, evidence strategy | Technical lead |
 | **Post-Build** | PR diff + [`pr-summary`](../../skills/skills-for-docs/pr-summary/) — implementation, tests, docs | Reviewer assigned to the PR |
 
-No gate passes without a human sign-off at the required level.
+No phase advances without human sign-off at the required level.
 
 ---
 
@@ -304,7 +267,7 @@ There's no wrong choice. The wrong move is using a mode that doesn't fit the tas
 - Leaving durable decisions only in chat
 - Mixing unrelated changes into one slice
 - Skipping context because "the AI already knows this project"
-- Pushing through a gate instead of looping back
+- Pushing through a review stop instead of looping back
 
 ### Model usage
 

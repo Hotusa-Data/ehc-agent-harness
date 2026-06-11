@@ -135,6 +135,5 @@ For empty sections: write `Not specified` (missing inputs) or `None`. Never dele
 - [`context-load`](../../utils-skills/context-load/SKILL.md) — load feature spec before running this skill
 - [`handoff`](../../utils-skills/handoff/SKILL.md) — produces the local-context notes reconciled here
 - [`context-update`](../../utils-skills/context-update/SKILL.md) — runs right before to align durable docs with the diff
-- [`pr-gate`](../../utils-skills/pr-gate/SKILL.md) — signs off on the PR using this summary
 - [`implementation-planning`](../../skills-for-planning/implementation-planning/SKILL.md) — produces the plan reconciled here
 - [`business-reports`](../business-reports/SKILL.md) — different audience; do not mix

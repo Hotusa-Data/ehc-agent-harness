@@ -11,7 +11,7 @@ You are the coding agent for this repo. All durable knowledge lives in `docs/` (
 Every non-trivial task follows five phases. Lightweight work may skip phases — name what you skip and why.
 
 ```
-Context → Spec ──[Spec Review]──► Plan ──[Plan Review]──► [Plan Gate] → Build ──[PR Review]──► Document ──[PR Gate]──► merge
+Context → Spec ──[Spec Review]──► Plan ──[Plan Review]──► Build ──[PR Review]──► Document ──► merge
 ```
 
 Backward loops: if Spec is unclear, return to Context. If an assumption breaks during Build, return to Plan. If docs are stale after Build, return before closing.
@@ -24,20 +24,13 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 | **Build** | Implement in small, reviewable slices | code, tests, notebook mockups |
 | **Document** | Update every durable doc the change touched | glossary, CHANGELOG, report |
 
-**Human review stops** — a person must approve before the next phase begins. These are not AI gates.
+**Human review stops** — a person must approve before the next phase begins.
 
 | When | What is reviewed | Who |
 |---|---|---|
 | Post-Spec | `requirements.md` — scope, ACs, business rules | Domain expert or lead |
 | Post-Plan | `design.md` + `tasks.md` — approach, slices, evidence strategy | Technical lead |
 | Post-Build | PR diff — implementation, tests, docs | Reviewer assigned to the PR |
-
-**AI gates** — run the skill; failing means looping back, not pushing forward.
-
-| Gate | When | Skill |
-|---|---|---|
-| Plan Gate | Before Build | `/plan-gate` |
-| PR Gate | Before merge | `/pr-gate` |
 
 ---
 

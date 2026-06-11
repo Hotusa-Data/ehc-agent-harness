@@ -119,9 +119,9 @@ Before moving from Spec to Plan:
 
 ## SDD In This Framework
 
-SDD is the conceptual backbone of the development lifecycle in this metarepo. The cycle runs: **Context → Spec → Plan → Build → Document**, with two validation gates (Plan Gate, PR Gate) and three human review points guarding progress between phases. Skills operationalize each phase — spec grilling, plan generation, slice implementation, docs closure — and the spec stays the source of intent throughout.
+SDD is the conceptual backbone of the development lifecycle in this metarepo. The cycle runs: **Context → Spec → Plan → Build → Document**, with three human review points guarding progress between phases. Skills operationalize each phase — spec grilling, plan generation, slice implementation, docs closure — and the spec stays the source of intent throughout.
 
-See [../onboarding/lifecycle.md](../onboarding/lifecycle.md) for the full cycle, gate criteria, and skill map.
+See [../onboarding/lifecycle.md](../onboarding/lifecycle.md) for the full cycle, exit criteria, and skill map.
 
 ## Where To Look Next
 

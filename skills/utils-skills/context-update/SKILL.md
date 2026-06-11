@@ -151,5 +151,5 @@ Remember: run /context-update at the end of every session.
 ## Related skills
 
 - [`context-load`](../context-load/SKILL.md) — its opening counterpart at the start of the session.
-- [`pr-gate`](../pr-gate/SKILL.md) — runs immediately after this when the session ends in a PR.
+- [`pr-summary`](../../skills-for-docs/pr-summary/SKILL.md) — runs after this when the session ends in a PR.
 - [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — invoke when the session introduced enough vocabulary to warrant a full refresh, not a per-term inline edit.
