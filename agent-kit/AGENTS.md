@@ -10,7 +10,9 @@ You are the coding agent for this repo. Domain knowledge lives in `docs/` (consu
 
 ## Role and scope
 
-This project follows a **Python data stack** (see [Assumed stack](#assumed-stack)). Work is organized by features under `docs/features/<feature>/`. Non-trivial changes follow the [working cycle](#working-cycle) below.
+This project follows a **Python data stack**: Python 3.x with `uv`/`pyproject.toml`, SQLAlchemy 2.0 + Alembic, Pydantic v2 + Pandera, FastAPI, Typer, `notebooks/` for exploration, `tests/` mirroring the package. Record deviations under `## Project Overrides` in the relevant rule file and in `docs/docs-guide.md` §3.
+
+Work is organized by features under `docs/features/<feature>/`. Non-trivial changes follow the [working cycle](#working-cycle) below.
 
 In monorepos, nested `AGENTS.md` files may exist in subpackages — the file closest to the edited path takes precedence over this one.
 
@@ -18,7 +20,7 @@ In monorepos, nested `AGENTS.md` files may exist in subpackages — the file clo
 
 ## Working cycle
 
-Every non-trivial task follows five phases. Lightweight work may skip phases — name what you skip and why.
+Every non-trivial task follows five phases. Lightweight work may skip phases — name what you skip and why (usually in the PR or CHANGELOG).
 
 ```
 Context → Spec ──[Spec Review]──► Plan ──[Plan Review]──► Build ──[PR Review]──► Document ──► merge
@@ -51,7 +53,7 @@ Always load:
 1. `agent-kit/agent-rules/core.md` — universal engineering and collaboration rules
 2. `docs/docs-guide.md` — per-project required docs and local overrides (when present); authoritative over kit defaults
 
-For task-specific loads (feature work, persistence, tests, security, etc.), see [`agent-kit/agent-rules/documentation.md` §DOC-1](agent-kit/agent-rules/documentation.md). Do not load files whose content will not influence the current decision.
+For other rules, see [`agent-kit/agent-rules/README.md`](agent-kit/agent-rules/README.md) and [`agent-kit/agent-rules/documentation.md` §DOC-1](agent-kit/agent-rules/documentation.md). Do not load files whose content will not influence the current decision.
 
 ---
 
@@ -82,8 +84,6 @@ Before requesting review or marking work complete:
 - [ ] For non-trivial work: `specs.md`, `plan.md`, and `CHANGELOG.md` do not contradict the code
 - [ ] No secrets, credentials, or `.local-context/` content in the diff
 - [ ] Distinguish what you ran from what you only wrote (see `core.md` §COOP-3)
-
-Lightweight work may skip lifecycle phases — name what you skipped and why (usually in the PR or CHANGELOG).
 
 ---
 
@@ -130,58 +130,10 @@ Human review gates (Spec, Plan, PR) are mandatory for non-trivial work — see [
 
 ## Where durable knowledge lives
 
-Project-specific knowledge lives in `docs/` in the **consumer repo** (created on demand, not shipped by this kit):
+Project-specific knowledge lives in `docs/` (created on demand via `adopt.py` or skeletons):
 
-```text
-docs/
-├── architecture.md
-├── database.md
-├── glossary.md
-├── docs-guide.md
-└── features/<feature>/
-    ├── specs.md
-    ├── plan.md
-    ├── CHANGELOG.md
-    └── report.md
-```
+`docs/architecture.md`, `docs/database.md`, `docs/glossary.md`, `docs/docs-guide.md`, and `docs/features/<feature>/{specs,plan,CHANGELOG,report}.md`.
 
 If a target doc does not exist, instantiate it from the matching skeleton — see [`agent-kit/agent-rules/documentation.md` §DOC-4](agent-kit/agent-rules/documentation.md).
 
-### Session scratch (never committed)
-
 Handoffs and throwaway notes live in `.local-context/` at the repo root — gitignored, never committed. Promote anything durable into `docs/` before closing the cycle.
-
----
-
-## Rules index
-
-All rules live in `agent-kit/agent-rules/`. Each file declares its own `Load when:` in front-matter — load just-in-time.
-
-- `core.md` — engineering and collaboration principles (always)
-- `documentation.md` — load order, validation gates, skeleton mapping
-- `architecture.md` — module, layer, system-boundary decisions
-- `python.md` — Python code
-- `persistence.md` — ORM, queries, migrations, sessions
-- `testing.md` — tests
-- `validation.md` — input checks, contracts, failure handling
-- `security.md` — auth, secrets, trust boundaries
-- `observability.md` — logs, metrics, tracing
-- `repo-guide.md` — file/folder placement
-
-Ambiguity and stop-to-clarify rules: see `core.md` §COOP-1 and §COOP-2.
-
----
-
-## Assumed stack
-
-Python data-project stack: Python 3.x with `uv`/`pyproject.toml`, SQLAlchemy 2.0 + Alembic, Pydantic v2 + Pandera, FastAPI, Typer, `notebooks/` for exploration, `tests/` mirroring the package.
-
-If the project deviates, record the deviation under `## Project Overrides` in the relevant rule file and in `docs/docs-guide.md` §3 before applying it.
-
----
-
-## References
-
-- Load order, validation gates, skeleton mapping: [`agent-kit/agent-rules/documentation.md`](agent-kit/agent-rules/documentation.md)
-- File and folder placement: [`agent-kit/agent-rules/repo-guide.md`](agent-kit/agent-rules/repo-guide.md)
-- Kit bootstrap: `python agent-kit/adopt.py` (see `agent-kit/adopt.py --help`)

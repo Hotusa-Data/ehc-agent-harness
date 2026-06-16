@@ -25,7 +25,8 @@ Also checks `agent-kit/skeletons/` for case-only filename collisions (e.g.
 `_changelog.md` vs `_CHANGELOG.md`) that break on Linux CI.
 
 Validates `agent-kit/AGENTS.md` carries the required entrypoint sections
-(Commands, Boundaries, References, etc.) and delegates doc rules to
+(Commands, Boundaries, Pull requests, etc.), forbids a duplicated rules index,
+and enforces a maximum line count. Delegates doc rules to
 `agent-kit/agent-rules/documentation.md`.
 
 Exit 0 if no errors, 1 otherwise. Warnings never fail the run.
@@ -189,6 +190,7 @@ def check_plugin_sync() -> list[str]:
 
 
 CHANGELOG_SKELETON = "_CHANGELOG.md"
+AGENTS_MD_MAX_LINES = 140
 
 REQUIRED_AGENTS_SECTIONS = (
     "## Role and scope",
@@ -199,14 +201,14 @@ REQUIRED_AGENTS_SECTIONS = (
     "## Pull requests",
     "## Boundaries",
     "## Where durable knowledge lives",
-    "## Rules index",
-    "## Assumed stack",
-    "## References",
 )
 
 FORBIDDEN_AGENTS_SECTIONS = (
     "### Adopting the kit",
     "## Adopting the kit",
+    "## Rules index",
+    "## Assumed stack",
+    "## References",
 )
 
 
@@ -219,6 +221,12 @@ def check_agents_md() -> list[str]:
         return errors
 
     text = agents.read_text(encoding="utf-8")
+    line_count = len(text.splitlines())
+    if line_count > AGENTS_MD_MAX_LINES:
+        errors.append(
+            f"agent-kit/AGENTS.md: {line_count} lines exceeds max {AGENTS_MD_MAX_LINES} "
+            "(keep entrypoint a map; move detail to agent-kit/agent-rules/)",
+        )
     for section in REQUIRED_AGENTS_SECTIONS:
         if section not in text:
             errors.append(
@@ -233,6 +241,10 @@ def check_agents_md() -> list[str]:
     if "agent-kit/agent-rules/documentation.md" not in text:
         errors.append(
             "agent-kit/AGENTS.md: must link to agent-kit/agent-rules/documentation.md",
+        )
+    if "agent-kit/agent-rules/README.md" not in text:
+        errors.append(
+            "agent-kit/AGENTS.md: must link to agent-kit/agent-rules/README.md",
         )
     return errors
 
