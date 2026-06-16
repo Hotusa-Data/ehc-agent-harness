@@ -42,6 +42,7 @@ Ambiguity and stop-to-clarify: **COOP-1**, **COOP-2** (`CORE.md`). Project overr
 | CLI human output vs logging | OBS-11 | OBSERVABILITY.md |
 | Reproducible dependencies (uv.lock) | PY-7 | PYTHON.md |
 | Doc load order and gates | DOC-1, DOC-2 | DOCUMENTATION.md |
+| Structural decisions (ADRs) | DOC-10 | DOCUMENTATION.md + `docs/adr/` |
 
 ## Rule ID index
 

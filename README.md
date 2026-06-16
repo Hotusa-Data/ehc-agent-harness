@@ -139,6 +139,24 @@ repo-root/
 .local-context/                  ← created on demand; gitignored; handoffs and session notes
 ```
 
+<details>
+<summary><strong>Migrating from <code>docs/architecture.md</code></strong></summary>
+
+If the project still has the old monolithic architecture doc after updating `agent-kit/`:
+
+1. Run `python agent-kit/adopt.py --dry-run` — it scaffolds `docs/adr/` without touching existing files.
+2. Copy content into ADRs:
+   - §1 overview → edit `docs/adr/0002-system-context.md`
+   - §2 domains → `docs/glossary.md` and `docs/database.md`
+   - §3 layout deltas → new ADRs from `_adr-entry.md` (from `0003` onward)
+   - §4 invariants / §5 integrations → one ADR each, or `docs/docs-guide.md` §3 for operational overrides
+3. Add a row per new ADR in `docs/adr/README.md`.
+4. Remove `docs/architecture.md` and update `docs/docs-guide.md` §1 to list `docs/adr/` instead.
+
+Use `--force` only if you accept overwriting bootstrap targets.
+
+</details>
+
 > [!NOTE]
 > Only `agent-kit/` is copied into the project repo (the root `AGENTS.md` is generated from its template in step 2). `skills/` and `subagents/` stay in this metarepo and are referenced from the IDE.
 

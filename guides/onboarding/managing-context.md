@@ -126,6 +126,16 @@ docs/
         └── CHANGELOG.md
 ```
 
+### Migrating from `docs/architecture.md`
+
+When updating an older project that still uses the monolithic architecture file:
+
+1. Scaffold `docs/adr/` with `python agent-kit/adopt.py` (existing files are kept unless you pass `--force`).
+2. Move §1 overview into `0002-system-context.md`; §2 into glossary/database; §3–§5 into numbered ADRs from `agent-kit/skeletons/_adr-entry.md`.
+3. Update the index in `docs/adr/README.md` and remove the old `architecture.md` row from `docs/docs-guide.md` §1.
+
+See [DOCUMENTATION.md](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-10 for when to write an ADR vs update feature docs.
+
 ### Optional Hooks
 
 Automate reconciliation checks:
