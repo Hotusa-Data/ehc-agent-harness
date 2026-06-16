@@ -117,6 +117,7 @@ See [../theory/spec-driven-development.md](../theory/spec-driven-development.md)
 
 **Skills:**
 
+- [`make-glossary`](../../skills/skills-for-docs/make-glossary/) — creates or refreshes `docs/glossary.md` before vocabulary-heavy specs
 - [`grill-me`](../../skills/utils-skills/grill-me/) — adversarial interview that challenges the spec against existing domain docs and updates the glossary inline
 - [`spec-write`](../../skills/skills-for-planning/spec-write/) — synthesizes the conversation into `specs.md`; grounds vocabulary in `docs/glossary.md` and examples in real domain entities from the codebase; flags glossary gaps as open questions
 
@@ -212,10 +213,11 @@ Typical updates:
 
 **Skills:**
 
-- [`context-update`](../../skills/utils-skills/context-update/) — steps through each artifact and applies changes with your confirmation
-- [`make-glossary`](../../skills/skills-for-docs/make-glossary/) — creates or refreshes the domain glossary
+- [`context-update`](../../skills/utils-skills/context-update/) — steps through each artifact (including glossary deltas) and applies changes with your confirmation
 - [`business-reports`](../../skills/skills-for-docs/business-reports/) — generates business-facing reports at cycle close
 - [`pr-summary`](../../skills/skills-for-docs/pr-summary/) — generates a structured PR description for the human reviewer
+
+> For a wholesale glossary rebuild, run [`make-glossary`](../../skills/skills-for-docs/make-glossary/) in the **Spec** phase — not at cycle close.
 
 **Model suggestion:** Fast/cheap model (Haiku 4.5, GPT-5.3 Instant, Gemini 3 Flash). Documentation is mechanical — no need for high reasoning effort.
 
