@@ -47,4 +47,5 @@ Use this section for repository-specific deviations: stricter gates, extra requi
 ## Review Checklist
 
 - [ ] Every required doc listed in §1 exists, or has a tracked task to create it.
+- [ ] Root `.gitignore` excludes `.local-context/` (session handoffs and scratch notes).
 - [ ] §3 overrides do not silently contradict `AGENTS.md` or `agent-rules/documentation.md`.

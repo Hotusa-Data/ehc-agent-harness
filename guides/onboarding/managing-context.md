@@ -55,6 +55,8 @@ Single source of truth. Use this table before creating anything new:
 
 ## Setting It Up
 
+Mandatory when adopting the agent-kit in a project repo (Track 1 in [README.md](../../README.md#track-1--project-repo-manual)). Optional refinements (hooks, 350-line rule) come after these three.
+
 Minimal setup so context flows correctly in every session.
 
 ### `AGENTS.md` — Always Loaded Rules
@@ -68,7 +70,9 @@ Place at repo root. The AI loads it automatically:
 - Never commit .local-context/
 ```
 
-### `.gitignore` — Keep Session State Out
+### `.gitignore` — Keep Session State Out (required)
+
+Add this entry before the first agent session. The [`handoff`](../../skills/utils-skills/handoff/SKILL.md) skill writes here; [`context-load`](../../skills/utils-skills/context-load/SKILL.md) reads it on the next session.
 
 ```gitignore
 .local-context/

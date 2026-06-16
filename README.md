@@ -106,6 +106,7 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
 2. Create a root `AGENTS.md` from the [`agent-kit/AGENTS.md`](./agent-kit/AGENTS.md) template and adapt it to the project.
 3. Instantiate the base docs from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`.
 4. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md`. Add `report.md` only when the cycle closes.
+5. Add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
 
 Resulting repo shape:
 
@@ -113,6 +114,7 @@ Resulting repo shape:
 repo-root/
 ├── AGENTS.md                    ← from agent-kit/AGENTS.md template
 ├── agent-kit/                   ← copied from this metarepo
+├── .gitignore                   ← must exclude .local-context/
 └── docs/
     ├── architecture.md
     ├── database.md
@@ -122,6 +124,8 @@ repo-root/
         ├── specs.md
         ├── plan.md
         └── CHANGELOG.md
+
+.local-context/                  ← created on demand; gitignored; handoffs and session notes
 ```
 
 > [!NOTE]
