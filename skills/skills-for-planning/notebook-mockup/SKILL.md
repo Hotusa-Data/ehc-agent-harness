@@ -23,7 +23,7 @@ Produce a structured, reproducible notebook that proves feature logic is correct
 **Contract with the rest of the lifecycle:**
 - Input: approved spec + approved plan.
 - Output: notebook committed to `notebooks/`, pending human reviewer approval.
-- After approval: `build-slice` implements production code that matches what the notebook proved.
+- After approval: [`build-slice`](../build-slice/SKILL.md) implements production code that matches what the notebook proved.
 
 ---
 
@@ -33,8 +33,9 @@ Use when:
 - The plan's first task is a notebook mockup (new feature flag is set).
 - The user asks to validate logic or prototype behavior before writing production code.
 
-Do NOT use when:
-- The change modifies existing behavior with no new logic (go directly to `build-slice`).
+## When NOT to use
+
+- The change modifies existing behavior with no new logic (go directly to [`build-slice`](../build-slice/SKILL.md)).
 - The output is a business-stakeholder report (use `business-reports` instead).
 - The spec or plan have not been approved yet.
 
@@ -134,7 +135,7 @@ If an AC cannot be demonstrated in the notebook (e.g., it requires persistence o
 
 ```markdown
 > **AC4 — Not demonstrated here.** This AC depends on database write behavior
-> and will be covered by the integration test in `build-slice`.
+> and will be covered by the integration test in [`build-slice`](../build-slice/SKILL.md).
 ```
 
 ---
@@ -157,9 +158,9 @@ If an AC cannot be demonstrated in the notebook (e.g., it requires persistence o
 
 - **File:** `notebooks/<feature-slug>-mockup.ipynb`
 - **Committed to repo** as part of the feature branch, linked from the plan.
-- **Submitted to reviewer** for approval before `build-slice` starts.
+- **Submitted to reviewer** for approval before [`build-slice`](../build-slice/SKILL.md) starts.
 
-After approval, the notebook becomes the reference document for `build-slice`. Production functions must preserve the names and contracts established in the notebook.
+After approval, the notebook becomes the reference document for [`build-slice`](../build-slice/SKILL.md). Production functions must preserve the names and contracts established in the notebook.
 
 ---
 
@@ -174,6 +175,6 @@ After approval, the notebook becomes the reference document for `build-slice`. P
 
 ## Related skills
 
-- [`implementation-planning`](../implementation-planning/SKILL.md) — predecessor: the plan declares whether a notebook mockup is needed.
+- [`plan-write`](../plan-write/SKILL.md) — predecessor: the plan declares whether a notebook mockup is needed.
 - [`build-slice`](../build-slice/SKILL.md) — direct consumer: the notebook's contracts (Section 5) become the production function signatures.
 - [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — domain vocabulary used for function and variable names comes from here.

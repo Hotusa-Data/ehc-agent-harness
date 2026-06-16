@@ -20,6 +20,20 @@ Close the documentation loop after every productive session. Never auto-write - 
 
 ---
 
+## When to use
+
+- At the end of any session where specs, plans, code, or decisions were produced or changed.
+- Before opening a PR — pair with [`pr-summary`](../../skills-for-docs/pr-summary/SKILL.md) after reconciliation.
+- When the session introduced new vocabulary that should land in `docs/glossary.md`.
+
+## When NOT to use
+
+- At session start — use [`context-load`](../context-load/SKILL.md) instead.
+- When nothing durable changed (exploratory chat with no decisions or artifacts).
+- To auto-write without developer confirmation — every file update requires explicit approval.
+
+---
+
 ## Invocation
 
 ```text

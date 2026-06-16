@@ -49,7 +49,7 @@ Five required sections in this exact order. Each section starts with a level-2 m
 
 ## Section 2 — Funciones (Core Functions)
 
-**Purpose:** Implement the logic as clean, testable functions. These are the functions that `build-slice` will productionize. Their names and signatures become the contract.
+**Purpose:** Implement the logic as clean, testable functions. These are the functions that [`build-slice`](../../build-slice/SKILL.md) will productionize. Their names and signatures become the contract.
 
 **Structure:**
 
@@ -197,7 +197,7 @@ Five required sections in this exact order. Each section starts with a level-2 m
            List anything that could not be demonstrated or is ambiguous.
            Number each item. If nothing is open, write "None."
 
-           1. AC4 (database write behavior) is not demonstrated here — covered by integration test in `build-slice`.
+           1. AC4 (database write behavior) is not demonstrated here — covered by integration test in [`build-slice`](../../build-slice/SKILL.md).
 
 [markdown] ### Contract for build-slice
 
@@ -207,11 +207,11 @@ Five required sections in this exact order. Each section starts with a level-2 m
            |---|---|---|
            | `validate_and_filter` | `(records: DataFrame) → DataFrame` | FR1 — reject records without source |
 
-           Production code in `build-slice` must preserve these function names and signatures.
+           Production code in [`build-slice`](../../build-slice/SKILL.md) must preserve these function names and signatures.
            Behavioral changes require updating this notebook and re-requesting reviewer approval.
 ```
 
 **Rules:**
 - The AC table must be complete — every AC from the spec appears with a status.
 - Open questions must be numbered and explicit. An empty open questions section is valid.
-- The contract table becomes the interface contract for TDD in `build-slice`.
+- The contract table becomes the interface contract for TDD in [`build-slice`](../../build-slice/SKILL.md).

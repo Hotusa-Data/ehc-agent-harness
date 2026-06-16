@@ -29,6 +29,20 @@ The user has invited a hard interview. Soft-pedalling wastes their time.
 
 ---
 
+## When to use
+
+- The user says "grill me" or asks to stress-test a design, plan, or proposal.
+- Ambiguity would weaken a spec or plan if not resolved first.
+- Terminology needs sharpening against `docs/glossary.md` and `docs/adr/`.
+
+## When NOT to use
+
+- The conversation has converged and the user wants a written artifact — use [`spec-write`](../../skills-for-planning/spec-write/SKILL.md) or [`plan-write`](../../skills-for-planning/plan-write/SKILL.md) instead.
+- Wholesale glossary creation — defer to [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md).
+- The user wants a quick answer, not an interview — answer directly unless they explicitly invite grilling.
+
+---
+
 ## Domain awareness
 
 During the interview, also load existing documentation for context:

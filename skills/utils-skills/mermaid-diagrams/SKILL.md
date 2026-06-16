@@ -19,6 +19,20 @@ Guide for creating Mermaid diagrams in any document the skill catalog produces: 
 
 ---
 
+## When to use
+
+- Any document needs a Mermaid diagram (spec, plan, ADR, report, README).
+- Choosing between diagram types for a given story (flow vs sequence vs state, etc.).
+- Another skill embeds a diagram and points here for syntax — read [`references/style.md`](references/style.md) before writing.
+
+## When NOT to use
+
+- Data charts with real numbers (bar, scatter, line, pie) — use a charting library.
+- Mermaid types outside the catalog (gantt, kanban, radar, sankey, timeline, class, xychart-beta).
+- Business-register diagram overlays for reports — read [`business-reports`](../../skills-for-docs/business-reports/SKILL.md) selection guide first, then return here for syntax.
+
+---
+
 ## Pick the right type
 
 The most common mistake is defaulting to flowchart for everything. Match content to type before writing a line.

@@ -18,6 +18,20 @@ Load context before working, following the four-layer model defined in `guides/o
 
 ---
 
+## When to use
+
+- At the start of any session before meaningful work begins.
+- When resuming work on a feature and durable docs may have changed since the last session.
+- After receiving a handoff — load `.local-context/` and the referenced feature folder.
+
+## When NOT to use
+
+- Mid-session when context is already loaded and confirmed for the current feature.
+- Purely mechanical edits with no feature, domain, or architectural implications (lightweight mode may skip).
+- As a substitute for [`grill-me`](../grill-me/SKILL.md) when ambiguity blocks the work — load first, then grill if needed.
+
+---
+
 ## Invocation
 
 ```text

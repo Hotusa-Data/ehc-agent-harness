@@ -21,6 +21,18 @@ Create or refresh a domain glossary that business experts, developers, analysts,
 
 The live glossary lives at `docs/glossary.md` in the target repo. If it exists, update it in place — never create a competing one. If it does not exist, create it at that path using the structure described under "Required Structure" below.
 
+## When to use
+
+- The user asks to build, refresh, or audit the domain glossary.
+- Terminology drift appears between specs, code, tests, and reports.
+- Before writing [`spec-write`](../../skills-for-planning/spec-write/SKILL.md) when vocabulary is in flux.
+
+## When NOT to use
+
+- Resolving a single term mid-interview — use [`grill-me`](../../utils-skills/grill-me/SKILL.md) inline instead.
+- Promoting ad-hoc terms from a single report — only when they prove project-wide; otherwise defer to the report workflow.
+- Introducing new feature scope — route discovered behavior back to the spec, not the glossary.
+
 ## Ownership of `docs/glossary.md`
 
 Three skills touch the glossary. Each has a distinct role:
@@ -131,4 +143,4 @@ When updating an existing glossary:
 
 - [`grill-me`](../../utils-skills/grill-me/SKILL.md) — editor of `docs/glossary.md`. Run it when the goal is to resolve individual terms, not to refresh the whole glossary.
 - [`business-reports`](../business-reports/SKILL.md) — consumer of the glossary. Ad-hoc glossaries it creates can be promoted here.
-- [`to-prd`](../../skills-for-planning/to-prd/SKILL.md) — PRDs use glossary terms throughout; refresh the glossary before writing the PRD when vocabulary is in flux.
+- [`spec-write`](../../skills-for-planning/spec-write/SKILL.md) — specs use glossary terms throughout; refresh the glossary before writing `specs.md` when vocabulary is in flux.

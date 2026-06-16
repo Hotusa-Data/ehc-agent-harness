@@ -177,7 +177,7 @@ If an assumption breaks during implementation, stop and loop back to Plan (or Sp
 
 **Skills:**
 
-- [`build-slice`](../../skills/skills-for-planning/build-slice/) — TDD implementation loops
+- [`build-slice`](../../skills/skills-for-planning/build-slice/) — TDD implementation loops per task slice in `plan.md`
 - [`notebook-mockup`](../../skills/skills-for-planning/notebook-mockup/) — validates feature logic with synthetic data before writing production code
 
 **Model suggestion:** Balanced coding model for routine implementation (Sonnet 4.6, GPT-5.4, Gemini 3.1 Pro). Stronger model for complex logic, data contracts, or security-sensitive work (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking).

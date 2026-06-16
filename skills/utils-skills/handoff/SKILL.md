@@ -25,6 +25,20 @@ If the user passed arguments, treat them as a description of what the next sessi
 
 ---
 
+## When to use
+
+- A session is ending and another agent (or a fresh chat) must continue the work.
+- Context would be lost without a compact summary of decisions, blockers, and next steps.
+- The user explicitly asks for a handoff document.
+
+## When NOT to use
+
+- At session start — the next agent should run [`context-load`](../context-load/SKILL.md) first.
+- When [`context-update`](../context-update/SKILL.md) can reconcile durable docs in the same project — handoff complements, not replaces, repo artifacts.
+- To duplicate content already in specs, plans, ADRs, or commits — reference by path instead.
+
+---
+
 ## Related skills
 
 - [`context-update`](../context-update/SKILL.md) — closes the loop for the **same** project across sessions; `handoff` is the cross-agent equivalent within a single session.

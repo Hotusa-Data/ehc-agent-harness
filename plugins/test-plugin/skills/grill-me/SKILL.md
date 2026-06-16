@@ -12,7 +12,7 @@ allowed-tools:
 metadata:
   owner: Ignacio Freire
   last_reviewed: "2026-05-27"
-  skill-version: "1.0.0"
+  skill-version: "2.0.0"
 ---
 
 # Grill Me
@@ -26,6 +26,20 @@ The user has invited a hard interview. Soft-pedalling wastes their time.
 - **Make questions answerable in a sentence** or with a single option choice when choices are pre-enumerated.
 - **Acknowledge when an answer changes earlier assumptions**, then move on. Don't re-litigate.
 - **End the interview explicitly** when the decision tree is exhausted. Summarise resolved decisions and offer next steps.
+
+---
+
+## When to use
+
+- The user says "grill me" or asks to stress-test a design, plan, or proposal.
+- Ambiguity would weaken a spec or plan if not resolved first.
+- Terminology needs sharpening against `docs/glossary.md` and `docs/adr/`.
+
+## When NOT to use
+
+- The conversation has converged and the user wants a written artifact — use [`spec-write`](../../../../skills/skills-for-planning/spec-write/SKILL.md) or [`plan-write`](../../../../skills/skills-for-planning/plan-write/SKILL.md) instead.
+- Wholesale glossary creation — defer to [`make-glossary`](../../../../skills/skills-for-docs/make-glossary/SKILL.md).
+- The user wants a quick answer, not an interview — answer directly unless they explicitly invite grilling.
 
 ---
 
@@ -62,7 +76,7 @@ When a term is resolved, update `docs/glossary.md` right there. Don't batch thes
 
 Do not put classes, modules, file paths, or implementation decisions in Definition columns. Do not treat the glossary as a spec or scratch pad. Canonical identifiers belong in §2–§4; legacy or conflicting names belong in §6 only.
 
-> **Ownership note.** This skill is the **editor** of `docs/glossary.md`; it adds or refines individual terms during interviews. Wholesale creation and refresh of the glossary is owned by [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — defer there when the request is "build the glossary" rather than "resolve this term".
+> **Ownership note.** This skill is the **editor** of `docs/glossary.md`; it adds or refines individual terms during interviews. Wholesale creation and refresh of the glossary is owned by [`make-glossary`](../../../../skills/skills-for-docs/make-glossary/SKILL.md) — defer there when the request is "build the glossary" rather than "resolve this term".
 
 ## Offer ADRs sparingly
 
@@ -94,6 +108,6 @@ If any of the three is missing, skip the ADR.
 
 ## Related skills
 
-- [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — wholesale glossary creation. Defer here when the request is "build the glossary" rather than "resolve this term".
-- [`spec-write`](../../skills-for-planning/spec-write/SKILL.md) — often invoked **after** grill-me to crystallise the conversation into a spec.
-- [`plan-write`](../../skills-for-planning/plan-write/SKILL.md) — run grill-me first when the plan has open ambiguity that would otherwise burn slices.
+- [`make-glossary`](../../../../skills/skills-for-docs/make-glossary/SKILL.md) — wholesale glossary creation. Defer here when the request is "build the glossary" rather than "resolve this term".
+- [`spec-write`](../../../../skills/skills-for-planning/spec-write/SKILL.md) — often invoked **after** grill-me to crystallise the conversation into a spec.
+- [`plan-write`](../../../../skills/skills-for-planning/plan-write/SKILL.md) — run grill-me first when the plan has open ambiguity that would otherwise burn slices.

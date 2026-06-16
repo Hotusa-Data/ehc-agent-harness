@@ -23,6 +23,7 @@ Context ──► Spec ──[Spec Review]──► Plan ──[Plan Review]─�
 | Spec | [`make-glossary`](./skills-for-docs/make-glossary/SKILL.md) | `docs/glossary.md` created or refreshed |
 | Spec | [`spec-write`](./skills-for-planning/spec-write/SKILL.md) | `docs/features/<feature>/specs.md` |
 | Plan | [`plan-write`](./skills-for-planning/plan-write/SKILL.md) | `docs/features/<feature>/plan.md`; optional tracker issues |
+| Build | [`build-slice`](./skills-for-planning/build-slice/SKILL.md) | One vertical TDD slice from `plan.md` |
 | Build | [`notebook-mockup`](./skills-for-planning/notebook-mockup/SKILL.md) | Validated logic notebook before production code |
 | Document | [`context-update`](./utils-skills/context-update/SKILL.md) | All durable docs reconciled at cycle close |
 | Document | [`business-reports`](./skills-for-docs/business-reports/SKILL.md) | Business-facing report at cycle close |
@@ -42,6 +43,7 @@ See [guides/onboarding/lifecycle.md](../guides/onboarding/lifecycle.md) for the 
 |---|---|---|
 | `spec-write` | spec | [skills-for-planning/spec-write/SKILL.md](./skills-for-planning/spec-write/SKILL.md) |
 | `plan-write` | plan | [skills-for-planning/plan-write/SKILL.md](./skills-for-planning/plan-write/SKILL.md) |
+| `build-slice` | build | [skills-for-planning/build-slice/SKILL.md](./skills-for-planning/build-slice/SKILL.md) |
 | `notebook-mockup` | cross-cutting | [skills-for-planning/notebook-mockup/SKILL.md](./skills-for-planning/notebook-mockup/SKILL.md) |
 
 ### Documentation — `skills-for-docs/`

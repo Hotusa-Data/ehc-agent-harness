@@ -27,5 +27,5 @@ If the user passed arguments, treat them as a description of what the next sessi
 
 ## Related skills
 
-- [`context-update`](../../utils-skills/context-update/SKILL.md) — closes the loop for the **same** project across sessions; `handoff` is the cross-agent equivalent within a single session.
-- [`context-load`](../../utils-skills/context-load/SKILL.md) — the next agent should run this first; the handoff doc's "suggested skills" section typically starts with it.
+- [`context-update`](../../../../skills/utils-skills/context-update/SKILL.md) — closes the loop for the **same** project across sessions; `handoff` is the cross-agent equivalent within a single session.
+- [`context-load`](../../../../skills/utils-skills/context-load/SKILL.md) — the next agent should run this first; the handoff doc's "suggested skills" section typically starts with it.

@@ -31,7 +31,11 @@ This skill is **read-only on production code**.
 
 Use when: the user asks for a PR summary, branch summary, handoff, or wants to verify plan alignment before opening a PR.
 
-Do not use for: planning, implementation, or line-by-line code review.
+## When NOT to use
+
+- Planning or implementation work — use [`plan-write`](../../skills-for-planning/plan-write/SKILL.md) or Build slices instead.
+- Line-by-line code review — this skill reconciles intent vs diff, not style or correctness per line.
+- Business-facing reports — use [`business-reports`](../business-reports/SKILL.md) instead.
 
 ## Input sources
 
@@ -134,5 +138,5 @@ For empty sections: write `Not specified` (missing inputs) or `None`. Never dele
 - [`context-load`](../../utils-skills/context-load/SKILL.md) — load feature spec before running this skill
 - [`handoff`](../../utils-skills/handoff/SKILL.md) — produces the local-context notes reconciled here
 - [`context-update`](../../utils-skills/context-update/SKILL.md) — runs right before to align durable docs with the diff
-- [`implementation-planning`](../../skills-for-planning/implementation-planning/SKILL.md) — produces the plan reconciled here
+- [`plan-write`](../../skills-for-planning/plan-write/SKILL.md) — produces the plan reconciled here
 - [`business-reports`](../business-reports/SKILL.md) — different audience; do not mix

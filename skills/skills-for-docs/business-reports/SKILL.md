@@ -22,6 +22,20 @@ Produce markdown documents — with embedded Mermaid diagrams as the visual sour
 
 ---
 
+## When to use
+
+- The user wants to explain code to a PM, analyst, or new joiner in business language.
+- A feature or subsystem needs a handover document readable without opening the codebase.
+- Trigger phrases: "business flow", "system narrative", "handover", "explica esta feature para negocio", "documenta este sistema para el PM".
+
+## When NOT to use
+
+- Technical-only documentation (API references, class hierarchies, installation READMEs) — wrong audience.
+- The request is still ambiguous — run [`grill-me`](../../utils-skills/grill-me/SKILL.md) or resolve terms via [`make-glossary`](../make-glossary/SKILL.md) first when vocabulary is missing.
+- The user wants a PR review summary — use [`pr-summary`](../pr-summary/SKILL.md) instead.
+
+---
+
 ## 📋 Report types
 
 | Type | Anchor diagram | Register | What it covers |

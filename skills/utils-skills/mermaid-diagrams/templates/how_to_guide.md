@@ -247,9 +247,9 @@ Run through these checks to confirm everything is working:
 
 Now that you've completed this guide:
 
-- **[Next tutorial]** — [What it covers and why you'd want to do it next](../workflow_guide.md)
+- **[Next tutorial]** — What it covers and why you'd want to do it next *(link to follow-up guide when available)*
 - **[Reference docs]** — [Where to learn the full feature set](../references/style.md)
-- **[Advanced topic]** — [Deeper dive for when you're ready](../operational_readiness.md)
+- **[Advanced topic]** — Deeper dive for when you're ready *(link to advanced guide when available)*
 
 <details>
 <summary><strong>Quick reference card</strong></summary>
