@@ -21,9 +21,8 @@ Context ──► Spec ──[Spec Review]──► Plan ──[Plan Review]─�
 | Context | [`context-load`](./utils-skills/context-load/SKILL.md) | Project and feature context loaded in the session |
 | Spec | [`grill-me`](./utils-skills/grill-me/SKILL.md) | Ambiguity resolved; glossary updated inline |
 | Spec | [`make-glossary`](./skills-for-docs/make-glossary/SKILL.md) | `docs/glossary.md` created or refreshed |
-| Spec | [`spec-write`](./skills-for-planning/spec-write/SKILL.md) | `docs/features/<feature>/requirements.md` |
-| Plan | [`design-write`](./skills-for-planning/design-write/SKILL.md) | `docs/features/<feature>/design.md` |
-| Plan | [`tasks-write`](./skills-for-planning/tasks-write/SKILL.md) | `docs/features/<feature>/tasks.md`; optional tracker issues |
+| Spec | [`spec-write`](./skills-for-planning/spec-write/SKILL.md) | `docs/features/<feature>/specs.md` |
+| Plan | [`plan-write`](./skills-for-planning/plan-write/SKILL.md) | `docs/features/<feature>/plan.md`; optional tracker issues |
 | Build | [`notebook-mockup`](./skills-for-planning/notebook-mockup/SKILL.md) | Validated logic notebook before production code |
 | Document | [`context-update`](./utils-skills/context-update/SKILL.md) | All durable docs reconciled at cycle close |
 | Document | [`business-reports`](./skills-for-docs/business-reports/SKILL.md) | Business-facing report at cycle close |
@@ -42,8 +41,7 @@ See [guides/onboarding/lifecycle.md](../guides/onboarding/lifecycle.md) for the 
 | Skill | Phase | Path |
 |---|---|---|
 | `spec-write` | spec | [skills-for-planning/spec-write/SKILL.md](./skills-for-planning/spec-write/SKILL.md) |
-| `design-write` | plan | [skills-for-planning/design-write/SKILL.md](./skills-for-planning/design-write/SKILL.md) |
-| `tasks-write` | plan | [skills-for-planning/tasks-write/SKILL.md](./skills-for-planning/tasks-write/SKILL.md) |
+| `plan-write` | plan | [skills-for-planning/plan-write/SKILL.md](./skills-for-planning/plan-write/SKILL.md) |
 | `notebook-mockup` | cross-cutting | [skills-for-planning/notebook-mockup/SKILL.md](./skills-for-planning/notebook-mockup/SKILL.md) |
 
 ### Documentation — `skills-for-docs/`

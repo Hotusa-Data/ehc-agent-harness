@@ -32,9 +32,8 @@ Most SDD toolkits (GitHub Spec Kit, AWS Kiro, BMAD, and others) converge on the 
 
 | Phase | Produces | Answers |
 |---|---|---|
-| **Spec** | `requirements.md` | What and why — user stories, scope, acceptance criteria |
-| **Plan** | `design.md` | How — approach, dependencies, tradeoffs |
-| **Tasks** | `tasks.md` | The work — atomic units in dependency order |
+| **Spec** | `specs.md` | What and why — scope, acceptance criteria, business rules |
+| **Plan** | `plan.md` | How and the work — approach, contracts, slices, evidence |
 | **Implement** | code + evidence | The result — implementation plus verification |
 
 The larger the risk, the more explicit each phase should be. Tiny fixes can collapse Spec and Plan into a single paragraph.
@@ -43,21 +42,20 @@ The larger the risk, the more explicit each phase should be. Tiny fixes can coll
 
 ```text
 docs/features/<feature>/
-|-- requirements.md
-|-- design.md
-|-- tasks.md
+|-- specs.md
+|-- plan.md
 |-- report.md       (created at cycle close)
 `-- CHANGELOG.md
 ```
 
-A useful `requirements.md` covers: problem statement, goals, non-goals, current behavior, target behavior, requirements, acceptance criteria, examples, and assumptions plus open questions.
+A useful `specs.md` covers: problem statement, goals, non-goals, current behavior, target behavior, requirements, acceptance criteria, examples, and assumptions plus open questions.
 
 For data projects, "acceptance criteria" means **observable evidence**: expected schema shape, row count bounds, data quality checks, before/after diffs on a sample, or notebook cells that must pass. If you can't observe it, it isn't a criterion — it's a wish.
 
 ## Core Principles
 
 1. **Intent before execution** — the system should know what it is trying to achieve before it optimizes how.
-2. **Separate artifacts** — spec (what + why), plan (how), tasks (execution). Mixing them blurs review.
+2. **Separate artifacts** — specs (what + why), plan (how + execution). Mixing them blurs review.
 3. **Verifiable requirements** — a requirement is incomplete if nobody can tell whether it passed. Point at the evidence.
 4. **Examples are part of the spec** — for data work, a sample input row plus its expected output row removes more ambiguity than a paragraph of business rules.
 5. **Specs evolve** — update them when assumptions break, incidents surface missing intent, or implementation exposes hidden constraints.

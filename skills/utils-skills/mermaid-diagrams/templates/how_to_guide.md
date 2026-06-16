@@ -238,7 +238,7 @@ Run through these checks to confirm everything is working:
 ### Still stuck?
 
 - **Open a feature/bug** through your team's issue tracker.
-- **Check the feature folder** under `docs/features/<feature>/` for `requirements.md`, `design.md`, and `CHANGELOG.md` context.
+- **Check the feature folder** under `docs/features/<feature>/` for `specs.md`, `plan.md`, and `CHANGELOG.md` context.
 - **Ask in your team channel** with the failing command and the error message.
 
 ---

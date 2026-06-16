@@ -1,6 +1,6 @@
-# Business Implementation Report
+# Report
 
-**Lifecycle:** This document is created **at cycle close**, when the feature is implemented. It does not exist during requirements or design phases. Path: `docs/features/<feature>/report.md`.
+**Lifecycle:** This document is created **at cycle close**, when the feature is implemented. It does not exist during Spec or Plan phases. Path: `docs/features/<feature>/report.md`.
 
 Explains completed work in **business language** so reviewers can validate whether it matches the original need.
 
@@ -32,7 +32,7 @@ code_commit: <sha | blank if not a git repo>
 
 ## 3. Anchor Diagram
 
-One Mermaid diagram. Use `flowchart` for `business-flow`; `flowchart LR` with subgraphs, `block-beta`, or `C4Context` for `system-narrative`. Palette and classDef: see [`utils-skills/mermaid-diagrams/references/style.md`](../../skills/utils-skills/mermaid-diagrams/references/style.md).
+One Mermaid diagram. Use `flowchart` for `business-flow`; `flowchart LR` with subgraphs, `block-beta`, or `C4Context` for `system-narrative`. Palette and classDef: follow the pattern below (`neutral` theme, `accTitle`, `accDescr`, ok/ko `classDef`). Project-specific diagram overrides belong in `docs/docs-guide.md` §3.
 
 ```mermaid
 ---

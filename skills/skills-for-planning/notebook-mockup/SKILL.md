@@ -46,11 +46,11 @@ Collect all of these before writing a single cell. If any are missing, ask — d
 
 | Input | Where to find it | Why |
 |---|---|---|
-| Approved spec | Feature spec / PRD | Requirements, ACs, business rules, contracts |
-| Acceptance criteria | Spec or plan | Every AC must map to at least one notebook section |
-| Input / output contracts | Spec contracts section | Defines what synthetic data must look like |
-| Edge cases | Spec edge cases section | Must appear explicitly in Section 4 |
-| Domain vocabulary | `docs/glossary.md`, or spec | Function and variable names must use domain terms |
+| Approved specs | `docs/features/<feature>/specs.md` | Requirements, ACs, business rules, contracts |
+| Acceptance criteria | `specs.md` or `plan.md` | Every AC must map to at least one notebook section |
+| Input / output contracts | `specs.md` §7 | Defines what synthetic data must look like |
+| Edge cases | `specs.md` §9 | Must appear explicitly in Section 4 |
+| Domain vocabulary | `docs/glossary.md`, or `specs.md` | Function and variable names must use domain terms |
 
 ---
 

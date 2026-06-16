@@ -35,9 +35,8 @@ During the interview, also load existing documentation for context:
 
 - `docs/glossary.md` — canonical domain vocabulary
 - `docs/adr/` — architectural decisions made previously
-- `docs/context/project.md` — project-level truth
-
-If the repo has multiple contexts (indicated by a `docs/context-map.md`), load the relevant one.
+- `docs/docs-guide.md` — per-project required docs and overrides
+- `docs/architecture.md` — system shape and global decisions
 
 ---
 
@@ -81,7 +80,15 @@ If any of the three is missing, skip the ADR.
 
 | File | What it covers |
 |---|---|
-| `agent-kit/skeletons/_glossary.md` | Format for `docs/glossary.md` entries |
+| `docs/docs-guide.md` | Required docs and project-specific overrides |
+| `docs/architecture.md` | System shape and global decisions |
+| `docs/glossary.md` | Canonical domain vocabulary |
+| `docs/adr/` | Recorded architectural decisions |
+| `agent-kit/skeletons/_glossary.md` | Format for new or updated glossary entries |
+| `agent-kit/skeletons/_docs-guide.md` | Format for `docs/docs-guide.md` overrides |
+| `agent-kit/skeletons/_architecture.md` | Format for `docs/architecture.md` |
+| `agent-kit/skeletons/_specs.md` | Format for `docs/features/<feature>/specs.md` |
+| `agent-kit/skeletons/_plan.md` | Format for `docs/features/<feature>/plan.md` |
 
 ---
 
@@ -89,4 +96,4 @@ If any of the three is missing, skip the ADR.
 
 - [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — wholesale glossary creation. Defer here when the request is "build the glossary" rather than "resolve this term".
 - [`spec-write`](../../skills-for-planning/spec-write/SKILL.md) — often invoked **after** grill-me to crystallise the conversation into a spec.
-- [`design-write`](../../skills-for-planning/design-write/SKILL.md) — run grill-me first when the plan has open ambiguity that would otherwise burn slices.
+- [`plan-write`](../../skills-for-planning/plan-write/SKILL.md) — run grill-me first when the plan has open ambiguity that would otherwise burn slices.

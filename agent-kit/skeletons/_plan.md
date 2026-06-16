@@ -1,6 +1,6 @@
-# Design
+# Plan
 
-Defines **how** to build what `requirements.md` specifies. Atomic work units go in `tasks.md`.
+Defines **how** to build what `specs.md` specifies and the **atomic work units** to execute it.
 
 Use the smallest plan that preserves clarity. Use `unknown — needs confirmation` or `not applicable` instead of inventing content. Stop and ask if ambiguity affects scope, contracts, security, privacy, or acceptance criteria.
 
@@ -9,7 +9,7 @@ Use the smallest plan that preserves clarity. Use `unknown — needs confirmatio
 - Feature:
 - Owner:
 - Status: draft | ready-for-build | in-progress | implemented | superseded
-- Spec link:
+- Source specs: `specs.md`
 - Mode: lightweight | standard | full
 - Mode reason:
 - Last reviewed:
@@ -17,7 +17,7 @@ Use the smallest plan that preserves clarity. Use `unknown — needs confirmatio
 Mode guidance:
 
 - `lightweight`: docs-only, obvious fixes, mechanical refactors, low-risk config.
-- `standard`: normal behavior change with clear requirements and limited blast radius.
+- `standard`: normal behavior change with clear specs and limited blast radius.
 - `full`: new feature, business logic, migrations, public contracts, security/privacy impact.
 
 ## 1. Approach
@@ -86,7 +86,7 @@ If a check cannot run, record why and what alternative evidence exists.
 - Deployment or migration ordering:
 - Backfill:
 - Rollback:
-- Cleanup follow-up (if any — create a task in `tasks.md` to track it):
+- Cleanup follow-up (if any — add a task in section 8):
 
 ## 6. Risks, Assumptions, Decisions
 
@@ -106,13 +106,35 @@ If a check cannot run, record why and what alternative evidence exists.
 | API / schema docs |  | todo |
 | Runbook |  | todo |
 
+## 8. Task List
+
+**Slice** = one coherent, reviewable unit of work that delivers a single layer or vertical behavior. A slice should be completable in one sitting and result in a passing test or observable signal before the next slice begins.
+
+| ID | Task | Slice | Depends on | Files / areas | AC | Evidence | Status |
+|---|---|---|---|---|---|---|---|
+| T1 |  | S1 | none |  | AC1 |  | todo |
+
+Rules:
+- Each task ties to a requirement, AC, or risk-reduction need from `specs.md`
+- Risky discovery happens before dependent implementation
+- Evidence is not deferred to the end without justification
+- Tasks are atomic: completion is binary
+
+## 9. Completion Criteria
+
+A task is `done` when:
+- The named files / areas have the change
+- The named evidence exists and was run
+- Any documentation impact in section 7 is resolved
+
 ## Ready Checklist
 
 - [ ] Mode is justified.
-- [ ] Plan traces to requirements and ACs; no unapproved scope.
-- [ ] Tasks are documented separately in `tasks.md` when needed and remain small, ordered, evidence-backed.
+- [ ] Plan traces to specs and ACs; no unapproved scope.
 - [ ] Contracts, migrations, security, privacy, observability impacts considered.
 - [ ] Each non-deferred AC has evidence.
+- [ ] Tasks are small, ordered, and evidence-backed.
+- [ ] Dependencies are explicit.
 - [ ] Lightweight skipped steps are named and justified.
 
 ## Completion Checklist
@@ -120,6 +142,6 @@ If a check cannot run, record why and what alternative evidence exists.
 - [ ] Implementation follows the planned slices (or deviations are explained).
 - [ ] All non-deferred ACs have recorded evidence.
 - [ ] Required checks ran; `ran` vs `written but not run` vs `tried but blocked` is distinguished.
-- [ ] Spec and plan reflect any scope/design changes made during build.
+- [ ] Specs and plan reflect any scope or approach changes made during build.
 - [ ] Documentation impact is resolved.
 - [ ] Rollout and rollback notes are ready if applicable.

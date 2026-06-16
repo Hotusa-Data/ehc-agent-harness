@@ -12,6 +12,8 @@ When someone asks "what was PR #123 about?" six months from now, they `grep docs
 
 This is the **Everything is Code** philosophy: project management data lives in the repo, versioned and portable. Don't capture information in GitHub's UI that should be captured in this file. Invest the 10 minutes. A great PR file eliminates the "what was this PR about?" Slack message and the "can someone check the GitHub PR?" context switch — the answer is already in the repo.
 
+> **Agent-kit default:** Durable feature narrative lives in `docs/features/<feature>/` (`CHANGELOG.md`, `report.md`). PR descriptions for reviewers are produced by the [`pr-summary`](../../../skills-for-docs/pr-summary/SKILL.md) skill. The `docs/project/` layout below is an **optional archive** — adopt it only if declared under `docs/docs-guide.md` §3 Project-Specific Overrides.
+
 ---
 
 ## File Convention
@@ -44,7 +46,7 @@ Everything below the line is the template. Copy from here:
 | **Date**            | [YYYY-MM-DD]                                                                                                                                                                                  |
 | **Status**          | [Open / Merged / Closed]                                                                                                                                                                      |
 | **Branch**          | `[feature/branch-name]` → `main`                                                                                                                                                              |
-| **Related issues**  | [#ISSUE](../../docs/project/issues/issue-00000001-agentic-documentation-system.md), [#ISSUE2](../../docs/project/issues/issue-00000002-provider-priority-fail-fast-review-cost-visibility.md) |
+| **Related issues**  | [Feature specs](../../docs/features/<feature>/specs.md), [related ADR](../../docs/adr/001-example-decision.md) |
 | **Deploy strategy** | [Standard / Canary / Blue-green / Feature flag]                                                                                                                                               |
 
 ---
@@ -306,15 +308,15 @@ git revert [commit-sha]
 
 ### Follow-up items
 
-- [ ] [Task that should happen after merge but isn't blocking](../../docs/project/issues/issue-00000003-local-review-context-pack-and-resilience.md)
-- [ ] [Technical debt to address later](../../docs/project/issues/issue-00000004-memory-backend-self-hosted-and-sql-seed.md)
+- [ ] [Follow-up task](../../docs/features/<feature>/plan.md)
+- [ ] [Technical debt to address later](../../docs/features/<feature>/CHANGELOG.md)
 
 ---
 
 ## References
 
 - [Design document or ADR](../adr/ADR-001-agent-optimized-documentation-system.md)
-- [Related issue](../../docs/project/issues/issue-00000001-agentic-documentation-system.md)
+- [Related feature specs](../../docs/features/<feature>/specs.md)
 - [Relevant documentation](https://example.com)
 
 ---

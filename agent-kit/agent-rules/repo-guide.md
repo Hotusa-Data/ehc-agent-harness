@@ -18,7 +18,6 @@ Unlike a project-instantiated doc, this rule encodes the **default layout** the 
 ```text
 repo-root/
 |-- docs/
-|   |-- context/
 |   |-- features/
 |   |-- architecture.md
 |   |-- database.md
@@ -42,9 +41,8 @@ Each feature lives in `docs/features/<feature>/` with:
 
 | File | Purpose |
 |---|---|
-| `requirements.md` | What and why |
-| `design.md` | How |
-| `tasks.md` | Atomic, ordered work units |
+| `specs.md` | What and why |
+| `plan.md` | How and atomic work units |
 | `report.md` | What was actually built (created at cycle close) |
 | `CHANGELOG.md` | Narrative of evolution |
 

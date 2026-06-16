@@ -2,7 +2,7 @@
 name: context-update
 phase: document
 description: |
-  Step-by-step documentation update at the end of a session. Reviews what was generated or decided, then updates each affected file — feature requirements, design, tasks, CHANGELOG, glossary, project context — one at a time, always asking the developer for confirmation before writing. Use this skill at the end of any session where artefacts were generated or decisions were made.
+  Step-by-step documentation update at the end of a session. Reviews what was generated or decided, then updates each affected file — feature specs, plan, CHANGELOG, glossary, architecture, docs-guide — one at a time, always asking the developer for confirmation before writing. Use this skill at the end of any session where artefacts were generated or decisions were made.
 allowed-tools:
   - Read
   - Edit
@@ -48,46 +48,35 @@ Wait for developer confirmation before proceeding.
 
 ---
 
-## Step 1 - Feature requirements (`docs/features/<feature>/requirements.md`)
+## Step 1 - Feature specs (`docs/features/<feature>/specs.md`)
 
-Check whether requirements need updating:
+Check whether the specs need updating:
 - Were any ACs resolved, deferred, or changed?
 - Were open questions answered?
-- Did the status change?
+- Did scope or status change?
 
 If yes, show the proposed changes and ask for confirmation.
-If no, say: `Requirements do not need updating - skipping.`
+If no, say: `Specs do not need updating - skipping.`
 
 ---
 
-## Step 2 - Feature design (`docs/features/<feature>/design.md`)
+## Step 2 - Feature plan (`docs/features/<feature>/plan.md`)
 
-Check whether the design needs updating:
+Check whether the plan needs updating:
 - Did the approach change?
 - Were new contracts added or removed?
-- Did risks or assumptions shift?
-
-If yes, show the proposed changes and ask for confirmation.
-If no, say: `Design does not need updating - skipping.`
-
----
-
-## Step 3 - Feature tasks (`docs/features/<feature>/tasks.md`)
-
-Check whether tasks need updating:
 - Were any tasks completed, added, or removed?
-- Did dependencies shift?
-- Did slice ordering change?
+- Did dependencies or slice ordering shift?
 
 If yes, show the proposed changes and ask for confirmation.
-If no, say: `Tasks do not need updating - skipping.`
+If no, say: `Plan does not need updating - skipping.`
 
 ---
 
-## Step 4 - Feature CHANGELOG (`docs/features/<feature>/CHANGELOG.md`)
+## Step 3 - Feature CHANGELOG (`docs/features/<feature>/CHANGELOG.md`)
 
 For every non-trivial change made above, append an entry under `[Unreleased]`:
-- Use the right section (Requirements / Design / Tasks / Decided / Added / Changed / Removed / Fixed)
+- Use the right section (Specs / Plan / Decided / Added / Changed / Removed / Fixed)
 - Include the **why**, not just the what
 - One line per change
 
@@ -97,7 +86,7 @@ Show the proposed entries and ask for confirmation.
 
 ---
 
-## Step 5 - Glossary (`docs/glossary.md`)
+## Step 4 - Glossary (`docs/glossary.md`)
 
 Check whether new vocabulary was introduced or clarified.
 
@@ -106,30 +95,29 @@ If no, say: `No new glossary terms - skipping.`
 
 ---
 
-## Step 6 - Project context (`docs/context/project.md`)
+## Step 5 - Project docs (`docs/architecture.md`, `docs/docs-guide.md`)
 
-Check whether project-level truth changed:
-- New features in scope?
-- Global decisions made?
-- Stack changes?
+Check whether durable project knowledge changed:
+- System shape, boundaries, or integrations?
+- New required docs, stricter gates, or load-order overrides for this repo?
 
 If yes, show the proposed changes and ask for confirmation.
-If no, say: `Project context does not need updating - skipping.`
+If no, say: `Project docs do not need updating - skipping.`
 
 ---
 
-## Step 7 - Completion summary
+## Step 6 - Completion summary
 
 ```text
 Documentation update complete.
 
 Updated:
-- docs/features/<feature>/requirements.md ✓
-- docs/features/<feature>/design.md - skipped (no changes needed)
-- docs/features/<feature>/tasks.md ✓
+- docs/features/<feature>/specs.md ✓
+- docs/features/<feature>/plan.md - skipped (no changes needed)
 - docs/features/<feature>/CHANGELOG.md ✓
 - docs/glossary.md ✓
-- docs/context/project.md - skipped
+- docs/architecture.md - skipped
+- docs/docs-guide.md - skipped
 
 Remember: run /context-update at the end of every session.
 ```

@@ -47,7 +47,7 @@ Not every task needs the full process. See [Adapt The Cycle To Your Style](#adap
 **How:**
 
 - **Ask a more experienced teammate.** A short conversation with someone who knows the technology saves hours of wrong-direction exploration.
-- **Explore with AI in a separate session.** Open an independent Cursor chat with no project context loaded. Ask freely, follow tangents, and use [`/grill-me`](../../skills/utils-skills/grill-me/) to test your understanding until concepts click. Keep this session isolated — it is exploration, not implementation.
+- **Explore with AI in a separate session.** Open an independent Cursor chat with no project docs loaded. Ask freely, follow tangents, and use [`/grill-me`](../../skills/utils-skills/grill-me/) to test your understanding until concepts click. Keep this session isolated — it is exploration, not implementation.
 
 **Done when:** you could explain the approach to a colleague. Move to Context.
 
@@ -71,8 +71,8 @@ Then load context in layers — only as deep as the task needs:
 | Layer | Source | Load when |
 |---|---|---|
 | **Framework** | `AGENTS.md`, `agent-kit/agent-rules/` | Always |
-| **Project** | `docs/context/project.md`, `docs/architecture.md` | Task touches the project domain |
-| **Feature** | `docs/features/<feature>/{requirements,design,tasks,CHANGELOG}.md` | Task touches an existing feature |
+| **Project** | `docs/docs-guide.md`, `docs/architecture.md`, `docs/glossary.md` | Task touches the project domain |
+| **Feature** | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` | Task touches an existing feature |
 | **Session** | `.local-context/` | You have handoff notes or partial work |
 
 See [managing-context.md](managing-context.md) and [../theory/context-engineering.md](../theory/context-engineering.md) for the full model.
@@ -81,7 +81,7 @@ See [managing-context.md](managing-context.md) and [../theory/context-engineerin
 
 - [`context-load`](../../skills/utils-skills/context-load/) — automates loading of project and feature context
 
-**Model suggestion:** Balanced default (Sonnet 4.6, GPT-5.4, Gemini 3.1 Pro). Higher effort only if the project context is very large or ambiguous (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking).
+**Model suggestion:** Balanced default (Sonnet 4.6, GPT-5.4, Gemini 3.1 Pro). Higher effort only if the project docs are very large or ambiguous (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking).
 
 **Exit criteria:**
 
@@ -107,9 +107,8 @@ Cover:
 
 ```text
 docs/features/<feature>/
-├── requirements.md    ← the spec lives here
-├── design.md          ← created in Plan
-├── tasks.md           ← created in Plan
+├── specs.md           ← the spec lives here (Spec phase)
+├── plan.md            ← created in Plan
 ├── report.md          ← created at cycle close
 └── CHANGELOG.md       ← updated throughout
 ```
@@ -119,7 +118,7 @@ See [../theory/spec-driven-development.md](../theory/spec-driven-development.md)
 **Skills:**
 
 - [`grill-me`](../../skills/utils-skills/grill-me/) — adversarial interview that challenges the spec against existing domain docs and updates the glossary inline
-- [`spec-write`](../../skills/skills-for-planning/spec-write/) — synthesizes the conversation into `requirements.md`; grounds vocabulary in `docs/glossary.md` and examples in real domain entities from the codebase; flags glossary gaps as open questions
+- [`spec-write`](../../skills/skills-for-planning/spec-write/) — synthesizes the conversation into `specs.md`; grounds vocabulary in `docs/glossary.md` and examples in real domain entities from the codebase; flags glossary gaps as open questions
 
 **Model suggestion:** Stronger model (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking). Spec quality determines everything downstream. Higher reasoning effort helps surface hidden assumptions.
 
@@ -131,17 +130,17 @@ See [../theory/spec-driven-development.md](../theory/spec-driven-development.md)
 - [ ] Acceptance criteria are observable
 - [ ] Assumptions and open questions surfaced
 - [ ] The spec answers *why*, not just *what*
-- [ ] Human review completed — domain expert or lead approves `requirements.md`
+- [ ] Human review completed — domain expert or lead approves `specs.md`
 
 ---
 
 ## Plan
 
-**What you do:** Decide how to build it. The plan translates the spec into executable slices.
+**What you do:** Decide how to build it. The plan translates the approved specs into approach, contracts, evidence strategy, and executable slices.
 
 Define:
 
-- technical approach
+- technical approach and contracts
 - slices of work (small, vertical, dependency-ordered)
 - evidence strategy (tests, notebook outputs, quality checks)
 - documentation impact (which docs will need updating)
@@ -149,8 +148,7 @@ Define:
 
 **Skills:**
 
-- [`design-write`](../../skills/skills-for-planning/design-write/) — translates the spec into a technical design (`design.md`); reads call sites, error vocabulary, test structure, and similar feature designs before drafting; derives function contracts from actual code types, not spec language
-- [`tasks-write`](../../skills/skills-for-planning/tasks-write/) — breaks the approved design into ordered task slices (`tasks.md`); classifies each slice AFK or HITL with explicit HITL triggers; each slice names its evidence type before Build starts; optionally publishes to the tracker
+- [`plan-write`](../../skills/skills-for-planning/plan-write/) — translates approved specs into `plan.md`: approach, contracts, test strategy, risks, and ordered task slices; classifies each slice AFK or HITL; optionally publishes to the tracker
 
 **Model suggestion:** Stronger model (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking). Architectural decisions and tradeoffs benefit from higher reasoning effort.
 
@@ -160,7 +158,7 @@ Define:
 - [ ] Slices defined in dependency order
 - [ ] Evidence strategy chosen
 - [ ] Documentation impact listed
-- [ ] Human review completed — technical lead approves `design.md` + `tasks.md`
+- [ ] Human review completed — technical lead approves `plan.md`
 
 ---
 
@@ -205,13 +203,12 @@ Typical updates:
 
 | What | Where |
 |---|---|
-| Requirements change | `docs/features/<feature>/requirements.md` |
-| Design decisions | `docs/features/<feature>/design.md` |
-| Task status | `docs/features/<feature>/tasks.md` |
+| Specs change | `docs/features/<feature>/specs.md` |
+| Plan change | `docs/features/<feature>/plan.md` |
 | Behavior change narrative | `docs/features/<feature>/CHANGELOG.md` (under `[Unreleased]`) |
 | Business validation | `docs/features/<feature>/report.md` (at cycle close) |
 | New vocabulary | `docs/glossary.md` |
-| Project knowledge | `docs/context/project.md` |
+| Project knowledge | `docs/architecture.md`, `docs/docs-guide.md` |
 
 **Skills:**
 
@@ -235,8 +232,8 @@ Three human review points guard the lifecycle. They are not AI phases — a pers
 
 | When | What is reviewed | Who |
 |---|---|---|
-| **Post-Spec** | `requirements.md` — scope, ACs, business rules | Domain expert or lead |
-| **Post-Plan** | `design.md` + `tasks.md` — approach, slices, evidence strategy | Technical lead |
+| **Post-Spec** | `specs.md` — scope, ACs, business rules | Domain expert or lead |
+| **Post-Plan** | `plan.md` — approach, slices, evidence strategy | Technical lead |
 | **Post-Build** | PR diff + [`pr-summary`](../../skills/skills-for-docs/pr-summary/) — implementation, tests, docs | Reviewer assigned to the PR |
 
 No phase advances without human sign-off at the required level.

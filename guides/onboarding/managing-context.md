@@ -23,8 +23,8 @@ This framework gives you four layers of context, each with a clear home, so the 
 | Layer | Lives in | What it tells the AI |
 |---|---|---|
 | **Framework** | `AGENTS.md`, `agent-kit/agent-rules/`, `agent-kit/skeletons/` | How to work in this metarepo |
-| **Project** | `docs/context/project.md`, `docs/architecture.md`, `docs/database.md`, `docs/glossary.md` | What kind of project this is |
-| **Feature** | `docs/features/<feature>/{requirements,design,tasks,CHANGELOG}.md` | What's happening in the feature being touched |
+| **Project** | `docs/docs-guide.md`, `docs/architecture.md`, `docs/database.md`, `docs/glossary.md` | What kind of project this is |
+| **Feature** | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` | What's happening in the feature being touched |
 | **Session** | `.local-context/` (gitignored) | Temporary working state for the current session |
 
 > [!TIP]
@@ -37,13 +37,12 @@ Single source of truth. Use this table before creating anything new:
 | Knowledge | Goes to | Example |
 |---|---|---|
 | Stable repo operating rules | `AGENTS.md` | "Use Conventional Commits" |
-| Durable project truth | `docs/context/project.md` | "We deploy to AWS via GitHub Actions" |
+| Durable project truth | `docs/architecture.md`, `docs/docs-guide.md` | "We deploy to AWS via GitHub Actions" |
 | Shared vocabulary | `docs/glossary.md` | "*Tenant* = a customer organization" |
-| What a feature must do | `docs/features/<feature>/requirements.md` | Acceptance criteria, scope |
-| How a feature is built | `docs/features/<feature>/design.md` | Architecture, contracts, evidence strategy |
-| Atomic work units | `docs/features/<feature>/tasks.md` | Dependency-ordered slices |
+| What a feature must do | `docs/features/<feature>/specs.md` | Acceptance criteria, scope |
+| How a feature is built | `docs/features/<feature>/plan.md` | Approach, contracts, slices, evidence strategy |
 | What a feature shipped | `docs/features/<feature>/report.md` | Business validation at cycle close |
-| Evolution of a feature | `docs/features/<feature>/CHANGELOG.md` | Narrative of requirement / design / scope changes |
+| Evolution of a feature | `docs/features/<feature>/CHANGELOG.md` | Narrative of requirement / specs / scope changes |
 | Handoffs and session notes | `.local-context/` | "Stopped mid-refactor, retry test X" |
 
 **Decision rule:**
@@ -64,8 +63,8 @@ Place at repo root. The AI loads it automatically:
 
 ```markdown
 # Project rules
-- Always read docs/context/project.md before touching code
-- Update requirements/design/tasks/CHANGELOG in docs/features/<feature>/ when behavior changes
+- Always read docs/docs-guide.md before touching code
+- Update specs/plan/CHANGELOG in docs/features/<feature>/ when behavior changes
 - Never commit .local-context/
 ```
 
@@ -81,17 +80,14 @@ A predictable layout lets the AI find things without guessing. Stick to this tre
 
 ```text
 docs/
-├── context/project.md
 ├── architecture.md
 ├── database.md
 ├── glossary.md
-├── repo-guide.md
 ├── docs-guide.md
 └── features/
     └── <feature>/
-        ├── requirements.md
-        ├── design.md
-        ├── tasks.md
+        ├── specs.md
+        ├── plan.md
         ├── report.md          (created at cycle close)
         └── CHANGELOG.md
 ```
@@ -133,19 +129,19 @@ A scratchpad that lives in the repo but never gets committed.
 **Default load (most sessions):**
 
 - `AGENTS.md`
-- Relevant project context
+- Relevant project docs (`docs/docs-guide.md`, `docs/architecture.md`, `docs/glossary.md`)
 - Relevant feature context (if the feature is known)
-- Existing requirements, design, tasks, or CHANGELOG for the same area
+- Existing specs, plan, or CHANGELOG for the same area
 - The code and tests being touched
 
 **When to load more:**
 
 | Signal | Load |
 |---|---|
-| Task touches an existing feature | `docs/features/<feature>/{requirements,design,tasks,CHANGELOG}.md` |
+| Task touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
 | Request uses business terms ("tenant", "billing cycle") | `docs/glossary.md` |
-| Placement or architecture unclear | `docs/repo-guide.md`, `docs/architecture.md` |
-| Existing behavior must be compared | The feature's current `requirements.md` |
+| Placement or architecture unclear | `agent-kit/agent-rules/repo-guide.md`, `docs/architecture.md` |
+| Existing behavior must be compared | The feature's current `specs.md` |
 | Unclear whether a feature exists | List `docs/features/` first |
 
 > [!TIP]
@@ -183,10 +179,10 @@ Before commit, code and durable context must not contradict each other.
 
 ### Reconciliation Checklist
 
-- [ ] Implemented behavior matches the current `requirements.md`
-- [ ] Current `design.md` and `tasks.md` reflect what actually happened
+- [ ] Implemented behavior matches the current `specs.md`
+- [ ] Current `plan.md` reflects what actually happened
 - [ ] `CHANGELOG.md` has an entry for each non-trivial change made this cycle
-- [ ] Project context updated if durable knowledge changed
+- [ ] Architecture or docs-guide updated if durable project knowledge changed
 - [ ] Glossary updated if vocabulary changed
 - [ ] Nothing important exists only in chat or `.local-context/`
 - [ ] `.local-context/` files are excluded from the commit
@@ -198,14 +194,14 @@ Before commit, code and durable context must not contradict each other.
 
 You just implemented billing for multi-tenant orgs. The code works, tests pass. Before committing:
 
-1. Does `requirements.md` still say "billing per user" or did you update it to "billing per org"? → Update requirements.
+1. Does `specs.md` still say "billing per user" or did you update it to "billing per org"? → Update specs.
 2. Did you add a `tenantId` field to the schema? → Update `docs/database.md` and `docs/glossary.md`.
-3. Did the design change along the way? → Update `design.md`.
+3. Did the approach change along the way? → Update `plan.md`.
 4. Is there a `.local-context/investigation-pricing.md` with findings that should live in `docs/`? → Promote it.
 
 ## Anti-patterns
 
-- Starting work without reading project context
+- Starting work without reading project docs (`docs/docs-guide.md`, `docs/architecture.md`)
 - Loading every feature folder regardless of scope
 - Treating chat memory as project memory
 - Treating `.local-context/` as durable documentation

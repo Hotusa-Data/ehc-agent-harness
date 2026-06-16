@@ -8,11 +8,13 @@
 
 **Philosophy:** Decisions rot faster than code. Six months from now, someone will ask "why did we do it this way?" If the answer is "nobody remembers," the decision is as good as random. This template makes the reasoning permanent, searchable, and evaluable. It also forces the author to genuinely consider alternatives — if you can't articulate why you rejected Option B, you haven't done enough analysis.
 
+> **Agent-kit default:** Store ADRs under `docs/adr/` (referenced by [`grill-me`](../../../utils-skills/grill-me/SKILL.md)). Do not use a separate `docs/project/issues/` tree unless declared in `docs/docs-guide.md` §3.
+
 ---
 
 ## How to Use
 
-1. Copy this file to your project's `docs/decisions/` or `adr/` directory
+1. Copy this file to `docs/adr/` (agent-kit default) or `docs/decisions/` if the project overrides the path in `docs/docs-guide.md` §3
 2. Name it sequentially: `001-use-postgresql-over-mongodb.md`
 3. Replace all `[bracketed placeholders]` with your content
 4. **Present options honestly** — don't set up straw men just to knock them down
@@ -204,7 +206,7 @@ flowchart LR
 
 - [Related ADR or RFC](../adr/ADR-001-agent-optimized-documentation-system.md)
 - [External documentation or benchmark](https://example.com)
-- [Relevant issue or discussion thread](../../docs/project/issues/issue-00000001-agentic-documentation-system.md)
+- [Related feature or ADR](../../docs/features/<feature>/plan.md)
 
 ---
 

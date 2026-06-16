@@ -1,6 +1,6 @@
-# Requirements
+# Specs
 
-Defines **what** must change and **why**. The **how** belongs in `design.md`; the **work units** belong in `tasks.md`.
+Defines **what** must change and **why**. The **how** and **work units** belong in `plan.md`.
 
 Fill what is known. Use `unknown — needs confirmation` instead of guessing. Use `not applicable` with a short reason when a section does not apply.
 
@@ -8,7 +8,7 @@ Fill what is known. Use `unknown — needs confirmation` instead of guessing. Us
 
 - Feature:
 - Owner:
-- Status: draft | ready-for-build | in-progress | implemented | superseded
+- Status: draft | ready-for-plan | in-progress | implemented | superseded
 - Spec link / tickets:
 - Related modules:
 - Last reviewed:

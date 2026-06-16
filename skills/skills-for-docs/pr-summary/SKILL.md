@@ -19,7 +19,7 @@ metadata:
 
 Produce a reviewable change summary that **reconciles three sources of truth**:
 
-1. The **plan and specs** in `docs/features/<feature>/` (requirements, design, tasks, CHANGELOG).
+1. The **plan and specs** in `docs/features/<feature>/` (specs, plan, CHANGELOG).
 2. The **local session context** in `.local-context/` (handoff notes, open questions, decisions taken mid-session).
 3. The **actual diff** against the comparison base.
 
@@ -37,9 +37,8 @@ Do not use for: planning, implementation, or line-by-line code review.
 
 | Input | Where | Why |
 |---|---|---|
-| Feature requirements | `docs/features/<feature>/requirements.md` | AC the diff must satisfy |
-| Feature design / plan | `docs/features/<feature>/design.md` | Slices, contracts, risks to implement |
-| Feature tasks | `docs/features/<feature>/tasks.md` | Tasks marked done vs. what the diff shows |
+| Feature specs | `docs/features/<feature>/specs.md` | ACs, scope, business rules the diff must satisfy |
+| Feature plan | `docs/features/<feature>/plan.md` | Approach, slices, tasks marked done vs. what the diff shows |
 | Local handoff / session notes | `.local-context/` (any `*.md`) | Decisions, deviations, open questions |
 | Branch diff | `git diff <base>...HEAD` | The actual change |
 | Commit list | `git log <base>..HEAD` | Author's narrative |
@@ -51,7 +50,7 @@ If the feature folder is missing, ask the user which feature this branch belongs
 ### Step 1 — Gather intent
 
 1. Identify the feature. If unclear, ask the user.
-2. Read `requirements.md`, `design.md`, `tasks.md`, `CHANGELOG.md` (skip missing ones, note the gap).
+2. Read `specs.md`, `plan.md`, `CHANGELOG.md` (skip missing ones, note the gap).
 3. Read everything under `.local-context/`.
 4. Confirm the comparison base (default `main`; ask if stacked).
 
@@ -73,8 +72,8 @@ For each meaningful changed file, read enough of the surrounding code at HEAD to
 
 Build three columns: **planned**, **delivered**, **delta**. Walk through:
 
-- Each AC in `requirements.md` — satisfied? Partially? Not at all?
-- Each slice/task in `design.md` and `tasks.md` — does the diff match? Touch anything unplanned?
+- Each AC in `specs.md` — satisfied? Partially? Not at all?
+- Each slice/task in `plan.md` — does the diff match? Touch anything unplanned?
 - Each decision or question in `.local-context/` — resolved? Left open? Changed?
 - Each declared dependency — present in the diff? Any undeclared ones?
 

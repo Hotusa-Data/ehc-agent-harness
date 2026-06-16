@@ -108,16 +108,16 @@ Pre-built Markdown templates for full documents that complement the agent-kit wo
 | Template | When to use | Mermaid embedded |
 |---|---|---|
 | [`templates/decision_record.md`](templates/decision_record.md) | ADRs / RFCs — decisions that need context, options compared, and rationale preserved | Yes (before/after architecture) |
-| [`templates/pull_request.md`](templates/pull_request.md) | PR description as a persistent file — change inventory, testing evidence, rollback plan | Yes (architecture impact) |
+| [`templates/pull_request.md`](templates/pull_request.md) | Optional PR archive as a persistent file (`docs/project/pr/` only if enabled in `docs/docs-guide.md` §3); default kit uses `pr-summary` + feature `CHANGELOG.md` | Yes (architecture impact) |
 | [`templates/how_to_guide.md`](templates/how_to_guide.md) | Tutorials, runbooks, onboarding walkthroughs — verifiable step-by-step | Yes (process overview) |
 | [`templates/project_documentation.md`](templates/project_documentation.md) | Main project README or `docs/index.md` — quick start, architecture, contribution guide | Yes (architecture + request lifecycle) |
 
-> Templates for feature artefacts (`requirements.md`, `design.md`, `tasks.md`, `report.md`, `architecture.md`, etc.) live in `agent-kit/skeletons/` — not here. Embed Mermaid blocks in those skeletons using the rules above.
+> Templates for feature artefacts (`specs.md`, `plan.md`, `report.md`, `architecture.md`, etc.) live in `agent-kit/skeletons/` — not here. Embed Mermaid blocks in those skeletons using the rules above.
 
 ---
 
 ## Related skills
 
 - [`business-reports`](../../skills-for-docs/business-reports/SKILL.md) — heaviest consumer; its selection guide in [`references/diagrams.md`](../../skills-for-docs/business-reports/references/diagrams.md) points back here for syntax.
-- [`design-write`](../../skills-for-planning/design-write/SKILL.md) — technical designs often embed flowcharts or sequence diagrams to explain the approach.
+- [`plan-write`](../../skills-for-planning/plan-write/SKILL.md) — plans often embed flowcharts or sequence diagrams to explain the approach.
 - [`spec-write`](../../skills-for-planning/spec-write/SKILL.md) — specs may include high-level decision flows or system context diagrams.

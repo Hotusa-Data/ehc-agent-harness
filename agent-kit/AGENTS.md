@@ -18,9 +18,9 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 
 | Phase | What you do | Key artifacts |
 |---|---|---|
-| **Context** | Load rules, project context, feature state | `AGENTS.md`, `docs/context/project.md`, `docs/glossary.md` |
-| **Spec** | Define what must change and why | `docs/features/<feature>/requirements.md` |
-| **Plan** | Decide how to implement, slice, test, document | `docs/features/<feature>/design.md`, `tasks.md` |
+| **Context** | Load rules, project docs, feature state | `AGENTS.md`, `docs/docs-guide.md`, `docs/architecture.md`, `docs/glossary.md` |
+| **Spec** | Define what must change and why | `docs/features/<feature>/specs.md` |
+| **Plan** | Decide how to implement, slice, test, document | `docs/features/<feature>/plan.md` |
 | **Build** | Implement in small, reviewable slices | code, tests, notebook mockups |
 | **Document** | Update every durable doc the change touched | glossary, CHANGELOG, report |
 
@@ -28,8 +28,8 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 
 | When | What is reviewed | Who |
 |---|---|---|
-| Post-Spec | `requirements.md` — scope, ACs, business rules | Domain expert or lead |
-| Post-Plan | `design.md` + `tasks.md` — approach, slices, evidence strategy | Technical lead |
+| Post-Spec | `specs.md` — scope, ACs, business rules | Domain expert or lead |
+| Post-Plan | `plan.md` — approach, slices, evidence strategy | Technical lead |
 | Post-Build | PR diff — implementation, tests, docs | Reviewer assigned to the PR |
 
 ---
@@ -38,8 +38,7 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 
 Always:
 1. `agent-kit/agent-rules/core.md` — universal engineering and collaboration rules
-2. `docs/context/project.md` — project-level source of truth (when present)
-3. `docs/docs-guide.md` — per-project required docs and local overrides (when present); authoritative over the defaults in this kit
+2. `docs/docs-guide.md` — per-project required docs and local overrides (when present); authoritative over the defaults in this kit
 
 For task-specific loads (feature work, persistence, tests, security, etc.), see [`agent-rules/documentation.md` §DOC-1](agent-rules/documentation.md). Do not load files whose content will not influence the current decision.
 
@@ -51,15 +50,13 @@ Project-specific knowledge lives in `docs/` in the **consumer repo** (created on
 
 ```text
 docs/
-├── context/project.md
 ├── architecture.md
 ├── database.md
 ├── glossary.md
 ├── docs-guide.md
 └── features/<feature>/
-    ├── requirements.md
-    ├── design.md
-    ├── tasks.md
+    ├── specs.md
+    ├── plan.md
     ├── CHANGELOG.md
     └── report.md
 ```

@@ -2,7 +2,7 @@
 name: context-load
 phase: context
 description: |
-  Load the right context for a session. Always loads the framework layer (agent-kit/agent-rules/core.md) and optional project-level overrides (docs/docs-guide.md). Loads the project layer (docs/context/project.md, docs/architecture.md) when the task touches the project domain. Loads the feature layer (docs/features/<feature>/) — inferred from the conversation if not provided as argument, or listed for the developer to choose from if inference is not possible. Checks the session layer (.local-context/) when handoff notes exist. Use this skill at the start of any session before doing meaningful work.
+  Load the right context for a session. Always loads the framework layer (agent-kit/agent-rules/core.md) and optional project-level overrides (docs/docs-guide.md). Loads the project layer (docs/architecture.md, docs/glossary.md) when the task touches the project domain. Loads the feature layer (docs/features/<feature>/) — inferred from the conversation if not provided as argument, or listed for the developer to choose from if inference is not possible. Checks the session layer (.local-context/) when handoff notes exist. Use this skill at the start of any session before doing meaningful work.
 allowed-tools:
   - Read
   - Glob
@@ -39,16 +39,11 @@ Always loads (whether or not the task is related to a feature):
 
 ---
 
-## Step 2 — Load project context
+## Step 2 — Load project docs
 
-Read `docs/context/project.md` if it exists. If the task touches the project domain (scope, stack, global decisions) and the file is missing, notify the developer:
+Read `docs/architecture.md` when the task involves architectural or system-boundary decisions.
 
-```text
-docs/context/project.md is missing.
-Create it from the skeleton: it must describe the project scope, stack, and global decisions in domain language.
-```
-
-Read `docs/architecture.md` if it exists and the task involves architectural or system-boundary decisions.
+Read `docs/glossary.md` when the task uses business vocabulary.
 
 For task-type-specific loads (persistence, tests, security, Python, etc.), see `agent-kit/agent-rules/documentation.md` §DOC-1.
 
@@ -87,17 +82,16 @@ If the developer selects "none" or confirms no existing feature applies, ask whe
 
 Read these in order, skipping any that do not exist:
 
-1. `docs/features/<feature>/requirements.md`
-2. `docs/features/<feature>/design.md`
-3. `docs/features/<feature>/tasks.md`
-4. `docs/features/<feature>/CHANGELOG.md`
+1. `docs/features/<feature>/specs.md`
+2. `docs/features/<feature>/plan.md`
+3. `docs/features/<feature>/CHANGELOG.md`
 
 Do not load `report.md` by default — it only exists for shipped cycles and is rarely needed during active work.
 
 If the feature folder does not exist:
 1. Notify the developer: `docs/features/<feature>/ does not exist.`
 2. Ask: `Create it now from the templates?`
-3. If yes, scaffold `requirements.md`, `design.md`, `tasks.md`, and `CHANGELOG.md` from skeletons — but do not write without developer confirmation.
+3. If yes, scaffold `specs.md`, `plan.md`, and `CHANGELOG.md` from skeletons — but do not write without developer confirmation.
 4. If no, proceed without feature context and note the gap.
 
 ---
@@ -107,14 +101,13 @@ If the feature folder does not exist:
 ```text
 Context loaded:
 - Framework: agent-kit/agent-rules/core.md ✓
-- Project: docs/context/project.md ✓  (last updated: YYYY-MM-DD)
+- Docs guide: docs/docs-guide.md ✓
 - Architecture: docs/architecture.md — (missing, skipped)
-- Docs guide: docs/docs-guide.md — (missing, skipped)
+- Glossary: docs/glossary.md — (missing, skipped)
 - Session: .local-context/ — (missing, skipped)
 - Feature: docs/features/<feature>/ ✓
-  - requirements.md ✓  (status: active)
-  - design.md ✓  (status: active)
-  - tasks.md ✓  (3 of 7 tasks done)
+  - specs.md ✓  (status: active)
+  - plan.md ✓  (3 of 7 tasks done)
   - CHANGELOG.md ✓  (last entry: YYYY-MM-DD)
 
 Ready to work on: <feature or task description>
@@ -128,7 +121,7 @@ If anything was missing or skipped, say so explicitly.
 
 - Do not start meaningful work before this skill completes.
 - Do not load context for unrelated features — one feature per session is the norm.
-- If the project context is significantly outdated (last updated > 30 days), flag it.
+- If loaded project docs are significantly outdated (last updated > 30 days), flag it.
 - Never invent project goals, feature scope, or decisions not found in the loaded files.
 
 ---
@@ -136,5 +129,5 @@ If anything was missing or skipped, say so explicitly.
 ## Related skills
 
 - [`context-update`](../context-update/SKILL.md) — its closing counterpart at the end of the session.
-- [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — invoke if the glossary referenced by project context does not exist yet.
+- [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — invoke if the glossary does not exist yet.
 - [`grill-me`](../grill-me/SKILL.md) — invoke when loaded context surfaces ambiguity that blocks the work.

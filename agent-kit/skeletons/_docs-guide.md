@@ -9,22 +9,19 @@ This file lists **what this repo requires**. It does not restate load order, val
 - Project:
 - Owner:
 - Last reviewed:
-- Related files: `AGENTS.md`, `docs/context/project.md`, `agent-kit/agent-rules/repo-guide.md`
+- Related files: `AGENTS.md`, `agent-kit/agent-rules/repo-guide.md`
 
 ## 1. Required Docs
 
 | Doc | Status | Purpose |
 |---|---|---|
 | `AGENTS.md` | required | Entrypoint: how the agent works, what to load, when to clarify |
-| `docs/context/project.md` | required | Project-level truth (mission, stack, features in scope, global decisions) |
 | `docs/architecture.md` | required | System shape: components, runtime boundaries, integrations |
 | `docs/glossary.md` | required | Canonical vocabulary |
 | `docs/docs-guide.md` | required | This file |
-| `docs/manifest.yaml` | required | Inventory of all generated artifacts in this repo |
 | `docs/database.md` | optional | Required if the project persists data |
-| `docs/features/<feature>/requirements.md` | optional | One per feature in active scope |
-| `docs/features/<feature>/design.md` | optional | One per feature; required for non-trivial work |
-| `docs/features/<feature>/tasks.md` | optional | One per feature; required when work spans multiple slices |
+| `docs/features/<feature>/specs.md` | optional | One per feature; required for non-trivial work |
+| `docs/features/<feature>/plan.md` | optional | One per feature; required when work spans multiple slices or needs a technical approach |
 | `docs/features/<feature>/report.md` | optional | Created at cycle close |
 | `docs/features/<feature>/CHANGELOG.md` | optional | Required when the feature has evolved beyond its initial commit |
 
@@ -38,7 +35,7 @@ For load order, validation gates, creation-vs-update policy, and skeleton-to-doc
 
 Use this section for repository-specific deviations: stricter gates, extra required docs, alternative load order, or local rules that take precedence over `agent-rules/documentation.md`. State each override explicitly so the agent can detect it.
 
-- Example: `requirements.md` is required even for single-slice changes in this repo (reason: regulatory).
+- Example: `specs.md` is required even for single-slice changes in this repo (reason: regulatory).
 -
 
 ## 4. Change Log

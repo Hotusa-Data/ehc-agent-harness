@@ -76,9 +76,9 @@ flowchart LR
 
 | Phase        | What you do                                                                                  | Typical artefacts                                  |
 | ------------ | -------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| **Context**  | Load `AGENTS.md` and project docs so the AI is grounded, not guessing.                       | `AGENTS.md`, `docs/context/project.md`, glossary   |
-| **Spec**     | Define what changes, why, and what "done" looks like — before touching code.                 | `docs/features/<feature>/requirements.md`          |
-| **Plan**     | Decide how to slice, test and document.                                                      | `design.md`, `tasks.md`                            |
+| **Context**  | Load `AGENTS.md` and project docs so the AI is grounded, not guessing.                       | `AGENTS.md`, `docs/docs-guide.md`, `docs/architecture.md`, glossary   |
+| **Spec**     | Define what changes, why, and what "done" looks like — before touching code.                 | `docs/features/<feature>/specs.md`                 |
+| **Plan**     | Decide how to slice, test and document.                                                      | `docs/features/<feature>/plan.md`                  |
 | **Build**    | Ship small, reviewable slices with evidence (test runs, notebook output).                    | code, tests, notebook outputs                      |
 | **Document** | Update every durable doc the change touched.                                                 | glossary, CHANGELOG, business report               |
 
@@ -88,8 +88,8 @@ Three points where a person — not the AI — has to approve before work contin
 
 | Checkpoint        | What is reviewed                                                | Who                          |
 | ----------------- | --------------------------------------------------------------- | ---------------------------- |
-| **Spec Review**   | `requirements.md` — scope, acceptance criteria, business rules. | Domain expert or lead        |
-| **Plan Review**   | `design.md` + `tasks.md` — approach, slices, evidence strategy. | Technical lead               |
+| **Spec Review**   | `specs.md` — scope, acceptance criteria, business rules. | Domain expert or lead        |
+| **Plan Review**   | `plan.md` — approach, slices, evidence strategy. | Technical lead               |
 | **PR Review**     | PR diff, tests and updated docs.                                | Reviewer assigned to the PR  |
 
 **Non-negotiable rule:** lightweight work may skip phases, but the skipped ones must be named explicitly — usually in the PR description or `CHANGELOG.md`.
@@ -104,8 +104,8 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
 
 1. Copy [`agent-kit/`](./agent-kit/) into the project repo root (`cp -r`, drag-and-drop or `git subtree` — your call).
 2. Create a root `AGENTS.md` from the [`agent-kit/AGENTS.md`](./agent-kit/AGENTS.md) template and adapt it to the project.
-3. Instantiate the base docs from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`, `context/project.md`.
-4. Per feature, create `docs/features/<feature>/` with `requirements.md`, `design.md`, `tasks.md`, `CHANGELOG.md`. Add `report.md` only when the cycle closes.
+3. Instantiate the base docs from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`.
+4. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md`. Add `report.md` only when the cycle closes.
 
 Resulting repo shape:
 
@@ -117,11 +117,10 @@ repo-root/
     ├── architecture.md
     ├── database.md
     ├── glossary.md
-    ├── context/project.md
+    ├── docs-guide.md
     └── features/<feature>/
-        ├── requirements.md
-        ├── design.md
-        ├── tasks.md
+        ├── specs.md
+        ├── plan.md
         └── CHANGELOG.md
 ```
 
