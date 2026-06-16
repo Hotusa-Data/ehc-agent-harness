@@ -9,6 +9,6 @@ This repository is a metarepo for standardizing team AI workflows.
 
 Before non-trivial work, read `agent-kit/AGENTS.md`. It is the canonical agent entrypoint for this framework.
 
-Detailed rules live in `agent-kit/agent-rules/`. Document skeletons live in `agent-kit/skeletons/`.
+Detailed rules live in `agent-kit/agent-rules/` (see `agent-kit/agent-rules/RULES.md` for the index). Document skeletons live in `agent-kit/skeletons/`.
 
 Do not duplicate the kit rules in Cursor rules. If the workflow changes, update the canonical files under `agent-kit/` and keep this plugin rule as a pointer.

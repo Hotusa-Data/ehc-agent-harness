@@ -160,10 +160,13 @@ A scratchpad that lives in the repo but never gets committed.
 **Default load (most sessions):**
 
 - `AGENTS.md`
+- `agent-kit/agent-rules/CORE.md`
 - Relevant project docs (`docs/docs-guide.md`, `docs/architecture.md`, `docs/glossary.md`)
 - Relevant feature context (if the feature is known)
 - Existing specs, plan, or CHANGELOG for the same area
 - The code and tests being touched
+
+Rule file index and canonical topics: [`agent-kit/agent-rules/RULES.md`](../../agent-kit/agent-rules/RULES.md). Full load order: [`DOCUMENTATION.md`](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-1.
 
 **When to load more:**
 
@@ -173,6 +176,13 @@ A scratchpad that lives in the repo but never gets committed.
 | Request uses business terms ("tenant", "billing cycle") | `docs/glossary.md` |
 | Placement or layout unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/architecture.md` (project deltas) |
 | Layer contracts or import boundaries | `agent-kit/agent-rules/ARCHITECTURE.md` |
+| ORM, queries, migrations, sessions | `agent-kit/agent-rules/PERSISTENCE.md`, `docs/database.md` |
+| Tests or verification strategy | `agent-kit/agent-rules/TESTING.md` |
+| Python code | `agent-kit/agent-rules/PYTHON.md` |
+| Schemas, contracts, validation | `agent-kit/agent-rules/VALIDATION.md` |
+| Auth, secrets, trust boundaries | `agent-kit/agent-rules/SECURITY.md` |
+| Logs, metrics, tracing | `agent-kit/agent-rules/OBSERVABILITY.md` |
+| Docs/planning gates | `agent-kit/agent-rules/DOCUMENTATION.md` |
 | Existing behavior must be compared | The feature's current `specs.md` |
 | Unclear whether a feature exists | List `docs/features/` first |
 

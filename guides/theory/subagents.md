@@ -115,7 +115,7 @@ Frontmatter rules:
 
 Each subagent should answer one question: "what bounded work gets its own context?". A worker that scans logs *and* edits code *and* writes tests has fuzzy routing and weak constraints. Split it.
 
-Do not name subagents after org-chart roles (`data-engineer`, `test-engineer`). Name them after the delegation unit (`ingestion-explorer`, `diff-scanner`, `coverage-gap-finder`). Domain rules belong in `agent-kit/agent-rules/`, not in persona prose.
+Do not name subagents after org-chart roles (`data-engineer`, `test-engineer`). Name them after the delegation unit (`ingestion-explorer`, `diff-scanner`, `coverage-gap-finder`). Domain rules belong in `agent-kit/agent-rules/` (`RULES.md` index), not in persona prose.
 
 ### Restrict tools intentionally
 
@@ -227,7 +227,7 @@ Before shipping a subagent:
 This metarepo does **not** ship a catalog of job-title subagents. Domain expertise lives in:
 
 - the general model
-- `agent-kit/agent-rules/` — engineering and collaboration rules
+- `agent-kit/agent-rules/RULES.md` — rule index; `agent-kit/agent-rules/` — engineering and collaboration rules
 - `docs/` — project-specific knowledge in the consumer repo
 - `skills/` — repeatable workflows
 

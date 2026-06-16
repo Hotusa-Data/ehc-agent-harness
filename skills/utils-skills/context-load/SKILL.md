@@ -49,6 +49,8 @@ Always loads (whether or not the task is related to a feature):
 1. `agent-kit/agent-rules/CORE.md` — universal engineering and collaboration rules. Skip if already loaded in the session.
 2. `docs/docs-guide.md` — per-project required docs and local overrides (when present). If it exists, defer to it for load order over the defaults in this kit (see `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-5).
 
+Optional index (when choosing JIT rules): `agent-kit/agent-rules/RULES.md`.
+
 `AGENTS.md` is assumed already read — it is the session entry point.
 
 ---
@@ -59,7 +61,22 @@ Read `docs/architecture.md` when the task involves architectural or system-bound
 
 Read `docs/glossary.md` when the task uses business vocabulary.
 
-For task-type-specific loads (persistence, tests, security, Python, etc.), see `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-1.
+For task-type-specific loads, use this table (authoritative source: `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-1):
+
+| Task type | Add to load |
+|---|---|
+| Touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
+| Uses business vocabulary | `docs/glossary.md` |
+| Placement or structure unclear | `REPO_GUIDE.md`, `docs/architecture.md` (project deltas only) |
+| Layer contracts, circular imports | `ARCHITECTURE.md` |
+| ORM, queries, migrations, sessions | `PERSISTENCE.md`, `docs/database.md` |
+| Auth, secrets, trust boundaries | `SECURITY.md` |
+| Tests | `TESTING.md` |
+| Input checks, contracts | `VALIDATION.md` |
+| Logs, metrics, tracing | `OBSERVABILITY.md` |
+| Python code | `PYTHON.md` |
+
+Paths above are under `agent-kit/agent-rules/` unless noted.
 
 ---
 
