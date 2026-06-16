@@ -13,7 +13,7 @@ Load when: any task that reads, writes, or relies on `docs/` artifacts, or that 
 
 ## Rules
 
-Rules are numbered **DOC-1** through **DOC-7**. Retired numbers are not reused.
+Rules are numbered **DOC-1** through **DOC-9**. Retired numbers are not reused.
 
 ### DOC-1 Load just-in-time, not eagerly [MUST]
 
@@ -77,7 +77,7 @@ If a target doc does not exist, create it from the matching skeleton in `agent-k
 | `agent-kit/skeletons/_report.md` | `docs/features/<feature>/report.md` |
 | `agent-kit/skeletons/_CHANGELOG.md` | `docs/features/<feature>/CHANGELOG.md` |
 
-**Bootstrap shortcut:** After copying `agent-kit/` into a consumer repo, run `python agent-kit/adopt.py` from the project root (see metarepo README Track 1). It instantiates the base rows in this table, ensures `.gitignore` excludes `.local-context/`, and optionally scaffolds `docs/features/<feature>/` or root `AGENTS.md`. Manual copy from skeletons remains valid when the script is not used.
+**Bootstrap shortcut:** After copying `agent-kit/` into a consumer repo, run `python agent-kit/adopt.py` from the project root. It instantiates the base rows in this table, ensures `.gitignore` excludes `.local-context/`, and optionally scaffolds `docs/features/<feature>/` or root `AGENTS.md`. Manual copy from skeletons remains valid when the script is not used.
 
 ### DOC-5 Treat `docs/docs-guide.md` as the project's authority on required docs [MUST]
 
@@ -97,11 +97,34 @@ Every feature `CHANGELOG.md` (instantiated from `agent-kit/skeletons/_CHANGELOG.
 - One line per change; include the **why** (e.g. `Removed X (why: deprioritized)`).
 - Standard Keep-a-Changelog sections: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`.
 - Feature-work extension sections: `Specs`, `Plan`, `Decided`. Use these under `[Unreleased]` to track in-flight scope and approach changes.
+- Use `Decided` under `[Unreleased]` for deferred work, partial fixes, and known follow-ups — not a separate debt register.
 - In-flight work always lives under `[Unreleased]`. Do **not** use date-only headers (`## [2026-05-27]`) as a substitute — promote to a semver release (`## [1.1.0] — YYYY-MM-DD`) only when the feature actually ships.
 - Bump the semver section when shipping a meaningful new release of the feature; reference `report.md` from the release entry.
 - Do not duplicate git diffs — narrative only.
 
 A CHANGELOG that drifts from this shape is a bug; fix the CHANGELOG rather than inventing local conventions.
+
+### DOC-8 Reconcile docs with the diff before review [MUST]
+
+Use the existing `docs/` tree only — no new registry files.
+
+| Trigger | Required action |
+|---|---|
+| Behavior change | Update `specs.md`, or record the delta under `[Unreleased]` → `Specs` / `Changed` in CHANGELOG |
+| New business term in spec or code | Update `docs/glossary.md` before opening the PR |
+| New module, top-level folder, or external integration | Update `docs/architecture.md`, or state the deviation in `docs/docs-guide.md` §3 |
+| Deferred or partial fix | Record under `[Unreleased]` → `Decided` in CHANGELOG with follow-up scope |
+| Feature cycle closes | Add or update `report.md`; promote `[Unreleased]` to a semver release when shipping |
+
+### DOC-9 Doc hygiene at session and PR close [MUST]
+
+Before handoff or PR:
+
+- [ ] Durable facts in `.local-context/` are promoted into `docs/` or discarded
+- [ ] Feature CHANGELOG has a `[Unreleased]` entry when specs, plan, or scope moved
+- [ ] Open assumptions are in `plan.md`, `specs.md`, or CHANGELOG `Decided` — not only in chat
+- [ ] No parallel feature folder for the same scope — update the existing folder in place
+- [ ] Docs touched by the change match the diff (DOC-8)
 
 ## Anti-patterns
 
@@ -109,6 +132,8 @@ A CHANGELOG that drifts from this shape is a bug; fix the CHANGELOG rather than 
 - Creating a second feature folder because the existing one "feels off" instead of updating it.
 - Writing freeform docs in a shape that does not match any skeleton.
 - Restating load order or gates inside a feature doc instead of pointing at this rule.
+- Leaving stale specs because "the code is the truth" — update the spec or CHANGELOG the delta.
+- Recording deferred work only in chat or `.local-context/` — use CHANGELOG `Decided` (DOC-7).
 
 ## See also
 

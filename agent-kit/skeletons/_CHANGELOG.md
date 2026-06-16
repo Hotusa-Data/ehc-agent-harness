@@ -2,7 +2,7 @@
 
 All notable changes to this feature's specs, plan, scope, or implementation.
 
-Conventions for this file live in [`agent-kit/agent-rules/documentation.md`](../../../agent-kit/agent-rules/documentation.md) §DOC-7. Do not invent local conventions here.
+Conventions for this file live in [`agent-kit/agent-rules/documentation.md`](../../../agent-kit/agent-rules/documentation.md) §DOC-7 and §DOC-8. Use `Decided` under `[Unreleased]` for deferred work — do not invent local conventions here.
 
 ## 0. Metadata
 

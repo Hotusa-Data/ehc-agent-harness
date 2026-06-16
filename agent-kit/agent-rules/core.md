@@ -77,6 +77,20 @@ Always separate:
 
 Do not flatten these into "done".
 
+## Golden principles
+
+### GP-1 Prefer shared utilities over one-off helpers [SHOULD]
+
+Reuse project utilities and patterns before adding a local helper used once. Centralize invariants the agent and humans both rely on.
+
+### GP-2 Validate data shape at the boundary [MUST]
+
+Do not assume column names, dtypes, or cardinality from exploration alone. Validate ingest and outputs with explicit schemas (e.g. Pandera, Pydantic) at system boundaries. See [validation](validation.md) and CORE-2.
+
+### GP-3 Promote repeated violations to durable rules [SHOULD]
+
+If the same mistake happens twice, record the fix in `docs/docs-guide.md` §3 or the relevant `agent-rules/` file — do not restate it only in session chat.
+
 ## Anti-patterns
 
 - Inventing business rules or thresholds not present in the spec or glossary.

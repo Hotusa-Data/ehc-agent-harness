@@ -81,7 +81,7 @@ Before requesting review or marking work complete:
 
 - [ ] Relevant tests for changed behavior pass (see [Commands](#commands))
 - [ ] Lint/format checks pass on touched files
-- [ ] For non-trivial work: `specs.md`, `plan.md`, and `CHANGELOG.md` do not contradict the code
+- [ ] For non-trivial work: feature docs and touched base docs match the code (see `agent-kit/agent-rules/documentation.md` §DOC-8)
 - [ ] No secrets, credentials, or `.local-context/` content in the diff
 - [ ] Distinguish what you ran from what you only wrote (see `core.md` §COOP-3)
 
