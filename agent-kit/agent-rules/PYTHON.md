@@ -1,8 +1,7 @@
 ---
 triggers: [python, .py, function, class, import, type hint, pandas, dataclass, pydantic, fastapi, typer]
-requires: [core]
-see-also: [architecture, validation, testing]
-severity-default: SHOULD
+requires: [CORE]
+see-also: [ARCHITECTURE, VALIDATION, TESTING]
 ---
 
 # Python Conventions
@@ -23,7 +22,7 @@ IO, database writes, logging, and network calls should live at workflow edges, n
 
 ### PY-3 Pick containers deliberately [MUST]
 
-Use **Pydantic v2** models for boundary crossing (API, CRUD inputs), `dataclass` for simple internal immutable structures, and **Pandera** schemas when DataFrame column contracts matter. Do not pass raw `dict` across meaningful boundaries. Use `obj.model_dump()` (Pydantic v2), not the deprecated `.dict()`.
+Use **Pydantic v2** models for boundary crossing (API, CRUD inputs), `dataclass` for simple internal immutable structures, and **Pandera** schemas when DataFrame column contracts matter. Do not pass raw `dict` across meaningful boundaries — see **ARCH-1** (`ARCHITECTURE.md`). Use `obj.model_dump()` (Pydantic v2), not the deprecated `.dict()`.
 
 ### PY-4 Avoid chained pandas assignment [MUST]
 
@@ -49,7 +48,7 @@ Treat DataFrames like SQL tables: by columns, not by position. Ruff `PD` rules e
 
 ### PY-7 Dependency and pre-commit workflow [MUST]
 
-Use **uv** for dependency management (`uv add <pkg>`, `uv add --dev <pkg>`, `uv sync`, `uv run <cmd>`). Commit `uv.lock`. Use **prek** for pre-commit hooks (`uv run prek install --install-hooks`). Do not bypass hooks; if one fails, fix the underlying issue.
+Use **uv** for dependency management (`uv add <pkg>`, `uv add --dev <pkg>`, `uv sync`, `uv run <cmd>`). Commit `uv.lock`. Use **prek** for pre-commit hooks (`uv run prek install --install-hooks`). Do not bypass hooks; if one fails, fix the underlying issue. Reproducible resolution also applies to **SEC-8** (`SECURITY.md`).
 
 ### PY-8 Modern type syntax [MUST]
 
@@ -87,7 +86,7 @@ Every `.py` and `.sh` file carries the project license header from `.license.tmp
 
 - One file per feature under `api/routes/<feature>.py`. Create the router with `APIRouter(prefix="/<feature>", tags=["<Area>"])` and include it from `api/main.py` with `api_router.include_router(...)`.
 - Every endpoint declares its response shape via `response_model=...` or a typed return annotation. Do not return raw ORM objects or `dict`.
-- Inject dependencies with `Depends(...)` (DB session, settings, current user). Do not create sessions inside the route body.
+- Inject dependencies with `Depends(...)` (DB session, settings, current user). Session scope: **PER-4** (`PERSISTENCE.md`).
 - Raise `HTTPException` for HTTP-shaped failures at the route boundary. Inner layers raise domain exceptions (see PY-15); the route translates them.
 - Status codes: `200` success, `201` created, `404` not found, `409` conflict, `422` validation error (Pydantic handles automatically), `500` unexpected failure. Never return `200` when the resource was not found.
 
@@ -97,7 +96,7 @@ Every `.py` and `.sh` file carries the project license header from `.license.tmp
 - Compose groups in `cli/__init__.py` with `app.add_typer(subapp, name="<group>", help="...")`.
 - Underscores in parameter names become dashes on the CLI (`file_name` → `--file-name`); keep Python names snake_case.
 - Defaults that depend on runtime (timestamps, paths) belong in the function signature, not computed inside.
-- Use `rich` for human-facing output (tables, progress, status). Keep all logs in Loguru — do not mix the two. See [observability](observability.md) OBS-11.
+- Human-facing CLI output: **OBS-11** (`OBSERVABILITY.md`). Logs stay in Loguru.
 
 ### PY-15 Exception hierarchy and propagation [MUST]
 
@@ -143,10 +142,10 @@ FastAPI routes can be `async def` or plain `def`. Choose deliberately:
 
 ## Project Overrides
 
-Use this section for project-specific Python style rules, approved libraries, typing expectations, or pandas conventions.
+Project-specific Python style: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [architecture](architecture.md)
-- [validation](validation.md)
-- [testing](testing.md)
+- [ARCHITECTURE](ARCHITECTURE.md)
+- [VALIDATION](VALIDATION.md)
+- [TESTING](TESTING.md)

@@ -40,7 +40,7 @@ The issue tracker and triage label vocabulary should have been provided in `docs
 
 Follow the DOC-1 load order. Always load:
 - `docs/features/<feature>/specs.md` — read every AC; flag any that are ambiguous before planning
-- `agent-kit/agent-rules/core.md`, `agent-kit/agent-rules/testing.md`
+- `agent-kit/agent-rules/CORE.md`, `agent-kit/agent-rules/TESTING.md`
 
 Load additionally when applicable:
 
@@ -48,10 +48,10 @@ Load additionally when applicable:
 |---|---|---|
 | `docs/architecture.md` | Layout delta or project boundary change | §3 deltas and §4–§5 invariants already documented |
 | `docs/glossary.md` | Business vocabulary in the specs | Canonical names for function signatures and variable names |
-| `agent-kit/agent-rules/repo-guide.md` | Placement or new folder/layer | Default codemap and dependency direction (REPO-2) |
-| `agent-kit/agent-rules/architecture.md` | Layer contracts or circular imports | Typed boundaries and abstraction rules (ARCH-1–3) |
-| `agent-kit/agent-rules/persistence.md` | ORM, queries, migrations | Session and transaction patterns already in use |
-| `agent-kit/agent-rules/security.md` | Auth, secrets, or trust boundary involved | Trust model and validation-placement rules |
+| `agent-kit/agent-rules/REPO_GUIDE.md` | Placement or new folder/layer | Default codemap and dependency direction (REPO-2) |
+| `agent-kit/agent-rules/ARCHITECTURE.md` | Layer contracts or circular imports | Typed boundaries and abstraction rules (ARCH-1–3) |
+| `agent-kit/agent-rules/PERSISTENCE.md` | ORM, queries, migrations | Session and transaction patterns already in use |
+| `agent-kit/agent-rules/SECURITY.md` | Auth, secrets, or trust boundary involved | Trust model and validation-placement rules |
 | `docs/features/<related>/plan.md` | A similar prior feature exists | Architectural precedent — copy the pattern, don't reinvent |
 
 If publishing to a tracker, load issue tracker and triage label vocabulary from `docs/docs-guide.md` §3.
@@ -76,7 +76,7 @@ Read the affected modules, existing patterns, and nearby conventions.
 Draft in this order — the **task list and testing plan are the primary deliverable**:
 
 1. **§1 Task List** — ordered, dependency-aware rows with Req, AC, Test plan (§2 anchor), Evidence (§3 anchor), Kind (AFK/HITL), and Files/areas.
-2. **§2 Testing Plan** — one row per Must AC (and Should ACs in full mode): level, test module path, behavior under test, doubles/boundaries, edge cases. Follow `testing.md`; link evidence types to `specs.md` §8.
+2. **§2 Testing Plan** — one row per Must AC (and Should ACs in full mode): level, test module path, behavior under test, doubles/boundaries, edge cases. Follow `TESTING.md`; link evidence types to `specs.md` §8.
 3. **§3 Evidence And Commands** — concrete command or TEST-10 justification per §2 row.
 4. **§4 Approach** — brief context (standard) or fuller rationale (full).
 5. **§5–§9** — contracts, external dependencies, future TODOs, documentation impact, risks — only rows that **some task** needs.

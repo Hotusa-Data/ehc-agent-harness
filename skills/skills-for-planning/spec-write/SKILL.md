@@ -37,7 +37,7 @@ Synthesize the current conversation and codebase understanding into `specs.md`. 
 
 ### 1. Load context
 
-Follow the DOC-1 load order. Always load `AGENTS.md` and `agent-kit/agent-rules/core.md`.
+Follow the DOC-1 load order. Always load `AGENTS.md` and `agent-kit/agent-rules/CORE.md`.
 
 Then load by what the task requires:
 

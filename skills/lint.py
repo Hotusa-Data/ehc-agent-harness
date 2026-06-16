@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Lint the skill catalog.
 
@@ -27,7 +27,8 @@ Also checks `agent-kit/skeletons/` for case-only filename collisions (e.g.
 Validates `agent-kit/AGENTS.md` carries the required entrypoint sections
 (Commands, Boundaries, Pull requests, etc.), forbids a duplicated rules index,
 and enforces a maximum line count. Delegates doc rules to
-`agent-kit/agent-rules/documentation.md`.
+`agent-kit/agent-rules/DOCUMENTATION.md`. Validates `agent-kit/agent-rules/`
+(SCREAMING_SNAKE filenames, frontmatter, unique rule IDs, internal links).
 
 Exit 0 if no errors, 1 otherwise. Warnings never fail the run.
 
@@ -58,6 +59,7 @@ PLUGIN_SKILL_SOURCES: dict[str, str] = {
 
 def parse_frontmatter(text: str) -> dict | None:
     """Extract YAML frontmatter as a flat dict. Supports 1-level nesting under `metadata`."""
+    text = text.lstrip("\ufeff").replace("\r\n", "\n")
     match = re.match(r"^---\n(.*?)\n---\n", text, re.DOTALL)
     if not match:
         return None
@@ -238,13 +240,13 @@ def check_agents_md() -> list[str]:
                 "agent-kit/AGENTS.md: adoption/bootstrap content belongs in "
                 f"README/guides, not {section!r}",
             )
-    if "agent-kit/agent-rules/documentation.md" not in text:
+    if "agent-kit/agent-rules/DOCUMENTATION.md" not in text:
         errors.append(
-            "agent-kit/AGENTS.md: must link to agent-kit/agent-rules/documentation.md",
+            "agent-kit/AGENTS.md: must link to agent-kit/agent-rules/DOCUMENTATION.md",
         )
-    if "agent-kit/agent-rules/README.md" not in text:
+    if "agent-kit/agent-rules/RULES.md" not in text:
         errors.append(
-            "agent-kit/AGENTS.md: must link to agent-kit/agent-rules/README.md",
+            "agent-kit/AGENTS.md: must link to agent-kit/agent-rules/RULES.md",
         )
     return errors
 
@@ -289,7 +291,115 @@ def check_skeleton_path_casing() -> list[str]:
     if changelog_variants and CHANGELOG_SKELETON not in changelog_variants:
         errors.append(
             f"agent-kit/skeletons/: CHANGELOG skeleton must be named {CHANGELOG_SKELETON} "
-            f"(documentation.md mapping; found {sorted(changelog_variants)})",
+            f"(DOCUMENTATION.md mapping; found {sorted(changelog_variants)})",
+        )
+
+    return errors
+
+
+AGENT_RULES_DIR = REPO_ROOT / "agent-kit" / "agent-rules"
+RULE_FILE_PATTERN = re.compile(r"^[A-Z][A-Z0-9_]*\.md$")
+RULE_ID_PATTERN = re.compile(
+    r"^### ((?:CORE|COOP|DOC|REPO|ARCH|PY|PER|TEST|VAL|SEC|OBS)-\d+)\s",
+    re.MULTILINE,
+)
+RULE_PREFIX_TO_FILE: dict[str, str] = {
+    "CORE": "CORE.md",
+    "COOP": "CORE.md",
+    "DOC": "DOCUMENTATION.md",
+    "REPO": "REPO_GUIDE.md",
+    "ARCH": "ARCHITECTURE.md",
+    "PY": "PYTHON.md",
+    "PER": "PERSISTENCE.md",
+    "TEST": "TESTING.md",
+    "VAL": "VALIDATION.md",
+    "SEC": "SECURITY.md",
+    "OBS": "OBSERVABILITY.md",
+}
+REQUIRED_RULE_FRONTMATTER = ("triggers:", "requires:", "see-also:")
+FORBIDDEN_RULE_FRONTMATTER = ("severity-default:",)
+RELATIVE_LINK_PATTERN = re.compile(r"\]\(([A-Za-z0-9_]+\.md)\)")
+
+
+def check_agent_rules() -> list[str]:
+    """Validate agent-kit/agent-rules/ naming, frontmatter, IDs, and links."""
+    errors: list[str] = []
+    rules_dir = AGENT_RULES_DIR
+    if not rules_dir.is_dir():
+        errors.append("agent-kit/agent-rules/ missing")
+        return errors
+
+    rule_files = sorted(rules_dir.glob("*.md"))
+    if not rule_files:
+        errors.append("agent-kit/agent-rules/: no rule files found")
+        return errors
+
+    seen_ids: dict[str, str] = {}
+
+    for path in rule_files:
+        rel = path.relative_to(REPO_ROOT).as_posix()
+        name = path.name
+        if name == "RULES.md":
+            continue
+        if not RULE_FILE_PATTERN.match(name):
+            errors.append(
+                f"{rel}: filename must be SCREAMING_SNAKE.md (harness rule convention)",
+            )
+
+        text = path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+        if not text.startswith("---\n"):
+            errors.append(f"{rel}: missing YAML frontmatter")
+            continue
+
+        end = text.find("\n---\n", 4)
+        frontmatter = text[4:end] if end != -1 else ""
+        for key in REQUIRED_RULE_FRONTMATTER:
+            if key not in frontmatter:
+                errors.append(f"{rel}: frontmatter missing {key!r}")
+        for key in FORBIDDEN_RULE_FRONTMATTER:
+            if key in frontmatter:
+                errors.append(f"{rel}: remove deprecated frontmatter {key!r}")
+
+        for link_target in RELATIVE_LINK_PATTERN.findall(text):
+            if link_target == "RULES.md":
+                continue
+            if not (rules_dir / link_target).is_file():
+                errors.append(f"{rel}: broken link to {link_target!r}")
+
+        for match in RULE_ID_PATTERN.finditer(text):
+            full_id = match.group(1)
+            prefix = full_id.split("-", 1)[0]
+            expected_file = RULE_PREFIX_TO_FILE.get(prefix)
+            if expected_file and name != expected_file:
+                errors.append(
+                    f"{rel}: rule {full_id} belongs in agent-kit/agent-rules/{expected_file}",
+                )
+            if full_id in seen_ids:
+                errors.append(
+                    f"{rel}: duplicate rule id {full_id} (also in {seen_ids[full_id]})",
+                )
+            else:
+                seen_ids[full_id] = rel
+
+    required_rule_files = {
+        "CORE.md",
+        "DOCUMENTATION.md",
+        "REPO_GUIDE.md",
+        "ARCHITECTURE.md",
+        "PYTHON.md",
+        "PERSISTENCE.md",
+        "TESTING.md",
+        "VALIDATION.md",
+        "SECURITY.md",
+        "OBSERVABILITY.md",
+        "RULES.md",
+    }
+    present = {p.name for p in rule_files}
+    missing = sorted(required_rule_files - present)
+    if missing:
+        errors.append(
+            "agent-kit/agent-rules/: missing expected files: "
+            + ", ".join(missing),
         )
 
     return errors
@@ -368,6 +478,14 @@ def main() -> int:
         total_errors += len(agents_errors)
     else:
         print("  OK    agent-kit/AGENTS.md entrypoint sections")
+
+    agent_rules_errors = check_agent_rules()
+    if agent_rules_errors:
+        for err in agent_rules_errors:
+            print(f"  ERROR agent-rules: {err}")
+        total_errors += len(agent_rules_errors)
+    else:
+        print("  OK    agent-kit/agent-rules/ naming, IDs, and links")
 
     print()
     print(

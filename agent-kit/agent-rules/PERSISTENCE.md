@@ -1,8 +1,7 @@
 ---
 triggers: [sqlalchemy, alembic, session, model, crud, orm, database, migration]
-requires: [core]
-see-also: [architecture, validation, testing]
-severity-default: MUST
+requires: [CORE]
+see-also: [ARCHITECTURE, VALIDATION, TESTING]
 ---
 
 # Persistence
@@ -15,7 +14,7 @@ Load when: defining or modifying models, writing queries, handling sessions, or 
 
 ### PER-1 Keep ORM models focused on mapping [MUST]
 
-`models/` should define tables, columns, nullability, keys, and indexes. Do not put API shapes, business workflows, or session management there.
+`models/` should define tables, columns, nullability, keys, and indexes. Do not put API shapes, business workflows, or session management there. Schema roles: **VAL-2** (`VALIDATION.md`).
 
 ### PER-2 Make required columns explicit [MUST]
 
@@ -27,7 +26,7 @@ Columns used often in `WHERE`, `ORDER BY`, or `JOIN` clauses should usually be i
 
 ### PER-4 Open sessions at the edge and pass them inward [MUST]
 
-Session creation belongs at the workflow edge — routes, CLI commands, or top-level scripts. CRUD and service functions receive `db: Session` explicitly; they do not create hidden sessions internally.
+Session creation belongs at the workflow edge — routes, CLI commands, or top-level scripts. CRUD and service functions receive `db: Session` explicitly; they do not create hidden sessions internally. FastAPI routes: **PY-13** (`PYTHON.md`).
 
 ### PER-5 Keep commit ownership explicit [MUST]
 
@@ -74,7 +73,7 @@ Method names should express behavior: prefer `get_by_source`, `get_latest`, `cou
 
 ### PER-12 SQLite is for local only [SHOULD]
 
-SQLite is acceptable for local development and unit tests. Behavior tied to a different production dialect (Postgres) must be verified against that dialect — see [testing](testing.md) TEST-4.
+SQLite is acceptable for local development and unit tests. Behavior tied to a different production dialect (Postgres) must be verified against that dialect — see **TEST-4** (`TESTING.md`).
 
 ## Anti-patterns
 
@@ -87,10 +86,10 @@ SQLite is acceptable for local development and unit tests. Behavior tied to a di
 
 ## Project Overrides
 
-Use this section for project-specific ORM, migration, or transaction rules such as allowed database backends, migration review expectations, or repository naming conventions.
+Project-specific ORM, migration, or transaction rules: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [architecture](architecture.md)
-- [validation](validation.md)
-- [testing](testing.md)
+- [ARCHITECTURE](ARCHITECTURE.md)
+- [VALIDATION](VALIDATION.md)
+- [TESTING](TESTING.md)

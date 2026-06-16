@@ -1,8 +1,7 @@
 ---
 triggers: [secret, password, token, api key, credential, pii, gdpr, injection, vulnerability, dependency]
-requires: [core]
-see-also: [persistence, observability, validation]
-severity-default: MUST
+requires: [CORE]
+see-also: [PERSISTENCE, OBSERVABILITY, VALIDATION]
 ---
 
 # Security And Sensitive Data
@@ -15,9 +14,7 @@ Load when: code touches credentials, environment config, external input, third-p
 
 ### SEC-1 Never commit secrets [MUST]
 
-Secrets, tokens, API keys, and connection strings must not appear in source code, notebooks, fixtures, or committed outputs. Use environment-backed configuration or a secrets manager.
-
-Credentials live in `.env` (gitignored) with a package-level env prefix. They are read through the settings class in `core/config/`, never accessed directly from `os.environ` in business code. See [validation](validation.md) VAL-11.
+Secrets, tokens, API keys, and connection strings must not appear in source code, notebooks, fixtures, or committed outputs. Use environment-backed configuration or a secrets manager. Settings and credentials: **VAL-11** (`VALIDATION.md`).
 
 ### SEC-2 Never build SQL from untrusted strings [MUST]
 
@@ -33,19 +30,19 @@ Sensitive fields should be explicit in schemas, accessed only when needed, exclu
 
 ### SEC-5 Validate and bound external input [MUST]
 
-External input must be validated at the boundary with limits on length, ranges, sizes, and allowed values. See [validation](validation.md) VAL-1 and VAL-8.
+External input must be validated at the boundary with limits on length, ranges, sizes, and allowed values. See **VAL-1**, **VAL-8** (`VALIDATION.md`).
 
 ### SEC-6 Never log secrets or PII [MUST]
 
-Logs should use safe identifiers and redact or omit anything sensitive. See [observability](observability.md) OBS-5.
+Logs should use safe identifiers and redact or omit anything sensitive. **OBS-5** (`OBSERVABILITY.md`) defers here.
 
 ### SEC-7 Treat third-party data as untrusted [MUST]
 
-Never use `eval`, `exec`, `yaml.load()` without a safe loader, or any untrusted deserialization on external data. For shape and bounds validation of external payloads, see [validation](validation.md) VAL-1 and VAL-8.
+Never use `eval`, `exec`, `yaml.load()` without a safe loader, or any untrusted deserialization on external data. Shape and bounds: **VAL-1**, **VAL-8** (`VALIDATION.md`).
 
 ### SEC-8 Keep dependency resolution reproducible [MUST]
 
-Commit `uv.lock`. Applications need reproducible dependency resolution. Security-sensitive upgrades should be reviewed deliberately. `deptry` enforces "no missing / no unused / no transitive / no misplaced-dev" deps; address violations rather than ignoring them.
+Commit `uv.lock`. Security-sensitive upgrades should be reviewed deliberately. Workflow: **PY-7** (`PYTHON.md`); `deptry` violations must be addressed.
 
 ### SEC-9 Permissive licenses only [MUST]
 
@@ -69,10 +66,10 @@ If a notebook exposes PII, secrets, or production-only identifiers, clear the ou
 
 ## Project Overrides
 
-Use this section for project-specific security controls such as approved secret sources, PII policy, audit requirements, or dependency scanning expectations.
+Project-specific security controls: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [persistence](persistence.md)
-- [observability](observability.md)
-- [validation](validation.md)
+- [PERSISTENCE](PERSISTENCE.md)
+- [OBSERVABILITY](OBSERVABILITY.md)
+- [VALIDATION](VALIDATION.md)

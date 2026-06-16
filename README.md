@@ -102,7 +102,7 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
 
 ### Track 1 — Project repo (manual)
 
-1. Copy [`agent-kit/`](./agent-kit/) into the project repo root (`cp -r`, drag-and-drop or `git subtree` — your call).
+1. Copy [`agent-kit/`](./agent-kit/) into the project repo root (`cp -r`, drag-and-drop or `git subtree` — your call). Rule files under `agent-kit/agent-rules/` use **SCREAMING_SNAKE.md** (harness extensions of `AGENTS.md`); project docs under `docs/` stay lowercase — see [`agent-kit/agent-rules/RULES.md`](./agent-kit/agent-rules/RULES.md).
 2. Bootstrap docs and session gitignore (optional but recommended):
 
    ```bash

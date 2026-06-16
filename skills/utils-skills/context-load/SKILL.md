@@ -2,7 +2,7 @@
 name: context-load
 phase: context
 description: |
-  Load the right context for a session. Always loads the framework layer (agent-kit/agent-rules/core.md) and optional project-level overrides (docs/docs-guide.md). Loads the project layer (docs/architecture.md, docs/glossary.md) when the task touches the project domain. Loads the feature layer (docs/features/<feature>/) — inferred from the conversation if not provided as argument, or listed for the developer to choose from if inference is not possible. Checks the session layer (.local-context/) when handoff notes exist. Use this skill at the start of any session before doing meaningful work.
+  Load the right context for a session. Always loads the framework layer (agent-kit/agent-rules/CORE.md) and optional project-level overrides (docs/docs-guide.md). Loads the project layer (docs/architecture.md, docs/glossary.md) when the task touches the project domain. Loads the feature layer (docs/features/<feature>/) — inferred from the conversation if not provided as argument, or listed for the developer to choose from if inference is not possible. Checks the session layer (.local-context/) when handoff notes exist. Use this skill at the start of any session before doing meaningful work.
 allowed-tools:
   - Read
   - Glob
@@ -46,8 +46,8 @@ Load context before working, following the four-layer model defined in `guides/o
 
 Always loads (whether or not the task is related to a feature):
 
-1. `agent-kit/agent-rules/core.md` — universal engineering and collaboration rules. Skip if already loaded in the session.
-2. `docs/docs-guide.md` — per-project required docs and local overrides (when present). If it exists, defer to it for load order over the defaults in this kit (see `agent-kit/agent-rules/documentation.md` §DOC-5).
+1. `agent-kit/agent-rules/CORE.md` — universal engineering and collaboration rules. Skip if already loaded in the session.
+2. `docs/docs-guide.md` — per-project required docs and local overrides (when present). If it exists, defer to it for load order over the defaults in this kit (see `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-5).
 
 `AGENTS.md` is assumed already read — it is the session entry point.
 
@@ -59,7 +59,7 @@ Read `docs/architecture.md` when the task involves architectural or system-bound
 
 Read `docs/glossary.md` when the task uses business vocabulary.
 
-For task-type-specific loads (persistence, tests, security, Python, etc.), see `agent-kit/agent-rules/documentation.md` §DOC-1.
+For task-type-specific loads (persistence, tests, security, Python, etc.), see `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-1.
 
 ---
 
@@ -114,7 +114,7 @@ If the feature folder does not exist:
 
 ```text
 Context loaded:
-- Framework: agent-kit/agent-rules/core.md ✓
+- Framework: agent-kit/agent-rules/CORE.md ✓
 - Docs guide: docs/docs-guide.md ✓
 - Architecture: docs/architecture.md — (missing, skipped)
 - Glossary: docs/glossary.md — (missing, skipped)

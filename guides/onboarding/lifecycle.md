@@ -309,4 +309,4 @@ There's no wrong choice. The wrong move is using a mode that doesn't fit the tas
 - [../theory/context-engineering.md](../theory/context-engineering.md) — context window management
 - [../theory/skills.md](../theory/skills.md) — reusable AI workflows
 - [../theory/subagents.md](../theory/subagents.md) — context isolation and parallel delegation
-- [`agent-kit/agent-rules/core.md`](../../agent-kit/agent-rules/core.md) — engineering principles
+- [`agent-kit/agent-rules/CORE.md`](../../agent-kit/agent-rules/CORE.md) — engineering principles

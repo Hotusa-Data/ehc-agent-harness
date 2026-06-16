@@ -1,8 +1,7 @@
 ---
 triggers: [log, logger, metric, trace, monitor, alert, observability, instrumentation]
-requires: [core]
-see-also: [security, architecture]
-severity-default: MUST
+requires: [CORE]
+see-also: [SECURITY, ARCHITECTURE]
 ---
 
 # Observability
@@ -37,7 +36,7 @@ Include safe identifiers, counts, timings, run IDs, and operation names where th
 
 ### OBS-5 Never log secrets or PII [MUST]
 
-Use safe identifiers, hashing, redaction, or omission when data is sensitive.
+Use safe identifiers, hashing, redaction, or omission when data is sensitive. Authoritative rule: **SEC-6** (`SECURITY.md`).
 
 ### OBS-6 Log workflow or pipeline boundaries [SHOULD]
 
@@ -75,7 +74,7 @@ Avoid threading the same identifiers into every message manually.
 
 ### OBS-11 Use rich for human-facing CLI output [SHOULD]
 
-When a Typer command's output is for human eyes (tables, progress, status), use **`rich`** (Console, Table, Progress). Logs still go through **Loguru**; do not mix the two as a substitute for logging. Server/library code logs only — no `rich` prints.
+When a Typer command's output is for human eyes (tables, progress, status), use **`rich`** (Console, Table, Progress). Logs still go through **Loguru**; do not mix the two as a substitute for logging. Server/library code logs only — no `rich` prints. Typer conventions: **PY-14** (`PYTHON.md`).
 
 ## Anti-patterns
 
@@ -87,9 +86,9 @@ When a Typer command's output is for human eyes (tables, progress, status), use 
 
 ## Project Overrides
 
-Use this section for project-specific logging stacks, required fields, metric libraries, alerting expectations, or metric naming conventions.
+Project-specific logging and metrics: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [security](security.md)
-- [architecture](architecture.md)
+- [SECURITY](SECURITY.md)
+- [ARCHITECTURE](ARCHITECTURE.md)

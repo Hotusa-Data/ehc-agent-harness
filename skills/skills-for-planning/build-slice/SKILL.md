@@ -51,20 +51,20 @@ Implement **one** tracer-bullet slice from `docs/features/<feature>/plan.md` —
 ### 2. Load rules
 
 Always load:
-- `agent-kit/agent-rules/core.md`
-- `agent-kit/agent-rules/testing.md`
+- `agent-kit/agent-rules/CORE.md`
+- `agent-kit/agent-rules/TESTING.md`
 
-Load additionally when applicable (see `agent-kit/agent-rules/documentation.md` §DOC-1): `python.md`, `persistence.md`, `validation.md`, `security.md`, `architecture.md`.
+Load additionally when applicable (see `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-1): `PYTHON.md`, `PERSISTENCE.md`, `VALIDATION.md`, `SECURITY.md`, `ARCHITECTURE.md`.
 
 ### 3. TDD loop
 
 For the selected slice:
 
-1. **Red** — write a failing test in the **module path from plan §2** that expresses the **behavior under test** from that row (not implementation detail). See TEST-1 in `testing.md`.
+1. **Red** — write a failing test in the **module path from plan §2** that expresses the **behavior under test** from that row (not implementation detail). See TEST-1 in `TESTING.md`.
 2. **Green** — write the minimum production code to pass. Use glossary terms for domain-visible names.
 3. **Refactor** — clean up while tests stay green. Do not expand scope beyond the slice.
 
-Run the project's test command after each step (`make test` or the slice-local path from `testing.md` §Project Overrides).
+Run the project's test command after each step (`make test` or the slice-local path from `TESTING.md` §Project Overrides).
 
 ### 4. Verify evidence
 

@@ -1,6 +1,6 @@
 # Database Guide
 
-Use this document to describe the real persistence layer of a consumer repository after inspecting its codebase. This file is for actual database architecture, not generic ORM advice — the generic rules live in [`agent-kit/agent-rules/persistence.md`](../agent-kit/agent-rules/persistence.md).
+Use this document to describe the real persistence layer of a consumer repository after inspecting its codebase. This file is for actual database architecture, not generic ORM advice — the generic rules live in [`agent-kit/agent-rules/PERSISTENCE.md`](../agent-kit/agent-rules/PERSISTENCE.md).
 
 ## Document Metadata
 
@@ -49,7 +49,7 @@ Include one short usage example if the project has a clear standard pattern.
 
 ## 4. ORM Model Conventions
 
-Default conventions follow [`agent-kit/agent-rules/persistence.md`](../agent-kit/agent-rules/persistence.md) PER-10/11. Document only what this project overrides, adds, or deviates from.
+Default conventions follow [`agent-kit/agent-rules/PERSISTENCE.md`](../agent-kit/agent-rules/PERSISTENCE.md) PER-10/11. Document only what this project overrides, adds, or deviates from.
 
 - Base class and inheritance pattern:
 - Primary key convention:
@@ -63,7 +63,7 @@ If the project follows the defaults exactly, write: "Follows `persistence.md` de
 
 ## 5. Migration Workflow
 
-Default tool: **Alembic** per [`agent-kit/agent-rules/persistence.md`](../agent-kit/agent-rules/persistence.md) PER-7/8. Document only project-specific notes:
+Default tool: **Alembic** per [`agent-kit/agent-rules/PERSISTENCE.md`](../agent-kit/agent-rules/PERSISTENCE.md) PER-7/8. Document only project-specific notes:
 
 - migration folder(s) and any multi-schema split:
 - known deviations from standard Alembic workflow:
@@ -74,7 +74,7 @@ If the project follows the defaults exactly, write: "Standard Alembic workflow p
 
 ## 6. CRUD And Query Layer
 
-Default pattern: `CRUDBase[Model, PydanticSchema, PanderaDFSchema]` per [`agent-kit/agent-rules/persistence.md`](../agent-kit/agent-rules/persistence.md) PER-11. Document only project-specific notes:
+Default pattern: `CRUDBase[Model, PydanticSchema, PanderaDFSchema]` per [`agent-kit/agent-rules/PERSISTENCE.md`](../agent-kit/agent-rules/PERSISTENCE.md) PER-11. Document only project-specific notes:
 
 - any custom methods added to the base class:
 - tables or domains that do not use `CRUDBase` and why:
@@ -85,7 +85,7 @@ If the project follows the defaults exactly, write: "Standard `CRUDBase` pattern
 
 ## 7. DataFrame Access And Validation
 
-Default convention: Pandera schemas in `schemas_df/`, `CRUDBase.get_df()` with `@check_output` per [`agent-kit/agent-rules/validation.md`](../agent-kit/agent-rules/validation.md). Document only project-specific notes:
+Default convention: Pandera schemas in `schemas_df/`, `CRUDBase.get_df()` with `@check_output` per [`agent-kit/agent-rules/VALIDATION.md`](../agent-kit/agent-rules/VALIDATION.md). Document only project-specific notes:
 
 - schemas that use custom validation logic or non-standard Pandera features:
 - tables or domains where DataFrame access is intentionally absent:
@@ -95,7 +95,7 @@ If the project follows the defaults exactly, write: "Standard Pandera / `get_df(
 
 ## 8. Configuration, Credentials, And Security
 
-Default convention: Pydantic `BaseSettings` with a package-level `ENV_PREFIX`, DSN assembled via `@field_validator`, credentials from `.env` (gitignored). Credentials are never read from `os.environ` in business code and never logged. See [`agent-kit/agent-rules/security.md`](../agent-kit/agent-rules/security.md) SEC-1.
+Default convention: Pydantic `BaseSettings` with a package-level `ENV_PREFIX`, DSN assembled via `@field_validator`, credentials from `.env` (gitignored). Credentials are never read from `os.environ` in business code and never logged. See [`agent-kit/agent-rules/SECURITY.md`](../agent-kit/agent-rules/SECURITY.md) SEC-1.
 
 Document only project-specific notes:
 

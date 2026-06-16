@@ -1,8 +1,7 @@
 ---
 triggers: [always]
 requires: []
-see-also: [architecture, testing]
-severity-default: MUST
+see-also: [ARCHITECTURE, TESTING]
 ---
 
 # Core Engineering Principles
@@ -36,7 +35,7 @@ normalize = lambda r, lo, hi: (r - lo) / (hi - lo)
 
 ### CORE-2 Make boundary contracts explicit [MUST]
 
-Input/output schemas and data assumptions must be explicit at every system boundary. Validate where data enters or leaves the system, not deep inside business logic. See [validation](validation.md).
+Input/output schemas and data assumptions must be explicit at every system boundary. Validate where data enters or leaves the system, not deep inside business logic. Typed shapes across layers: **ARCH-1** (`ARCHITECTURE.md`). Schema placement and validation: **VAL-1**, **VAL-8** (`VALIDATION.md`). Do not assume column names, dtypes, or cardinality from exploration alone.
 
 ### CORE-3 Keep changes small and reviewable [MUST]
 
@@ -53,6 +52,14 @@ Every non-trivial acceptance criterion must map to evidence such as a passing te
 ### CORE-6 Name lightweight shortcuts explicitly [SHOULD]
 
 A low-risk change may skip a safeguard only if the skip is named, justified, and backed by at least one verification signal. Silent skipping is not lightweight.
+
+### CORE-7 Prefer shared utilities over one-off helpers [SHOULD]
+
+Reuse project utilities and patterns before adding a local helper used once. Centralize invariants the agent and humans both rely on. See **ARCH-3** (`ARCHITECTURE.md`).
+
+### CORE-8 Promote repeated violations to durable rules [SHOULD]
+
+If the same mistake happens twice, record the fix in `docs/docs-guide.md` §3 or the relevant `agent-rules/` file — do not restate it only in session chat. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## Collaboration Rules
 
@@ -77,20 +84,6 @@ Always separate:
 
 Do not flatten these into "done".
 
-## Golden principles
-
-### GP-1 Prefer shared utilities over one-off helpers [SHOULD]
-
-Reuse project utilities and patterns before adding a local helper used once. Centralize invariants the agent and humans both rely on.
-
-### GP-2 Validate data shape at the boundary [MUST]
-
-Do not assume column names, dtypes, or cardinality from exploration alone. Validate ingest and outputs with explicit schemas (e.g. Pandera, Pydantic) at system boundaries. See [validation](validation.md) and CORE-2.
-
-### GP-3 Promote repeated violations to durable rules [SHOULD]
-
-If the same mistake happens twice, record the fix in `docs/docs-guide.md` §3 or the relevant `agent-rules/` file — do not restate it only in session chat.
-
 ## Anti-patterns
 
 - Inventing business rules or thresholds not present in the spec or glossary.
@@ -101,9 +94,9 @@ If the same mistake happens twice, record the fix in `docs/docs-guide.md` §3 or
 
 ## Project Overrides
 
-Use this section to record project-specific constraints such as naming language, approved storage backends, compliance rules, and required quality gates. Command overrides belong in root `AGENTS.md` §Commands and `docs/docs-guide.md` §3 — keep them in sync. A task is not complete until every applicable check in `AGENTS.md` §Verification before PR passes; do not bypass hooks.
+Project-specific constraints: `docs/docs-guide.md` §3 and this section. Command overrides: root `AGENTS.md` §Commands — keep in sync. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [architecture](architecture.md)
-- [testing](testing.md)
+- [ARCHITECTURE](ARCHITECTURE.md)
+- [TESTING](TESTING.md)

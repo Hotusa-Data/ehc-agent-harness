@@ -1,8 +1,7 @@
 ---
 triggers: [pydantic, pandera, schema, validate, BaseModel, DataFrameModel, contract]
-requires: [core]
-see-also: [architecture, persistence]
-severity-default: MUST
+requires: [CORE]
+see-also: [ARCHITECTURE, PERSISTENCE]
 ---
 
 # Validation
@@ -25,7 +24,7 @@ Three tools, three folders:
 - `schemas/` — Pydantic v2 (API payloads, CRUD inputs).
 - `schemas_df/` — Pandera (DataFrame column contracts).
 
-Do not blur them. A single feature typically touches all three.
+Do not blur them. A single feature typically touches all three. Placement: **REPO-2** (`REPO_GUIDE.md`).
 
 ### VAL-3 Separate create, update, and response models [SHOULD]
 
@@ -68,7 +67,7 @@ Use stronger tabular contracts when downstream logic depends on stable columns, 
 
 ### VAL-11 Settings via BaseSettings [MUST]
 
-Application config lives in `core/config/` as a `pydantic-settings.BaseSettings` subclass (or a project wrapper around it) with a package `ENV_PREFIX`. Assemble derived values (DSNs, paths) via `@field_validator(..., mode="before"|"after")`, not in business code. Never read `os.environ` directly outside `core/config/`. Credentials load from `.env` (gitignored) and `.env.ci` (test fixtures only — no real secrets).
+Application config lives in `core/config/` as a `pydantic-settings.BaseSettings` subclass (or a project wrapper around it) with a package `ENV_PREFIX`. Assemble derived values (DSNs, paths) via `@field_validator(..., mode="before"|"after")`, not in business code. Never read `os.environ` directly outside `core/config/`. Credentials load from `.env` (gitignored) and `.env.ci` (test fixtures only — no real secrets). **SEC-1** (`SECURITY.md`) defers here for credential handling.
 
 ## Anti-patterns
 
@@ -80,9 +79,9 @@ Application config lives in `core/config/` as a `pydantic-settings.BaseSettings`
 
 ## Project Overrides
 
-Use this section for project-specific schema libraries, folder conventions, coercion policy, or mandatory validation gates.
+Project-specific schema policy: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [architecture](architecture.md)
-- [persistence](persistence.md)
+- [ARCHITECTURE](ARCHITECTURE.md)
+- [PERSISTENCE](PERSISTENCE.md)

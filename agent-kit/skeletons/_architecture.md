@@ -1,6 +1,6 @@
 # Architecture Guide
 
-Use this document for the **real** shape of a specific consumer repository: what the system does, how it deviates from the kit default, and project-specific invariants. The default codemap and placement rules live in [`agent-kit/agent-rules/repo-guide.md`](../agent-kit/agent-rules/repo-guide.md) — do **not** restate that tree here.
+Use this document for the **real** shape of a specific consumer repository: what the system does, how it deviates from the kit default, and project-specific invariants. The default codemap and placement rules live in [`agent-kit/agent-rules/REPO_GUIDE.md`](../agent-kit/agent-rules/REPO_GUIDE.md) — do **not** restate that tree here.
 
 ## Document Metadata
 
@@ -44,7 +44,7 @@ If a single domain covers the whole system, one row is enough.
 
 ## 3. Deviations From The Default Layout
 
-The default top-level layout, package layers, dependency direction, and placement map are in [`agent-kit/agent-rules/repo-guide.md`](../agent-kit/agent-rules/repo-guide.md). Do **not** restate that tree here.
+The default top-level layout, package layers, dependency direction, and placement map are in [`agent-kit/agent-rules/REPO_GUIDE.md`](../agent-kit/agent-rules/REPO_GUIDE.md). Do **not** restate that tree here.
 
 Use this section only to record:
 
@@ -53,11 +53,11 @@ Use this section only to record:
 - Layer responsibilities this project **renames or sharpens** (e.g. `crud/` here also owns cache invalidation).
 - Multi-domain structure: several ORM bases, services, or bounded contexts — **name modules and folders** (symbol search finds them; avoid deep path links that go stale).
 
-If the project matches the default exactly, write: "Matches `agent-rules/repo-guide.md` default layout."
+If the project matches the default exactly, write: "Matches `agent-rules/REPO_GUIDE.md` default layout."
 
 ## 4. Project-Specific Rules Of The Road
 
-Generic placement, dependency direction, sessions at the edge, validation at boundaries, and exploration rules live in [`agent-kit/agent-rules/repo-guide.md`](../agent-kit/agent-rules/repo-guide.md), [`agent-kit/agent-rules/architecture.md`](../agent-kit/agent-rules/architecture.md), [`agent-kit/agent-rules/persistence.md`](../agent-kit/agent-rules/persistence.md), [`agent-kit/agent-rules/validation.md`](../agent-kit/agent-rules/validation.md), and [`agent-kit/agent-rules/security.md`](../agent-kit/agent-rules/security.md).
+Generic placement, dependency direction, sessions at the edge, validation at boundaries, and exploration rules live in [`agent-kit/agent-rules/REPO_GUIDE.md`](../agent-kit/agent-rules/REPO_GUIDE.md), [`agent-kit/agent-rules/ARCHITECTURE.md`](../agent-kit/agent-rules/ARCHITECTURE.md), [`agent-kit/agent-rules/PERSISTENCE.md`](../agent-kit/agent-rules/PERSISTENCE.md), [`agent-kit/agent-rules/VALIDATION.md`](../agent-kit/agent-rules/VALIDATION.md), and [`agent-kit/agent-rules/SECURITY.md`](../agent-kit/agent-rules/SECURITY.md).
 
 Use this section only for rules **specific to this project** — for example: "all writes to the `events` schema must go through `services/event_bus/`", or "no synchronous external HTTP calls inside request handlers".
 
@@ -86,5 +86,5 @@ If all flows are feature-scoped, write: "See feature plans under `docs/features/
 - Describe the repository as it really is today.
 - If something is planned but not implemented, label it clearly.
 - Prefer concrete module and folder names over abstract principles.
-- Do not duplicate the default codemap from `repo-guide.md` unless this project overrides or sharpens it.
+- Do not duplicate the default codemap from `REPO_GUIDE.md` unless this project overrides or sharpens it.
 - Open decisions and deferred work → feature `plan.md`, CHANGELOG `Decided`, or `.local-context/` — not a standing table in this file.

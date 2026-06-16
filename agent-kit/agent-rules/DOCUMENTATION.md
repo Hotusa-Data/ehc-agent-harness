@@ -1,13 +1,12 @@
 ---
 triggers: [docs, planning, feature-work]
-requires: [core]
-see-also: [architecture, testing]
-severity-default: MUST
+requires: [CORE]
+see-also: [ARCHITECTURE, TESTING]
 ---
 
 # Documentation Rules
 
-How the agent loads, creates, and updates durable documentation in a consumer repo. Authoritative source for load order, validation gates, creation-vs-update policy, and skeleton-to-doc mapping. `AGENTS.md` is a short map (cycle, commands, verification, pull requests, boundaries); rule details live in [`agent-rules/README.md`](README.md) and this file. `docs/docs-guide.md` holds per-project overrides.
+How the agent loads, creates, and updates durable documentation in a consumer repo. Authoritative source for load order, validation gates, creation-vs-update policy, and skeleton-to-doc mapping. `AGENTS.md` is a short map (cycle, commands, verification, pull requests, boundaries); rule details live in [`RULES.md`](RULES.md) and this file. `docs/docs-guide.md` holds per-project overrides.
 
 Load when: any task that reads, writes, or relies on `docs/` artifacts, or that triggers a validation gate below.
 
@@ -19,7 +18,7 @@ Rules are numbered **DOC-1** through **DOC-9**. Retired numbers are not reused.
 
 Always load:
 - `AGENTS.md`
-- `agent-kit/agent-rules/core.md`
+- `agent-kit/agent-rules/CORE.md`
 - `docs/docs-guide.md` (when present)
 
 Load by task type:
@@ -28,15 +27,15 @@ Load by task type:
 |---|---|
 | Touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
 | Uses business vocabulary | `docs/glossary.md` |
-| Placement or structure unclear | `agent-kit/agent-rules/repo-guide.md` (default codemap), `docs/architecture.md` (project deltas only) |
-| Layer contracts, circular imports, or abstraction boundaries | `agent-kit/agent-rules/architecture.md` |
-| Layout or system-boundary change in this repo | `docs/architecture.md` §3, and `repo-guide.md` / `architecture.md` when kit rules apply |
-| ORM, queries, migrations, sessions | `agent-kit/agent-rules/persistence.md`, `docs/database.md` |
-| Auth, secrets, trust boundaries, sensitive data | `agent-kit/agent-rules/security.md` |
-| Tests | `agent-kit/agent-rules/testing.md` |
-| Input checks, contracts, failure handling | `agent-kit/agent-rules/validation.md` |
-| Logs, metrics, tracing | `agent-kit/agent-rules/observability.md` |
-| Python code | `agent-kit/agent-rules/python.md` |
+| Placement or structure unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/architecture.md` (project deltas only) |
+| Layer contracts, circular imports, or abstraction boundaries | `agent-kit/agent-rules/ARCHITECTURE.md` |
+| Layout or system-boundary change in this repo | `docs/architecture.md` §3, and `REPO_GUIDE.md` / `ARCHITECTURE.md` when kit rules apply |
+| ORM, queries, migrations, sessions | `agent-kit/agent-rules/PERSISTENCE.md`, `docs/database.md` |
+| Auth, secrets, trust boundaries, sensitive data | `agent-kit/agent-rules/SECURITY.md` |
+| Tests | `agent-kit/agent-rules/TESTING.md` |
+| Input checks, contracts, failure handling | `agent-kit/agent-rules/VALIDATION.md` |
+| Logs, metrics, tracing | `agent-kit/agent-rules/OBSERVABILITY.md` |
+| Python code | `agent-kit/agent-rules/PYTHON.md` |
 
 Large context is not useful context. Do not load files whose content will not influence the current decision.
 
@@ -49,7 +48,7 @@ Large context is not useful context. Do not load files whose content will not in
 | Mode declared | Non-trivial feature work | `Harness mode` in specs/plan metadata, or PR/CHANGELOG states lightweight skip |
 | Testing plan exists | Non-trivial Build after Plan Review | `plan.md` §2 has a row for every Must AC before broad implementation |
 | Glossary covers vocabulary | Ambiguous or new terms appear | Update `docs/glossary.md` before using in specs or code |
-| Placement is clear | About to create a new folder or file | Consult `agent-kit/agent-rules/repo-guide.md` |
+| Placement is clear | About to create a new folder or file | Consult `agent-kit/agent-rules/REPO_GUIDE.md` |
 | CHANGELOG entry | Non-trivial change to specs / plan / scope | Append entry under `[Unreleased]` in feature CHANGELOG |
 | Reconciliation done | Before commit | Code, specs, plan, CHANGELOG do not contradict each other |
 
@@ -92,20 +91,12 @@ Project-specific deviations (stricter gates, extra required docs, alternative lo
 
 ### DOC-7 Feature CHANGELOGs follow a single convention [MUST]
 
-Every feature `CHANGELOG.md` (instantiated from `agent-kit/skeletons/_CHANGELOG.md`) follows the same shape so reviewers do not have to re-learn the format per feature.
+Every feature `CHANGELOG.md` must match the shape in `agent-kit/skeletons/_CHANGELOG.md` — do not invent local formats.
 
-- **Filename:** always `CHANGELOG.md` (uppercase) — [Keep a Changelog](https://keepachangelog.com/) convention; do not use `changelog.md`. The metarepo lint enforces skeleton casing for Linux CI.
-- Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-- Most recent version on top.
-- One line per change; include the **why** (e.g. `Removed X (why: deprioritized)`).
-- Standard Keep-a-Changelog sections: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`.
-- Feature-work extension sections: `Specs`, `Plan`, `Decided`. Use these under `[Unreleased]` to track in-flight scope and approach changes.
-- Use `Decided` under `[Unreleased]` for deferred work, partial fixes, and known follow-ups — not a separate debt register.
-- In-flight work always lives under `[Unreleased]`. Do **not** use date-only headers (`## [2026-05-27]`) as a substitute — promote to a semver release (`## [1.1.0] — YYYY-MM-DD`) only when the feature actually ships.
-- Bump the semver section when shipping a meaningful new release of the feature; reference `report.md` from the release entry.
-- Do not duplicate git diffs — narrative only.
-
-A CHANGELOG that drifts from this shape is a bug; fix the CHANGELOG rather than inventing local conventions.
+- **Filename:** always `CHANGELOG.md` (uppercase); metarepo lint enforces skeleton casing for Linux CI.
+- In-flight work under `[Unreleased]`; use extension sections `Specs`, `Plan`, `Decided` for scope and deferred work.
+- Promote to semver (`## [1.1.0] — YYYY-MM-DD`) only when the feature ships; reference `report.md` from the release entry.
+- Narrative only — no git diffs. Full section list and examples: skeleton header and `_CHANGELOG.md` body.
 
 ### DOC-8 Reconcile docs with the diff before review [MUST]
 
@@ -140,12 +131,16 @@ Before handoff or PR:
 - Restating load order or gates inside a feature doc instead of pointing at this rule.
 - Leaving stale specs because "the code is the truth" — update the spec or CHANGELOG the delta.
 - Recording deferred work only in chat or `.local-context/` — use CHANGELOG `Decided` (DOC-7).
-- Restating the default codemap from `repo-guide.md` inside `docs/architecture.md`.
+- Restating the default codemap from `REPO_GUIDE.md` inside `docs/architecture.md`.
 - Growing `docs/architecture.md` with runtime how-to that belongs in feature `plan.md` (DOC-8).
 - Filling every skeleton section in **standard** Harness mode when the Section guide marks sections omit — trim instead.
 
+## Project Overrides
+
+Doc load order and gate overrides: `docs/docs-guide.md` §3 and this section. See **DOC-6**.
+
 ## See also
 
-- [core](core.md)
-- [architecture](architecture.md)
-- [testing](testing.md)
+- [CORE](CORE.md)
+- [ARCHITECTURE](ARCHITECTURE.md)
+- [TESTING](TESTING.md)

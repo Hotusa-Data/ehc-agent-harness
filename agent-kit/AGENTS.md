@@ -4,7 +4,7 @@ Entry point for any AI coding agent working in this repository. Read this first.
 
 You are the coding agent for this repo. Domain knowledge lives in `docs/` (consumer-repo artifacts). Engineering rules live in `agent-kit/agent-rules/`. Document skeletons live in `agent-kit/skeletons/`.
 
-> **Note.** If `docs/` is missing, bootstrap with `python agent-kit/adopt.py` or instantiate from `agent-kit/skeletons/` (see [`agent-kit/agent-rules/documentation.md` §DOC-4](agent-kit/agent-rules/documentation.md)). Session scratch notes use gitignored `.local-context/` at the repo root.
+> **Note.** If `docs/` is missing, bootstrap with `python agent-kit/adopt.py` or instantiate from `agent-kit/skeletons/` (see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md)). Session scratch notes use gitignored `.local-context/` at the repo root.
 
 ---
 
@@ -50,10 +50,10 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 
 Always load:
 
-1. `agent-kit/agent-rules/core.md` — universal engineering and collaboration rules
+1. `agent-kit/agent-rules/CORE.md` — universal engineering and collaboration rules
 2. `docs/docs-guide.md` — per-project required docs and local overrides (when present); authoritative over kit defaults
 
-For other rules, see [`agent-kit/agent-rules/README.md`](agent-kit/agent-rules/README.md) and [`agent-kit/agent-rules/documentation.md` §DOC-1](agent-kit/agent-rules/documentation.md). Do not load files whose content will not influence the current decision.
+For other rules, see [`agent-kit/agent-rules/RULES.md`](agent-kit/agent-rules/RULES.md) and [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-1](agent-kit/agent-rules/DOCUMENTATION.md). Do not load files whose content will not influence the current decision.
 
 ---
 
@@ -71,7 +71,7 @@ Fill in during adoption. List copy-paste commands the agent should run to build,
 | Type-check | _(if applicable — e.g. `uv run mypy src/`)_ |
 | Run app / notebook | _(project-specific)_ |
 
-Scope commands to changed packages in monorepos. See [`agent-kit/agent-rules/testing.md`](agent-kit/agent-rules/testing.md) and [`agent-kit/agent-rules/python.md`](agent-kit/agent-rules/python.md) for conventions.
+Scope commands to changed packages in monorepos. See [`agent-kit/agent-rules/TESTING.md`](agent-kit/agent-rules/TESTING.md) and [`agent-kit/agent-rules/PYTHON.md`](agent-kit/agent-rules/PYTHON.md) for conventions.
 
 ---
 
@@ -81,9 +81,9 @@ Before requesting review or marking work complete:
 
 - [ ] Relevant tests for changed behavior pass (see [Commands](#commands))
 - [ ] Lint/format checks pass on touched files
-- [ ] For non-trivial work: feature docs and touched base docs match the code (see `agent-kit/agent-rules/documentation.md` §DOC-8)
+- [ ] For non-trivial work: feature docs and touched base docs match the code (see `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-8)
 - [ ] No secrets, credentials, or `.local-context/` content in the diff
-- [ ] Distinguish what you ran from what you only wrote (see `core.md` §COOP-3)
+- [ ] Distinguish what you ran from what you only wrote (see `CORE.md` §COOP-3)
 
 ---
 
@@ -120,7 +120,7 @@ A human opens and publishes the PR — do not push to remote (see [Boundaries](#
 
 - Push to remote, publish packages, or bypass git hooks (`--no-verify`, etc.) — a human publishes
 - Commit secrets, credentials, tokens, or anything under `.local-context/`
-- Invent business rules, thresholds, or schemas not in specs or glossary (see `core.md` §COOP-1)
+- Invent business rules, thresholds, or schemas not in specs or glossary (see `CORE.md` §COOP-1)
 - Edit generated artifacts by hand when a generator workflow exists
 - Modify files unless the user requested the change or confirmed the plan
 
@@ -134,6 +134,6 @@ Project-specific knowledge lives in `docs/` (created on demand via `adopt.py` or
 
 `docs/architecture.md`, `docs/database.md`, `docs/glossary.md`, `docs/docs-guide.md`, and `docs/features/<feature>/{specs,plan,CHANGELOG,report}.md`.
 
-If a target doc does not exist, instantiate it from the matching skeleton — see [`agent-kit/agent-rules/documentation.md` §DOC-4](agent-kit/agent-rules/documentation.md).
+If a target doc does not exist, instantiate it from the matching skeleton — see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md).
 
 Handoffs and throwaway notes live in `.local-context/` at the repo root — gitignored, never committed. Promote anything durable into `docs/` before closing the cycle.

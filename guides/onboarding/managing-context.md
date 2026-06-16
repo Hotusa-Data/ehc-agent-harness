@@ -171,8 +171,8 @@ A scratchpad that lives in the repo but never gets committed.
 |---|---|
 | Task touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
 | Request uses business terms ("tenant", "billing cycle") | `docs/glossary.md` |
-| Placement or layout unclear | `agent-kit/agent-rules/repo-guide.md` (default codemap), `docs/architecture.md` (project deltas) |
-| Layer contracts or import boundaries | `agent-kit/agent-rules/architecture.md` |
+| Placement or layout unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/architecture.md` (project deltas) |
+| Layer contracts or import boundaries | `agent-kit/agent-rules/ARCHITECTURE.md` |
 | Existing behavior must be compared | The feature's current `specs.md` |
 | Unclear whether a feature exists | List `docs/features/` first |
 

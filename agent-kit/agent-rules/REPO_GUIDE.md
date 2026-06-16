@@ -1,13 +1,12 @@
 ---
 triggers: [placement, structure, new-file, new-folder, codemap, layout]
-requires: [core]
-see-also: [architecture, documentation]
-severity-default: SHOULD
+requires: [CORE]
+see-also: [ARCHITECTURE, DOCUMENTATION]
 ---
 
 # Repository Layout And Placement
 
-Default **codemap** and placement rules for the Python data-project template: where files and folders live, and how package layers may depend on each other. For typed contracts across layers, circular imports, and abstraction boundaries, see [architecture](architecture.md). Project-specific layout deltas belong in `docs/architecture.md` §3 and `docs/docs-guide.md` §3.
+Default **codemap** and placement rules for the Python data-project template: where files and folders live, and how package layers may depend on each other. For typed contracts across layers, circular imports, and abstraction boundaries, see [ARCHITECTURE](ARCHITECTURE.md). Project-specific layout deltas belong in `docs/architecture.md` §3 and `docs/docs-guide.md` §3.
 
 Load when: about to create a new file or folder, deciding which layer owns a change, or answering "where does X go?".
 
@@ -83,6 +82,8 @@ Responsibilities:
 | `cli/` | Typer command surface | Heavy logic (delegate to `data/` or `crud/`) |
 | `core/` | Config, logging, shared types, exceptions | Domain code |
 
+Schema separation across `models/`, `schemas/`, `schemas_df/`: **VAL-2** (`VALIDATION.md`).
+
 Only keep folders that exist in the project. If `ml/` or `viz/` is absent, do not invent it.
 
 **Dependency direction** — lower layers must not import from higher layers:
@@ -110,7 +111,7 @@ Infrastructure belongs in `core/` and `db/`; domain behavior does not live there
 ### REPO-4 Tests mirror package layout [MUST]
 
 - `tests/` mirrors `<package_name>/` one-to-one.
-- Test files named `test_<pkg>_<path>_<mod>.py`.
+- Naming and layout: **TEST-12** (`TESTING.md`).
 - New layer → matching test folder. Do not scatter tests into the package.
 
 ### REPO-5 Consult before creating a new top-level folder [MUST]
@@ -140,17 +141,17 @@ In monorepos, place an additional `AGENTS.md` in a subpackage when that package 
 ## Anti-patterns
 
 - Raw SQL in routes or CLI commands.
-- Opening a `Session` inside a CRUD function (see [persistence](persistence.md) PER-4).
+- Opening a `Session` inside a CRUD function — see **PER-4** (`PERSISTENCE.md`).
 - Importing from `api/` or `cli/` into `data/`, `crud/`, or `models/` (dependency direction is one-way — REPO-2).
 - Creating a new top-level folder without recording the decision in `docs/architecture.md` §3.
 
 ## Project Overrides
 
-Repository-specific deviations belong in `docs/docs-guide.md` §3. State each override explicitly so the agent can detect it.
+Repository-specific deviations: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [architecture](architecture.md)
-- [documentation](documentation.md)
-- [persistence](persistence.md)
-- [core](core.md)
+- [ARCHITECTURE](ARCHITECTURE.md)
+- [DOCUMENTATION](DOCUMENTATION.md)
+- [PERSISTENCE](PERSISTENCE.md)
+- [CORE](CORE.md)

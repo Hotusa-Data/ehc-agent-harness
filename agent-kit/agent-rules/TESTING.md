@@ -1,8 +1,7 @@
 ---
 triggers: [test, pytest, fixture, mock, assert, evidence]
-requires: [core]
-see-also: [validation, persistence]
-severity-default: MUST
+requires: [CORE]
+see-also: [VALIDATION, PERSISTENCE]
 ---
 
 # Testing Strategy
@@ -76,7 +75,7 @@ Use `fastapi.testclient.TestClient` against the app instance. Override DB and se
 
 ### TEST-12 Test file naming and layout [MUST]
 
-One test module per source module. Filename pattern: `tests/test_<pkg>_<path>_<module>.py`. Mirrors the package layout so the relationship is mechanical (e.g. `<pkg>/data/scraping.py` → `tests/test_<pkg>_data_scraping.py`). Shared fixtures in `tests/conftest.py`; test-only helpers in `tests/utils.py`.
+One test module per source module. Filename pattern: `tests/test_<pkg>_<path>_<module>.py`. Mirrors the package layout so the relationship is mechanical (e.g. `<pkg>/data/scraping.py` → `tests/test_<pkg>_data_scraping.py`). Shared fixtures in `tests/conftest.py`; test-only helpers in `tests/utils.py`. Layout mirror: **REPO-4** (`REPO_GUIDE.md`).
 
 Test envs load from `.env.ci` via `pytest-dotenv` / `pytest-env` (`env_files` in `pyproject.toml`). No real credentials.
 
@@ -99,9 +98,9 @@ uv run pytest tests/test_<...>.py        # single file
 uv run pytest --cov-report term-missing --cov=<pkg> tests/
 ```
 
-Use this section for repository-specific test commands, fixture policies, minimum coverage expectations, or required CI gates.
+Project-specific test policy: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 
-- [validation](validation.md)
-- [persistence](persistence.md)
+- [VALIDATION](VALIDATION.md)
+- [PERSISTENCE](PERSISTENCE.md)

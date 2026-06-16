@@ -65,7 +65,7 @@ Mode guidance:
 
 ## 2. Testing Plan
 
-How each AC is verified. Follow [`agent-kit/agent-rules/testing.md`](../agent-rules/testing.md) — do not duplicate TEST-1–TEST-12 here.
+How each AC is verified. Follow [`agent-kit/agent-rules/TESTING.md`](../agent-kit/agent-rules/TESTING.md) — do not duplicate TEST-1–TEST-12 here.
 
 **One row per AC** (Must ACs required in standard; add Should ACs in full).
 
