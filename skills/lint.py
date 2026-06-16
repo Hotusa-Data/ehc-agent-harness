@@ -21,6 +21,9 @@ Run from the repo root:
     python skills/lint.py
     python skills/lint.py --sync-plugin
 
+Also checks `agent-kit/skeletons/` for case-only filename collisions (e.g.
+`_changelog.md` vs `_CHANGELOG.md`) that break on Linux CI.
+
 Exit 0 if no errors, 1 otherwise. Warnings never fail the run.
 
 No third-party dependencies — stdlib only.
@@ -29,6 +32,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -180,6 +184,55 @@ def check_plugin_sync() -> list[str]:
     return errors
 
 
+CHANGELOG_SKELETON = "_CHANGELOG.md"
+
+
+def check_skeleton_path_casing() -> list[str]:
+    """Detect case-only mismatches under agent-kit/skeletons/ (Linux CI safety)."""
+    errors: list[str] = []
+    skeleton_dir = REPO_ROOT / "agent-kit" / "skeletons"
+    if not skeleton_dir.is_dir():
+        return errors
+
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "agent-kit/skeletons/"],
+            capture_output=True,
+            text=True,
+            check=True,
+            cwd=REPO_ROOT,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return errors
+
+    tracked = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    by_lower: dict[str, set[str]] = {}
+
+    for rel in tracked:
+        name = Path(rel).name
+        by_lower.setdefault(name.lower(), set()).add(name)
+
+    for path in skeleton_dir.iterdir():
+        if path.is_file():
+            by_lower.setdefault(path.name.lower(), set()).add(path.name)
+
+    for lower, variants in sorted(by_lower.items()):
+        if len(variants) > 1:
+            errors.append(
+                "agent-kit/skeletons/: case collision for "
+                f"{lower!r}: {sorted(variants)} — pick one canonical spelling",
+            )
+
+    changelog_variants = by_lower.get(CHANGELOG_SKELETON.lower(), set())
+    if changelog_variants and CHANGELOG_SKELETON not in changelog_variants:
+        errors.append(
+            f"agent-kit/skeletons/: CHANGELOG skeleton must be named {CHANGELOG_SKELETON} "
+            f"(documentation.md mapping; found {sorted(changelog_variants)})",
+        )
+
+    return errors
+
+
 def sync_plugin_skills() -> int:
     """Regenerate plugin SKILL.md copies from canonical utils-skills sources."""
     written = 0
@@ -237,6 +290,14 @@ def main() -> int:
     for err in check_plugin_sync():
         print(f"  ERROR plugin-sync: {err}")
         total_errors += 1
+
+    casing_errors = check_skeleton_path_casing()
+    if casing_errors:
+        for err in casing_errors:
+            print(f"  ERROR skeleton-casing: {err}")
+        total_errors += len(casing_errors)
+    else:
+        print("  OK    agent-kit/skeletons/ path casing")
 
     print()
     print(

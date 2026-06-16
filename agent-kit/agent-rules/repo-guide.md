@@ -24,6 +24,7 @@ repo-root/
 |   |-- glossary.md
 |   `-- docs-guide.md
 |-- notebooks/
+|-- pyscripts/      # optional — exploratory scripts (see REPO-3)
 |-- scripts/
 |-- tests/
 |-- <package_name>/

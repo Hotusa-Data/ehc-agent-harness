@@ -26,12 +26,14 @@ Context ──► Spec ──[Spec Review]──► Plan ──[Plan Review]─�
 | Build | [`build-slice`](./skills-for-planning/build-slice/SKILL.md) | One vertical TDD slice from `plan.md` |
 | Build | [`notebook-mockup`](./skills-for-planning/notebook-mockup/SKILL.md) | Validated logic notebook before production code |
 | Document | [`context-update`](./utils-skills/context-update/SKILL.md) | All durable docs reconciled at cycle close |
-| Document | [`business-reports`](./skills-for-docs/business-reports/SKILL.md) | Business-facing report at cycle close |
+| Document | [`business-reports`](./skills-for-docs/business-reports/SKILL.md) | `docs/features/<feature>/report.md` at cycle close |
 | Document | [`pr-summary`](./skills-for-docs/pr-summary/SKILL.md) | Structured PR description for the reviewer |
 | Cross-cutting | [`handoff`](./utils-skills/handoff/SKILL.md) | Session handoff notes for the next agent |
 | Cross-cutting | [`mermaid-diagrams`](./utils-skills/mermaid-diagrams/SKILL.md) | Architecture or flow diagrams |
 
 See [guides/onboarding/lifecycle.md](../guides/onboarding/lifecycle.md) for the full per-phase guidance.
+
+> **Phase vs invocation.** Frontmatter `phase` is the skill's *home* in the catalog (`cross-cutting` means usable in more than one lifecycle step). The lifecycle table above shows the *typical* invocation point — e.g. [`notebook-mockup`](./skills-for-planning/notebook-mockup/SKILL.md) is catalogued as `cross-cutting` but invoked during **Build** (planned in Plan, executed before production code). Do not change frontmatter just to match the lifecycle table.
 
 ---
 
@@ -95,7 +97,7 @@ metadata:
 
 Narrow skills (handoff) may ship with only purpose + workflow + Related.
 
-When adding or editing a skill, run `python skills/lint.py` from the repo root to validate the `SKILL.md` frontmatter, required fields, folder/`name:` match, internal links, and plugin copies. It does not scaffold a new skill — it only checks what already exists.
+When adding or editing a skill, run `python skills/lint.py` from the repo root to validate the `SKILL.md` frontmatter, required fields, folder/`name:` match, internal links, plugin copies, and skeleton filename casing under `agent-kit/skeletons/`. It does not scaffold a new skill — it only checks what already exists.
 
 Skills shipped in the team plugin (`plugins/test-plugin/skills/`) are **generated copies** of selected `utils-skills/` skills. Edit the canonical file under `skills/utils-skills/<name>/SKILL.md`, then run:
 

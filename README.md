@@ -80,7 +80,7 @@ flowchart LR
 | **Spec**     | Define what changes, why, and what "done" looks like — before touching code.                 | `docs/features/<feature>/specs.md`                 |
 | **Plan**     | Decide how to slice, test and document.                                                      | `docs/features/<feature>/plan.md`                  |
 | **Build**    | Ship small, reviewable slices with evidence (test runs, notebook output).                    | code, tests, notebook outputs                      |
-| **Document** | Update every durable doc the change touched.                                                 | glossary, CHANGELOG, business report               |
+| **Document** | Update every durable doc the change touched.                                                 | glossary, CHANGELOG, `report.md`                   |
 
 ### Human review checkpoints
 
