@@ -147,8 +147,6 @@ A scratchpad that lives in the repo but never gets committed.
 > [!TIP]
 > Retrieve **just in time**. Large context is not the same as useful context — every irrelevant doc lowers signal.
 
-**Research first** — before jumping into implementation, have the agent cache external knowledge (API docs, library references, schema snapshots) into a `research.md` file. This avoids burning context rediscovering facts the agent should only need to load once per feature.
-
 ## Context Hygiene: Clear, Compact, Handoff
 
 Three moves for managing session state.

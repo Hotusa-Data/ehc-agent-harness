@@ -109,7 +109,7 @@ Think of an LLM session like the protagonist in *Memento* — each turn resets t
 | **Handoff** | A fresh agent should continue a focused slice without inheriting the old token load | Keep it scoped, temporary, and free of secrets |
 | **Durable notes** | Knowledge should survive across sessions | Notes must stay curated |
 
-Write long-lived knowledge to markdown: `research.md`, `glossary.md`, `architecture.md`, specs, issues, or task notes. The chat is a workspace, not a database.
+Write long-lived knowledge to markdown: `glossary.md`, `architecture.md`, specs, issues, or task notes. The chat is a workspace, not a database.
 
 Treat chat history like code: refactor it. When it gets tangled, extract the important decisions and restart from a clean, focused state.
 
@@ -125,7 +125,7 @@ Use handoff when you want to:
 - move work between AI tools or ask another agent for adversarial review
 - reset into a fresh, focused session while preserving the few facts that matter
 
-A good handoff is disposable and specific. Store it in the OS temporary directory (`/tmp/` on Linux/macOS, `%TEMP%` on Windows), **not** the project workspace. This prevents "doc rot" — stale plans left in the repo that silently influence future sessions. Include suggested skills such as TDD or Diagnose when useful, and redact secrets like API keys or credentials.
+A good handoff is disposable and specific. Store it under `.local-context/` in the workspace you are working in. That directory is gitignored — handoffs stay local to the machine and never get pushed. Include suggested skills such as TDD or Diagnose when useful, and redact secrets like API keys or credentials.
 
 ## Patterns That Work
 

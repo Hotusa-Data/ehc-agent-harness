@@ -46,7 +46,7 @@ Everything below the line is the template. Copy from here:
 | **Date**            | [YYYY-MM-DD]                                                                                                                                                                                  |
 | **Status**          | [Open / Merged / Closed]                                                                                                                                                                      |
 | **Branch**          | `[feature/branch-name]` → `main`                                                                                                                                                              |
-| **Related issues**  | [Feature specs](../../docs/features/<feature>/specs.md), [related ADR](../../docs/adr/001-example-decision.md) |
+| **Related issues**  | [Feature specs](../../docs/features/<feature>/specs.md), [feature plan](../../docs/features/<feature>/plan.md) |
 | **Deploy strategy** | [Standard / Canary / Blue-green / Feature flag]                                                                                                                                               |
 
 ---
@@ -315,8 +315,8 @@ git revert [commit-sha]
 
 ## References
 
-- [Design document or ADR](../adr/ADR-001-agent-optimized-documentation-system.md)
 - [Related feature specs](../../docs/features/<feature>/specs.md)
+- [Architecture](../../docs/architecture.md)
 - [Relevant documentation](https://example.com)
 
 ---

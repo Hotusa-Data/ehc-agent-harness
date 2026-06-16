@@ -1,19 +1,22 @@
 # Spec-Driven Development
 
-A practical introduction to SDD for developers working with data — what it is, the workflow shape, and how it differs from vibe coding or TDD.
+A practical introduction to SDD for developers working with data — what the concept is, how it differs from vibe coding or TDD, and **how this metarepo adapts it** into a five-phase lifecycle rather than copying any single SDD toolkit verbatim.
 
 ## TL;DR
 
-SDD makes the **specification** — not the code — the single source of truth. You describe what to build and why in a versioned artifact, derive a plan, break it into tasks, and only then let an agent generate code. For data work specifically, the spec also pins down schemas, contracts, and the evidence (notebook outputs, quality checks) that proves the result.
+**Spec-Driven Development (SDD)** is an industry pattern: make the **specification** — not the code — the anchor for intent. External toolkits (Spec Kit, Kiro, BMAD, etc.) typically chain markdown artifacts before implementation.
+
+**This framework does not run pure SDD.** We borrow the core idea — intent before code, verifiable acceptance criteria, specs that stay alive — and wrap it in our own **five-phase cycle** with human review gates:
 
 ```text
-Spec  →  Plan  →  Tasks  →  Implement
-what+why    how    atomic units   code + evidence
+Context → Spec → Plan → Build → Document
 ```
+
+Work slices live inside `plan.md`; there is no separate `tasks.md` artifact. Full reference: [lifecycle.md](../onboarding/lifecycle.md).
 
 ## Why SDD Exists
 
-LLMs ship plausible code in seconds. That speed creates a failure mode worth naming: **vibe coding** — code that drifts from intent, hallucinates APIs, and rots as the project scales. In data work the drift is *silent*: a pipeline still runs, just on the wrong shape, the wrong filter, or the wrong join. SDD makes intent explicit before broad implementation so divergence becomes visible at review — not at the next quarterly metric.
+LLMs ship plausible code in seconds. That speed creates a failure mode worth naming: **vibe coding** — code that drifts from intent, hallucinates APIs, and rots as the project scales. In data work the drift is *silent*: a pipeline still runs, just on the wrong shape, the wrong filter, or the wrong join. Making intent explicit before broad implementation keeps divergence visible at review — not at the next quarterly metric. That is the SDD insight we keep.
 
 ## SDD vs Vibe Coding vs TDD vs BDD
 
@@ -22,23 +25,24 @@ LLMs ship plausible code in seconds. That speed creates a failure mode worth nam
 | Vibe coding | The prompt | Speed on small things | Drift, hallucinated APIs, decaying code |
 | TDD | Failing test | Granular regression safety | Tests mirror implementation, not intent |
 | BDD | Scenario in business language | Stakeholder alignment | Scales poorly past a few features |
-| **SDD** | Versioned spec | Intent traceable through plan → tasks → code | Overhead on tiny fixes; needs spec discipline |
+| **SDD (concept)** | Versioned spec | Intent traceable through plan → code | Overhead on tiny fixes; needs spec discipline |
 
-The four are not mutually exclusive. SDD can sit on top of TDD-style tests, and BDD scenarios make good acceptance criteria inside an SDD spec.
+The four are not mutually exclusive. SDD-style specs can sit on top of TDD-style tests, and BDD scenarios make good acceptance criteria inside a spec.
 
-## The Canonical Workflow
+## What SDD Toolkits Typically Do
 
-Most SDD toolkits (GitHub Spec Kit, AWS Kiro, BMAD, and others) converge on the same four phases. Each produces a markdown artifact that feeds the next:
+Most external SDD toolkits converge on a linear artifact chain before code. Ours is **inspired by** this shape but not identical:
 
-| Phase | Produces | Answers |
+| Toolkit phase | Typical artifact | Our equivalent |
 |---|---|---|
-| **Spec** | `specs.md` | What and why — scope, acceptance criteria, business rules |
-| **Plan** | `plan.md` | How and the work — approach, contracts, slices, evidence |
-| **Implement** | code + evidence | The result — implementation plus verification |
+| Spec | `specs.md` | **Spec** phase → `docs/features/<feature>/specs.md` |
+| Plan | `plan.md` (+ sometimes separate tasks) | **Plan** phase → `plan.md` with ordered slices inside |
+| Implement | code + evidence | **Build** phase → vertical slices + tests/notebooks |
+| — | — | **Context** (load rules/docs first) and **Document** (close durable knowledge) — extra phases we add |
 
-The larger the risk, the more explicit each phase should be. Tiny fixes can collapse Spec and Plan into a single paragraph.
+We also add **three human review stops** (post-Spec, post-Plan, post-Build/PR) that most pure-SDD toolkits leave implicit.
 
-## Anatomy Of A Spec
+## Anatomy Of A Feature Folder
 
 ```text
 docs/features/<feature>/
@@ -91,9 +95,9 @@ A static spec from sprint 1 will diverge from production by sprint 3. Either com
 
 Catching "this isn't what we wanted" at PR review is too late — the implementation cost is already sunk. The cheap moment to redirect is **after the spec, before the plan**.
 
-## SDD In Cursor
+## Skills In Cursor
 
-In this metarepo, skills under `skills-for-planning/` and `skills-for-docs/` operationalize the four phases natively in Cursor — no separate toolkit required.
+Skills under `skills-for-planning/` and `skills-for-docs/` operationalize the **five-phase lifecycle** — not a pure SDD toolkit. Each phase has optional skills (`grill-me`, `spec-write`, `plan-write`, `build-slice`, `context-update`, etc.). See [lifecycle.md](../onboarding/lifecycle.md) for the per-phase map.
 
 ## Anti-patterns
 
@@ -103,6 +107,7 @@ In this metarepo, skills under `skills-for-planning/` and `skills-for-docs/` ope
 - acceptance criteria nobody can observe ("the system should be robust")
 - letting the code drift away from the documented intent without updating the spec
 - copying a spec template without filling in concrete examples — examples are what carry intent
+- treating this framework as "Spec Kit with another name" — our Context and Document phases, review gates, and slice-in-plan model are deliberate differences
 
 ## Pre-flight Checklist
 
@@ -115,11 +120,19 @@ Before moving from Spec to Plan:
 - [ ] Assumptions and open questions surfaced, not glossed over
 - [ ] The spec answers *why*, not just *what*
 
-## SDD In This Framework
+## SDD Inspiration In This Framework
 
-SDD is the conceptual backbone of the development lifecycle in this metarepo. The cycle runs: **Context → Spec → Plan → Build → Document**, with three human review points guarding progress between phases. Skills operationalize each phase — spec grilling, plan generation, slice implementation, docs closure — and the spec stays the source of intent throughout.
+SDD is the **conceptual backbone**, not the operating model. The cycle we actually run is:
 
-See [../onboarding/lifecycle.md](../onboarding/lifecycle.md) for the full cycle, exit criteria, and skill map.
+**Context → Spec → Plan → Build → Document**, with three human review points guarding progress between phases.
+
+- **Context** loads rules and project truth before anyone writes a spec.
+- **Spec / Plan / Build** carry the SDD-inspired intent → plan → evidence chain.
+- **Document** closes durable knowledge (glossary, CHANGELOG, `report.md`) — a phase most pure-SDD toolkits under-specify.
+
+Skills operationalize each phase; the spec stays the source of intent throughout Build.
+
+See [../onboarding/lifecycle.md](../onboarding/lifecycle.md) for exit criteria and the full skill map.
 
 ## Where To Look Next
 
@@ -128,7 +141,7 @@ See [../onboarding/lifecycle.md](../onboarding/lifecycle.md) for the full cycle,
 
 ## References
 
-- GitHub — [Spec Kit](https://github.com/github/spec-kit) (open-source toolkit, Spec → Plan → Tasks → Implement)
+- GitHub — [Spec Kit](https://github.com/github/spec-kit) (open-source toolkit — inspiration, not our runtime)
 - GitHub Blog — [Spec-driven development with AI: get started](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/)
 - AWS Kiro — [Specs documentation](https://kiro.dev/docs/specs/) and [Best practices](https://kiro.dev/docs/specs/best-practices/)
 - Martin Fowler — [Understanding Spec-Driven Development: Kiro, Spec Kit, Tessl](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)

@@ -2,7 +2,7 @@
 name: grill-me
 phase: cross-cutting
 description: |
-  Interview the user relentlessly about a plan, design, or proposal, walking down each branch of the decision tree and resolving dependencies one question at a time, with a recommendation for each question. Also challenges the plan against existing domain docs (docs/glossary.md and docs/adr/), sharpens terminology, and updates documentation inline as decisions crystallise. Use whenever the user says "grill me", asks to stress-test or be challenged on a design, wants every aspect of a proposal questioned, or wants to align a plan with the project's documented language and decisions.
+  Interview the user relentlessly about a plan, design, or proposal, walking down each branch of the decision tree and resolving dependencies one question at a time, with a recommendation for each question. Also challenges the plan against existing domain docs (docs/glossary.md, docs/architecture.md), sharpens terminology, and updates documentation inline as decisions crystallise. Use whenever the user says "grill me", asks to stress-test or be challenged on a design, wants every aspect of a proposal questioned, or wants to align a plan with the project's documented language and decisions.
 allowed-tools:
   - Read
   - Edit
@@ -11,8 +11,8 @@ allowed-tools:
   - Grep
 metadata:
   owner: Ignacio Freire
-  last_reviewed: "2026-05-27"
-  skill-version: "2.0.0"
+  last_reviewed: "2026-06-16"
+  skill-version: "2.1.0"
 ---
 
 # Grill Me
@@ -33,7 +33,7 @@ The user has invited a hard interview. Soft-pedalling wastes their time.
 
 - The user says "grill me" or asks to stress-test a design, plan, or proposal.
 - Ambiguity would weaken a spec or plan if not resolved first.
-- Terminology needs sharpening against `docs/glossary.md` and `docs/adr/`.
+- Terminology needs sharpening against `docs/glossary.md` or `docs/architecture.md`.
 
 ## When NOT to use
 
@@ -48,7 +48,6 @@ The user has invited a hard interview. Soft-pedalling wastes their time.
 During the interview, also load existing documentation for context:
 
 - `docs/glossary.md` — canonical domain vocabulary
-- `docs/adr/` — architectural decisions made previously
 - `docs/docs-guide.md` — per-project required docs and overrides
 - `docs/architecture.md` — system shape and global decisions
 
@@ -78,16 +77,6 @@ Do not put classes, modules, file paths, or implementation decisions in Definiti
 
 > **Ownership note.** This skill is the **editor** of `docs/glossary.md`; it adds or refines individual terms during interviews. Wholesale creation and refresh of the glossary is owned by [`make-glossary`](../../skills-for-docs/make-glossary/SKILL.md) — defer there when the request is "build the glossary" rather than "resolve this term".
 
-## Offer ADRs sparingly
-
-Only offer to create an ADR in `docs/adr/` when all three are true:
-
-1. **Hard to reverse** — the cost of changing your mind later is meaningful
-2. **Surprising without context** — a future reader will wonder "why did they do it this way?"
-3. **The result of a real trade-off** — there were genuine alternatives and you picked one for specific reasons
-
-If any of the three is missing, skip the ADR.
-
 ---
 
 ## Reference index
@@ -97,7 +86,6 @@ If any of the three is missing, skip the ADR.
 | `docs/docs-guide.md` | Required docs and project-specific overrides |
 | `docs/architecture.md` | System shape and global decisions |
 | `docs/glossary.md` | Canonical domain vocabulary |
-| `docs/adr/` | Recorded architectural decisions |
 | `agent-kit/skeletons/_glossary.md` | Format for new or updated glossary entries |
 | `agent-kit/skeletons/_docs-guide.md` | Format for `docs/docs-guide.md` overrides |
 | `agent-kit/skeletons/_architecture.md` | Format for `docs/architecture.md` |

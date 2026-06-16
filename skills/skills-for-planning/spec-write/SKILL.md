@@ -48,7 +48,7 @@ Then load by what the task requires:
 | `docs/features/<feature>/` (if touching an existing feature) | Current specs, open questions, prior decisions |
 | `docs/architecture.md` | System boundaries — where validation and contracts already live |
 
-If the user referenced an ADR or external doc, read it before drafting.
+If the user referenced an external doc, read it before drafting.
 
 ### 2. Explore codebase
 
