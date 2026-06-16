@@ -161,10 +161,16 @@ Full details in [`guides/onboarding/ai-configuration.md`](./guides/onboarding/ai
 
 ```text
 this-metarepo/
-├── guides/         ← theory, onboarding, cycle in detail (stable)
-├── agent-kit/      ← rules + doc skeletons + AGENTS.md template (stable, manual copy)
-├── skills/         ← slash-command workflows for your IDE (experimental)
-└── subagents/      ← optional context-delegation templates for your IDE (experimental)
+├── .github/workflows/   ← CI runs python skills/lint.py on push/PR
+├── guides/              ← theory, onboarding, cycle in detail (stable)
+├── agent-kit/
+│   ├── adopt.py         ← bootstrap docs/ + .gitignore in consumer repos
+│   ├── AGENTS.md        ← template copied to consumer root on adoption
+│   ├── agent-rules/     ← rules loaded just-in-time by agents
+│   └── skeletons/       ← templates for docs/ in consumer repos
+├── skills/              ← slash-command workflows (experimental)
+│   └── lint.py          ← validate skills + plugin sync + skeleton casing
+└── subagents/           ← optional context-delegation templates (experimental)
 ```
 
 <details>
@@ -174,7 +180,8 @@ this-metarepo/
 - **Context engineering** — the practice of deliberately controlling what an agent sees, so its output is grounded.
 - **SDD (Spec-Driven Development)** — writing the spec before writing the code, so the agent has something to be measured against.
 - **AI entrypoint** — the instruction entry your IDE treats as project guidance. For portable project repos this is `AGENTS.md`; for Cursor, the plugin's `rules/entrypoint.mdc` points back to `agent-kit/AGENTS.md`.
-- **agent-kit** — the bundle of rules, doc skeletons and the `AGENTS.md` template (this repo's `agent-kit/`) that gets copied into a project repo.
+- **agent-kit** — the bundle of rules, doc skeletons, `adopt.py` bootstrap script, and the `AGENTS.md` template (this repo's `agent-kit/`) that gets copied into a project repo.
+- **adopt.py** — script inside `agent-kit/` that scaffolds `docs/`, `.gitignore` (`.local-context/`), and optionally root `AGENTS.md` after manual kit copy.
 - **Vertical slice** — a minimal end-to-end chunk of a feature (data → logic → output) rather than one full layer.
 
 </details>
@@ -245,6 +252,18 @@ No. The cycle has three explicit human review checkpoints (Spec, Plan, PR) preci
 3. Keep PRs small and focused — the framework preaches this; the framework should practice it.
 4. If you modify a skill, test it end-to-end in your IDE before opening the PR.
 5. Run `python skills/lint.py` before opening a PR that touches skills or skeletons — CI runs the same check on every push.
+6. When changing skeletons or adoption flow, update `agent-kit/adopt.py`, `agent-kit/AGENTS.md`, and the guides under `guides/onboarding/` so consumer repos stay aligned.
+
+### Conventions worth knowing
+
+| Topic | Convention |
+|-------|------------|
+| Lifecycle | Five phases (Context → Spec → Plan → Build → Document); SDD-inspired, not pure SDD — see [spec-driven-development.md](./guides/theory/spec-driven-development.md) |
+| Session notes | `.local-context/` at repo root, gitignored, never committed |
+| Feature changelog | `CHANGELOG.md` (uppercase), not `changelog.md` — Keep a Changelog convention |
+| Cycle-close report | `docs/features/<feature>/report.md` — the `business-reports` skill writes here |
+| Plugin skills | Edit `skills/utils-skills/`; sync with `python skills/lint.py --sync-plugin` |
+| Consumer bootstrap | `python agent-kit/adopt.py` after copying `agent-kit/` into a project repo |
 
 ---
 

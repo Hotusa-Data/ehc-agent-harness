@@ -65,6 +65,13 @@ python agent-kit/adopt.py --agents --feature <feature-name>
 
 Use `--dry-run` to preview. The script creates `docs/` from skeletons and ensures `.gitignore` excludes `.local-context/`; manual steps below still apply if you prefer not to use it.
 
+| Flag | Effect |
+|------|--------|
+| `--dry-run` | Print planned actions without writing files |
+| `--agents` | Copy `agent-kit/AGENTS.md` to root `AGENTS.md` when missing |
+| `--feature NAME` | Scaffold `docs/features/NAME/` with `specs.md`, `plan.md`, `CHANGELOG.md` |
+| `--force` | Overwrite files that already exist |
+
 Minimal setup so context flows correctly in every session.
 
 ### `AGENTS.md` — Always Loaded Rules

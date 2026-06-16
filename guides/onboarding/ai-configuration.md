@@ -184,6 +184,7 @@ Use this as the safe baseline for this repo:
   - `rules/entrypoint.mdc` points Cursor to `agent-kit/AGENTS.md`; do not duplicate the kit rules there.
   - `rules/team-safety-policy.mdc`, `hooks/hooks.json`, and `scripts/team-safety-policy.js` define the team safety policy.
   - `skills/` holds plugin copies of `grill-me` and `handoff`; edit the canonical files under `skills/utils-skills/` and run `python skills/lint.py --sync-plugin` before committing.
+- **Metarepo CI:** `.github/workflows/lint.yml` runs `python skills/lint.py` on push/PR — same check as local pre-flight for skills and skeleton casing.
 - Prefer `AGENTS.md` for simple, portable repo instructions.
 - Enable MCP servers only when they are needed.
 - Keep Git, releases, deployments, and package publishing as human-controlled steps.

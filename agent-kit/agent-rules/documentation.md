@@ -77,6 +77,8 @@ If a target doc does not exist, create it from the matching skeleton in `agent-k
 | `agent-kit/skeletons/_report.md` | `docs/features/<feature>/report.md` |
 | `agent-kit/skeletons/_CHANGELOG.md` | `docs/features/<feature>/CHANGELOG.md` |
 
+**Bootstrap shortcut:** After copying `agent-kit/` into a consumer repo, run `python agent-kit/adopt.py` from the project root (see metarepo README Track 1). It instantiates the base rows in this table, ensures `.gitignore` excludes `.local-context/`, and optionally scaffolds `docs/features/<feature>/` or root `AGENTS.md`. Manual copy from skeletons remains valid when the script is not used.
+
 ### DOC-5 Treat `docs/docs-guide.md` as the project's authority on required docs [MUST]
 
 If `docs/docs-guide.md` exists, defer to it for the per-project list of required docs and any local overrides of load order or gates. This rule defines the defaults; the project doc lists what is actually required and any deviations.
@@ -89,6 +91,7 @@ Project-specific deviations (stricter gates, extra required docs, alternative lo
 
 Every feature `CHANGELOG.md` (instantiated from `agent-kit/skeletons/_CHANGELOG.md`) follows the same shape so reviewers do not have to re-learn the format per feature.
 
+- **Filename:** always `CHANGELOG.md` (uppercase) — [Keep a Changelog](https://keepachangelog.com/) convention; do not use `changelog.md`. The metarepo lint enforces skeleton casing for Linux CI.
 - Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Most recent version on top.
 - One line per change; include the **why** (e.g. `Removed X (why: deprioritized)`).

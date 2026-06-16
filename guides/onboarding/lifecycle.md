@@ -4,6 +4,17 @@ How to develop features with AI: the phases, what you do at each step, how to le
 
 This guide is for **developers** working in this framework. It assumes you use Cursor agents as collaborators and that you have already read the theory guides in [`guides/theory/`](../theory/) — in particular [spec-driven-development.md](../theory/spec-driven-development.md) and [context-engineering.md](../theory/context-engineering.md). If you are setting up tools for the first time, start with [ai-configuration.md](ai-configuration.md).
 
+## First-time project setup
+
+Before running the cycle in a **consumer repo**, copy `agent-kit/` from this metarepo and bootstrap the layout. See [README Track 1](../../README.md#track-1--project-repo-manual) and [managing-context.md § Setting It Up](managing-context.md#setting-it-up).
+
+```bash
+python agent-kit/adopt.py --dry-run --agents --feature <feature-name>
+python agent-kit/adopt.py --agents --feature <feature-name>
+```
+
+The script creates `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and optionally copies `AGENTS.md` from the kit template. Adapt `AGENTS.md` to the project before the first agent session.
+
 ## Core Flow
 
 ```mermaid

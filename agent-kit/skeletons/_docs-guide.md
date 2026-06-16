@@ -48,4 +48,5 @@ Use this section for repository-specific deviations: stricter gates, extra requi
 
 - [ ] Every required doc listed in §1 exists, or has a tracked task to create it.
 - [ ] Root `.gitignore` excludes `.local-context/` (session handoffs and scratch notes).
+- [ ] Base docs scaffolded from skeletons (or run `python agent-kit/adopt.py --dry-run` to preview what is missing).
 - [ ] §3 overrides do not silently contradict `AGENTS.md` or `agent-rules/documentation.md`.

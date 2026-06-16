@@ -24,7 +24,7 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 | **Spec** | Define what must change and why | `docs/features/<feature>/specs.md` |
 | **Plan** | Decide how to implement, slice, test, document | `docs/features/<feature>/plan.md` |
 | **Build** | Implement in small, reviewable slices | code, tests, notebook mockups |
-| **Document** | Update every durable doc the change touched | glossary, CHANGELOG, report |
+| **Document** | Update every durable doc the change touched | glossary, `CHANGELOG.md`, `report.md` |
 
 **Human review stops** — a person must approve before the next phase begins.
 
@@ -64,6 +64,21 @@ docs/
 ```
 
 If a target doc does not exist, instantiate it from the matching skeleton in `agent-kit/skeletons/`. Skeleton-to-doc mapping: [`agent-rules/documentation.md` §DOC-4](agent-rules/documentation.md).
+
+### Adopting the kit in a consumer repo
+
+After copying `agent-kit/` into a project repo root, bootstrap the layout:
+
+```bash
+python agent-kit/adopt.py --dry-run --agents --feature <feature-name>
+python agent-kit/adopt.py --agents --feature <feature-name>
+```
+
+Creates base docs under `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and copies this template to root `AGENTS.md` when you pass `--agents` (adapt it afterward). Existing files are kept unless you pass `--force`. Skeleton mapping: [`agent-rules/documentation.md` §DOC-4](agent-rules/documentation.md).
+
+### Session scratch (never committed)
+
+Handoffs and throwaway notes live in `.local-context/` at the repo root — gitignored, never committed. Promote anything durable into `docs/` before closing the cycle.
 
 ---
 

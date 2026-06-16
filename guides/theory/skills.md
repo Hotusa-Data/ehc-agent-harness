@@ -225,6 +225,17 @@ Before shipping a skill:
 - Generated artifacts (PRDs, reports, plans) follow the glossary's language by default; if the glossary is missing, follow the user's language. The user may override per artifact.
 - Frontmatter values and code identifiers are always in English (ASCII).
 
+## Maintaining the catalog (metarepo)
+
+When editing skills in this repository:
+
+1. Edit canonical files under `skills/` — for plugin-shipped utils, edit `skills/utils-skills/<name>/SKILL.md`, not the copy under `plugins/test-plugin/skills/`.
+2. Regenerate plugin copies: `python skills/lint.py --sync-plugin`
+3. Validate locally: `python skills/lint.py` (also checks skeleton filename casing under `agent-kit/skeletons/`).
+4. CI (`.github/workflows/lint.yml`) runs the same lint on every push to `main` and on pull requests.
+
+See [skills/README.md](../../skills/README.md) for the full catalog conventions, including **phase vs invocation** (e.g. `notebook-mockup` is `cross-cutting` in frontmatter but invoked during Build).
+
 ## Where To Look Next
 
 - Skill catalog and repo conventions: [skills/README.md](../../skills/README.md)
