@@ -22,8 +22,8 @@ repo-root/
 |   |-- features/
 |   |-- adr/
 |   |   |-- README.md
-|   |   |-- 0001-record-architecture-decisions.md
-|   |   `-- 0002-system-context.md
+|   |   |-- README.md
+|   |   `-- 0001-system-context.md
 |   |-- database.md
 |   |-- glossary.md
 |   `-- docs-guide.md

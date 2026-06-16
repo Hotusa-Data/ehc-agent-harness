@@ -24,17 +24,13 @@ from pathlib import Path
 KIT_DIR = Path(__file__).resolve().parent
 SKELETONS = KIT_DIR / "skeletons"
 AGENTS_TEMPLATE = KIT_DIR / "AGENTS.md"
+ADR_SKELETON = "_adr.md"
+ADR_SECTIONS = ("index", "entry", "bootstrap")
 
 BASE_DOC_MAP: dict[str, str] = {
     "_database.md": "docs/database.md",
     "_glossary.md": "docs/glossary.md",
     "_docs-guide.md": "docs/docs-guide.md",
-}
-
-ADR_DOC_MAP: dict[str, str] = {
-    "_adr-index.md": "docs/adr/README.md",
-    "_adr-0001-record-decisions.md": "docs/adr/0001-record-architecture-decisions.md",
-    "_adr-0002-system-context.md": "docs/adr/0002-system-context.md",
 }
 
 FEATURE_DOC_MAP: dict[str, str] = {
@@ -75,6 +71,80 @@ def copy_skeleton(
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, target)
     return f"WRITE {target}"
+
+
+def write_text_target(
+    target: Path,
+    content: str,
+    *,
+    label: str,
+    force: bool,
+    dry_run: bool,
+) -> str:
+    if target.is_file() and not force:
+        return f"KEEP  {target} (already exists)"
+
+    if dry_run:
+        action = "OVERWRITE" if target.is_file() else "CREATE"
+        return f"{action} {target} ({label})"
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(content, encoding="utf-8", newline="\n")
+    return f"WRITE {target}"
+
+
+def parse_adr_skeleton(path: Path) -> dict[str, str]:
+    """Split _adr.md into §Index, §Entry, and §Bootstrap sections."""
+    text = path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+    sections: dict[str, list[str]] = {}
+    current: str | None = None
+    for line in text.splitlines():
+        if line.startswith("## §"):
+            current = line.removeprefix("## §").strip().lower()
+            sections[current] = []
+            continue
+        if current is not None:
+            sections[current].append(line)
+    return {key: "\n".join(lines).strip() for key, lines in sections.items()}
+
+
+def bootstrap_adr_folder(*, force: bool, dry_run: bool) -> list[str]:
+    """Materialize docs/adr/ from §Index and §Bootstrap in the unified _adr.md skeleton."""
+    adr_dir = repo_root() / "docs" / "adr"
+    actions: list[str] = []
+    skeleton_path = SKELETONS / ADR_SKELETON
+
+    if not skeleton_path.is_file():
+        actions.append(f"SKIP  {adr_dir}/ (skeleton missing: {ADR_SKELETON})")
+        return actions
+
+    parts = parse_adr_skeleton(skeleton_path)
+    missing = [name for name in ADR_SECTIONS if not parts.get(name)]
+    if missing:
+        actions.append(
+            f"SKIP  {adr_dir}/ ({ADR_SKELETON} missing sections: {', '.join(missing)})",
+        )
+        return actions
+
+    actions.append(
+        write_text_target(
+            adr_dir / "README.md",
+            parts["index"],
+            label=f"{ADR_SKELETON} §Index",
+            force=force,
+            dry_run=dry_run,
+        ),
+    )
+    actions.append(
+        write_text_target(
+            adr_dir / "0001-system-context.md",
+            parts["bootstrap"],
+            label=f"{ADR_SKELETON} §Bootstrap",
+            force=force,
+            dry_run=dry_run,
+        ),
+    )
+    return actions
 
 
 def ensure_gitignore(*, force: bool, dry_run: bool) -> str:
@@ -134,11 +204,7 @@ def run(args: argparse.Namespace) -> int:
             copy_skeleton(skeleton, target, force=args.force, dry_run=args.dry_run),
         )
 
-    for skeleton, rel_target in ADR_DOC_MAP.items():
-        target = root / rel_target
-        actions.append(
-            copy_skeleton(skeleton, target, force=args.force, dry_run=args.dry_run),
-        )
+    actions.extend(bootstrap_adr_folder(force=args.force, dry_run=args.dry_run))
 
     if args.feature:
         feature_dir = root / "docs" / "features" / args.feature
@@ -161,7 +227,7 @@ def run(args: argparse.Namespace) -> int:
         print("  - Fill in AGENTS.md §Commands and §Pull requests; confirm §Boundaries; set overrides in docs/docs-guide.md §3")
     if not args.feature:
         print("  - Run again with --feature <name> to scaffold docs/features/<name>/")
-    print("  - Edit docs/adr/0002-system-context.md for this project; add ADRs for layout or integration deltas")
+    print("  - Edit docs/adr/0001-system-context.md; copy §Entry from agent-kit/skeletons/_adr.md for new ADRs")
     print("  - See README Track 1 and guides/onboarding/managing-context.md")
 
     return 0

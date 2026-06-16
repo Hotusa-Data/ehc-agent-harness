@@ -297,13 +297,14 @@ def check_skeleton_path_casing() -> list[str]:
     return errors
 
 
-ADR_REQUIRED_SKELETONS = (
+ADR_REQUIRED_SKELETONS = ("_adr.md",)
+FORBIDDEN_SKELETONS = (
+    "_architecture.md",
     "_adr-index.md",
     "_adr-entry.md",
     "_adr-0001-record-decisions.md",
     "_adr-0002-system-context.md",
 )
-FORBIDDEN_SKELETONS = ("_architecture.md",)
 
 
 def check_adr_skeletons() -> list[str]:
@@ -322,6 +323,15 @@ def check_adr_skeletons() -> list[str]:
     for name in ADR_REQUIRED_SKELETONS:
         if not (skeleton_dir / name).is_file():
             errors.append(f"agent-kit/skeletons/: missing required ADR skeleton {name}")
+
+    adr_path = skeleton_dir / "_adr.md"
+    if adr_path.is_file():
+        text = adr_path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+        for section in ("Index", "Entry", "Bootstrap"):
+            if f"## §{section}" not in text:
+                errors.append(
+                    f"agent-kit/skeletons/_adr.md: missing ## §{section} section",
+                )
 
     return errors
 

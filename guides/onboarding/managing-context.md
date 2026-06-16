@@ -113,8 +113,7 @@ A predictable layout lets the AI find things without guessing. Stick to this tre
 docs/
 ├── adr/
 │   ├── README.md
-│   ├── 0001-record-architecture-decisions.md
-│   └── 0002-system-context.md
+│   └── 0001-system-context.md
 ├── database.md
 ├── glossary.md
 ├── docs-guide.md
@@ -131,7 +130,7 @@ docs/
 When updating an older project that still uses the monolithic architecture file:
 
 1. Scaffold `docs/adr/` with `python agent-kit/adopt.py` (existing files are kept unless you pass `--force`).
-2. Move §1 overview into `0002-system-context.md`; §2 into glossary/database; §3–§5 into numbered ADRs from `agent-kit/skeletons/_adr-entry.md`.
+2. Move §1 overview into `0001-system-context.md`; §2 into glossary/database; §3–§5 into ADRs from **§Entry** in `agent-kit/skeletons/_adr.md`.
 3. Update the index in `docs/adr/README.md` and remove the old `architecture.md` row from `docs/docs-guide.md` §1.
 
 See [DOCUMENTATION.md](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-10 for when to write an ADR vs update feature docs.

@@ -70,10 +70,7 @@ If a target doc does not exist, create it from the matching skeleton in `agent-k
 
 | Skeleton | Target doc |
 |---|---|
-| `agent-kit/skeletons/_adr-index.md` | `docs/adr/README.md` |
-| `agent-kit/skeletons/_adr-0001-record-decisions.md` | `docs/adr/0001-record-architecture-decisions.md` |
-| `agent-kit/skeletons/_adr-0002-system-context.md` | `docs/adr/0002-system-context.md` |
-| `agent-kit/skeletons/_adr-entry.md` | Template only — copy to `docs/adr/NNNN-slug.md` for new ADRs |
+| `agent-kit/skeletons/_adr.md` | §Index → `docs/adr/README.md`; §Bootstrap → `docs/adr/0001-system-context.md`; copy §Entry for each new ADR |
 | `agent-kit/skeletons/_database.md` | `docs/database.md` |
 | `agent-kit/skeletons/_glossary.md` | `docs/glossary.md` |
 | `agent-kit/skeletons/_docs-guide.md` | `docs/docs-guide.md` |
@@ -137,10 +134,10 @@ Structural decisions use numbered ADRs under `docs/adr/`, indexed in `docs/adr/R
 | Project-wide invariant that outlives one feature | Cycle-scoped choice → `plan.md` §9 |
 | Superseding a prior structural choice | Restating `REPO_GUIDE.md` default layout |
 
-- **Format:** copy `_adr-entry.md`; filename `NNNN-short-slug.md`; update the index in `README.md`.
+- **Format:** copy **§Entry** from `_adr.md` to `docs/adr/NNNN-short-slug.md`; update the index in `README.md` (§Index in the skeleton).
 - **Load:** read `docs/adr/README.md`, then only ADRs whose **Load when** matches the task (DOC-1).
-- **System overview:** ADR-0002 (`_adr-0002-system-context.md`) — edit on adoption, revisit ~yearly.
-- **Status:** `proposed`, `accepted`, `deprecated`, or `superseded by ADR-XXXX` — do not delete history.
+- **System overview:** `docs/adr/0001-system-context.md` — edit on adoption, revisit ~yearly.
+- **Status:** `proposed`, `accepted`, `deprecated`, or superseded — do not delete history.
 
 ## Anti-patterns
 

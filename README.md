@@ -112,7 +112,7 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
    This creates `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and copies `AGENTS.md` from the kit template when missing. Existing files are kept unless you pass `--force`. Run `python agent-kit/adopt.py --dry-run` first to preview.
 
 3. Adapt root `AGENTS.md` to the project: fill in §Commands and §Pull requests, confirm §Boundaries, and set overrides in `docs/docs-guide.md` §3 (step 2 copies the template when you pass `--agents`).
-4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `adr/` (from `_adr-index.md`, `_adr-0001-*`, `_adr-0002-*`), `database.md`, `docs-guide.md`, `glossary.md`.
+4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: run `adopt.py` for `adr/` or copy `_adr.md` pattern per [`DOCUMENTATION.md`](./agent-kit/agent-rules/DOCUMENTATION.md) §DOC-4; plus `database.md`, `docs-guide.md`, `glossary.md`.
 5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md` (or use `--feature` in step 2). Skeletons adapt by **Harness mode** (`standard` | `full`) — see Section guide in `_specs.md` and `_plan.md`. Add `report.md` only when the cycle closes.
 6. If you skipped the script, add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
 
@@ -126,8 +126,7 @@ repo-root/
 └── docs/
     ├── adr/
     │   ├── README.md
-    │   ├── 0001-record-architecture-decisions.md
-    │   └── 0002-system-context.md
+    │   └── 0001-system-context.md
     ├── database.md
     ├── glossary.md
     ├── docs-guide.md
@@ -146,9 +145,9 @@ If the project still has the old monolithic architecture doc after updating `age
 
 1. Run `python agent-kit/adopt.py --dry-run` — it scaffolds `docs/adr/` without touching existing files.
 2. Copy content into ADRs:
-   - §1 overview → edit `docs/adr/0002-system-context.md`
+   - §1 overview → edit `docs/adr/0001-system-context.md`
    - §2 domains → `docs/glossary.md` and `docs/database.md`
-   - §3 layout deltas → new ADRs from `_adr-entry.md` (from `0003` onward)
+   - §3 layout deltas → copy **§Entry** from `_adr.md` (from `0002` onward)
    - §4 invariants / §5 integrations → one ADR each, or `docs/docs-guide.md` §3 for operational overrides
 3. Add a row per new ADR in `docs/adr/README.md`.
 4. Remove `docs/architecture.md` and update `docs/docs-guide.md` §1 to list `docs/adr/` instead.

@@ -57,7 +57,7 @@ Optional index (when choosing JIT rules): `agent-kit/agent-rules/RULES.md`.
 
 ## Step 2 — Load project docs
 
-Read `docs/adr/README.md` and matching ADRs (by **Load when** in the index) when the task involves architectural or system-boundary decisions. Always read `docs/adr/0002-system-context.md` when onboarding or scope is unclear.
+Read `docs/adr/README.md` and matching ADRs (by **Load when** in the index) when the task involves architectural or system-boundary decisions. Read `docs/adr/0001-system-context.md` when onboarding or scope is unclear.
 
 Read `docs/glossary.md` when the task uses business vocabulary.
 
