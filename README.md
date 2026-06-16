@@ -137,9 +137,12 @@ Each developer points their IDE at the skills and subagents in this metarepo. Th
 
 Full details in [`guides/onboarding/ai-configuration.md`](./guides/onboarding/ai-configuration.md).
 
-| Tool        | Project instructions            | Skills path       | Subagents path   |
-| ----------- | ------------------------------- | ----------------- | ---------------- |
-| Cursor 2.4+ | `AGENTS.md` or `.cursor/rules/` | `.cursor/skills/` | `.cursor/agents/` |
+| Tool        | Project instructions            | Skills                         | Subagents        |
+| ----------- | ------------------------------- | ------------------------------ | ---------------- |
+| Cursor 2.4+ | `AGENTS.md` or `.cursor/rules/` | Team plugin + metarepo `skills/` (referenced, not copied) | metarepo `subagents/` (referenced) |
+
+> [!NOTE]
+> Skills and subagents are **not** copied into `.cursor/skills/` in each project. Install the team plugin and/or point Cursor at this metarepo so updates propagate automatically. See [ai-configuration.md](./guides/onboarding/ai-configuration.md).
 
 > [!NOTE]
 > `AGENTS.md` is the portable project entrypoint. The Cursor plugin includes a minimal `rules/entrypoint.mdc` rule that points back to `agent-kit/AGENTS.md`; the kit remains the canonical source.

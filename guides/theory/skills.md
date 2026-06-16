@@ -73,7 +73,7 @@ Frontmatter rules:
 - `description`: max 1024 chars. Write in **third person** ("Summarizes X", not "I can help with X"). Include **what it does and when to use it** — agents route on this field, so be specific.
 - `allowed-tools`: explicit list of tools the skill may use. Use `[]` for read-only skills.
 
-> This framework extends the open standard with additional fields (`phase`, `owner`, `last_reviewed`, `skill-version`). See [skills/README.md — Frontmatter schema](../../skills/README.md#frontmatter-schema) for the full schema used here.
+> This framework extends the open standard with additional fields (`phase`, `owner`, `last_reviewed`, `skill-version`). See [skills/README.md — SKILL.md structure](../../skills/README.md#skillmd-structure) for the full schema used here.
 
 ### Body skeleton
 

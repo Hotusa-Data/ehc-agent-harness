@@ -81,7 +81,7 @@ See [managing-context.md](managing-context.md) and [../theory/context-engineerin
 
 - [`context-load`](../../skills/utils-skills/context-load/) — automates loading of project and feature context
 
-**Model suggestion:** Balanced default (Sonnet 4.6, GPT-5.4, Gemini 3.1 Pro). Higher effort only if the project docs are very large or ambiguous (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking).
+**Model suggestion:** **Balanced tier** — your default coding model in Cursor Settings. Escalate to a **stronger reasoning tier** only if project docs are very large or ambiguous. Pick concrete models from Cursor Settings, not hard-coded names — see [ai-configuration.md](ai-configuration.md#models-and-privacy).
 
 **Exit criteria:**
 
@@ -121,7 +121,7 @@ See [../theory/spec-driven-development.md](../theory/spec-driven-development.md)
 - [`grill-me`](../../skills/utils-skills/grill-me/) — adversarial interview that challenges the spec against existing domain docs and updates the glossary inline
 - [`spec-write`](../../skills/skills-for-planning/spec-write/) — synthesizes the conversation into `specs.md`; grounds vocabulary in `docs/glossary.md` and examples in real domain entities from the codebase; flags glossary gaps as open questions
 
-**Model suggestion:** Stronger model (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking). Spec quality determines everything downstream. Higher reasoning effort helps surface hidden assumptions.
+**Model suggestion:** **Stronger reasoning tier** — spec quality determines everything downstream. See [ai-configuration.md](ai-configuration.md#models-and-privacy).
 
 **Exit criteria:**
 
@@ -151,7 +151,7 @@ Define:
 
 - [`plan-write`](../../skills/skills-for-planning/plan-write/) — translates approved specs into `plan.md`: approach, contracts, test strategy, risks, and ordered task slices; classifies each slice AFK or HITL; optionally publishes to the tracker
 
-**Model suggestion:** Stronger model (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking). Architectural decisions and tradeoffs benefit from higher reasoning effort.
+**Model suggestion:** **Stronger reasoning tier** — architectural decisions and tradeoffs benefit from higher reasoning effort. See [ai-configuration.md](ai-configuration.md#models-and-privacy).
 
 **Exit criteria:**
 
@@ -181,7 +181,7 @@ If an assumption breaks during implementation, stop and loop back to Plan (or Sp
 - [`build-slice`](../../skills/skills-for-planning/build-slice/) — TDD implementation loops per task slice in `plan.md`
 - [`notebook-mockup`](../../skills/skills-for-planning/notebook-mockup/) — validates feature logic with synthetic data before writing production code
 
-**Model suggestion:** Balanced coding model for routine implementation (Sonnet 4.6, GPT-5.4, Gemini 3.1 Pro). Stronger model for complex logic, data contracts, or security-sensitive work (Opus 4.7, GPT-5.5, Gemini 2.5 Pro thinking).
+**Model suggestion:** **Balanced tier** for routine implementation; **stronger reasoning tier** for complex logic, data contracts, or security-sensitive work. See [ai-configuration.md](ai-configuration.md#models-and-privacy).
 
 **Exit criteria (per slice):**
 
@@ -219,7 +219,7 @@ Typical updates:
 
 > For a wholesale glossary rebuild, run [`make-glossary`](../../skills/skills-for-docs/make-glossary/) in the **Spec** phase — not at cycle close.
 
-**Model suggestion:** Fast/cheap model (Haiku 4.5, GPT-5.3 Instant, Gemini 3 Flash). Documentation is mechanical — no need for high reasoning effort.
+**Model suggestion:** **Fast/cheap tier** — documentation is mechanical. See [ai-configuration.md](ai-configuration.md#models-and-privacy).
 
 **Exit criteria:**
 

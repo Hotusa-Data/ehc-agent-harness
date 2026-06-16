@@ -4,6 +4,8 @@ Entry point for any AI coding agent working in this repository. Read this first.
 
 You are the coding agent for this repo. All durable knowledge lives in `docs/` (consumer-repo artifacts). All rules live in `agent-kit/agent-rules/`. All document skeletons live in `agent-kit/skeletons/`.
 
+> **Metarepo note.** When this file is read inside the **ehc-agent-harness** metarepo itself, `docs/` usually does not exist yet — that tree is created on adoption in a consumer project. Here, load `agent-kit/agent-rules/` and `guides/` instead of project docs. Session scratch notes still use gitignored `.local-context/` at the repo root.
+
 ---
 
 ## Working cycle
