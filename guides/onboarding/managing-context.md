@@ -40,7 +40,7 @@ Single source of truth. Use this table before creating anything new:
 | Durable project truth | `docs/architecture.md`, `docs/docs-guide.md` | "We deploy to AWS via GitHub Actions" |
 | Shared vocabulary | `docs/glossary.md` | "*Tenant* = a customer organization" |
 | What a feature must do | `docs/features/<feature>/specs.md` | Acceptance criteria, scope |
-| How a feature is built | `docs/features/<feature>/plan.md` | Approach, contracts, slices, evidence strategy |
+| How a feature is built | `docs/features/<feature>/plan.md` | §1 tasks, §2 testing plan, §3 evidence; approach/contracts as support |
 | What a feature shipped | `docs/features/<feature>/report.md` | Business validation at cycle close |
 | Evolution of a feature | `docs/features/<feature>/CHANGELOG.md` | Narrative of requirement / specs / scope changes |
 | Handoffs and session notes | `.local-context/` | "Stopped mid-refactor, retry test X" |
@@ -52,6 +52,18 @@ Single source of truth. Use this table before creating anything new:
 
 > [!NOTE]
 > When in doubt: will another developer or agent need this next week? If yes, it goes in `docs/`.
+
+### Build phase — what to load
+
+For implementation after Plan Review, load narrowly:
+
+| Priority | Artifact | Sections |
+|---|---|---|
+| 1 | `plan.md` | §1 Task List, §2 Testing Plan, §3 Evidence |
+| 2 | `specs.md` | §5 Requirements, §8 Acceptance Criteria (domain wording) |
+| 3 | `plan.md` | §4+ only when the task touches contracts or external deps |
+
+Do not reload the full plan on every slice unless approach changed.
 
 ## Setting It Up
 

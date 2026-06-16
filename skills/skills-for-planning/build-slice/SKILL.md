@@ -42,10 +42,11 @@ Implement **one** tracer-bullet slice from `docs/features/<feature>/plan.md` —
 
 ### 1. Select the slice
 
-1. Read `docs/features/<feature>/plan.md` and pick the **next unblocked** slice (dependencies satisfied, HITL resolved).
-2. Read the ACs and evidence strategy that slice covers in `specs.md`.
-3. If a notebook mockup exists for this feature, read its Section 5 contract table — production function names and signatures must match.
-4. Confirm with the user which slice you are implementing before writing code.
+1. Read `docs/features/<feature>/plan.md` **§1 Task List** and pick the **next unblocked** task (dependencies satisfied, HITL resolved).
+2. Load the matching **§2 Testing Plan** row (test module, level, doubles) and **§3 Evidence** row (command, expected signal) for that task's AC(s).
+3. Read the AC criteria in `specs.md` §8 for domain wording only — do not re-derive test strategy from specs.
+4. If a notebook mockup exists for this feature, read its Section 5 contract table — production function names and signatures must match.
+5. Do not start Red without a §2 row for the task's AC(s). Confirm with the user which task you are implementing before writing code.
 
 ### 2. Load rules
 
@@ -59,7 +60,7 @@ Load additionally when applicable (see `agent-kit/agent-rules/documentation.md` 
 
 For the selected slice:
 
-1. **Red** — write a failing test that expresses observable behavior from the AC (not implementation detail). See TEST-1 in `testing.md`.
+1. **Red** — write a failing test in the **module path from plan §2** that expresses the **behavior under test** from that row (not implementation detail). See TEST-1 in `testing.md`.
 2. **Green** — write the minimum production code to pass. Use glossary terms for domain-visible names.
 3. **Refactor** — clean up while tests stay green. Do not expand scope beyond the slice.
 
@@ -67,7 +68,7 @@ Run the project's test command after each step (`make test` or the slice-local p
 
 ### 4. Verify evidence
 
-Each slice must satisfy the evidence type named in `plan.md`:
+Each slice must satisfy **plan.md §3** for its AC(s), implementing the strategy in **§2**:
 - Automated test passing
 - Notebook re-run (when the slice implements notebook-proven logic)
 - Explicit before/after notes when formal tests are impractical (TEST-10)
@@ -81,7 +82,7 @@ Before claiming done:
 - [ ] All tests for this slice pass (or evidence is cited per TEST-10)
 - [ ] Diff is reviewable — one slice, no unrelated changes
 - [ ] Drift from spec is explicit if any
-- [ ] `plan.md` task status updated (ask user, or run [`context-update`](../../utils-skills/context-update/SKILL.md))
+- [ ] `plan.md` §1 task **Status** updated (ask user, or run [`context-update`](../../utils-skills/context-update/SKILL.md))
 - [ ] Feature `CHANGELOG.md` entry proposed if the change is non-trivial
 
 Present a short slice summary: what was built, which ACs are satisfied, what remains, and whether the next slice is unblocked.
@@ -99,6 +100,7 @@ Present a short slice summary: what was built, which ACs are satisfied, what rem
 | Anti-pattern | Why it fails |
 |---|---|
 | Implementing multiple slices in one diff | Unreviewable; hides which ACs each change satisfies |
+| Starting a slice without plan §2 row for its AC | No agreed test module, level, or doubles — violates TEST-1 |
 | Writing production code before a failing test | No proof the test targets the right behavior |
 | Mocking persistence internals | Violates TEST-4/TEST-5 — test the real boundary |
 | Renaming notebook functions without updating the mockup | Breaks the approved contract |

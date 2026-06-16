@@ -35,7 +35,7 @@ For load order, validation gates, creation-vs-update policy, and skeleton-to-doc
 
 Use this section for repository-specific deviations: stricter gates, extra required docs, alternative load order, command overrides, or local rules that take precedence over `agent-rules/documentation.md`. State each override explicitly so the agent can detect it.
 
-- Example: `specs.md` is required even for single-slice changes in this repo (reason: regulatory).
+- Example: `specs.md` required even for single-slice changes (reason: regulatory) — set Harness mode `full` or override gates in §3.
 - Example: test command override — `uv run pytest tests/unit -xvs` (reason: integration tests need Docker; see AGENTS.md §Commands).
 - Example: PR title format — `feat(<feature>): <description>` (reason: Conventional Commits; see AGENTS.md §Pull requests).
 - Example: harness mode — full cycle for multi-slice features; lightweight work skips phases named in the PR (reason: small typo fix).

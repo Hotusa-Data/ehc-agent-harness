@@ -46,6 +46,8 @@ Large context is not useful context. Do not load files whose content will not in
 |---|---|---|
 | Specs exist | New or changed behavior | Create or update `specs.md` before broad implementation |
 | Plan exists | Non-trivial or multi-slice work | Create or update `plan.md` before coding |
+| Mode declared | Non-trivial feature work | `Harness mode` in specs/plan metadata, or PR/CHANGELOG states lightweight skip |
+| Testing plan exists | Non-trivial Build after Plan Review | `plan.md` §2 has a row for every Must AC before broad implementation |
 | Glossary covers vocabulary | Ambiguous or new terms appear | Update `docs/glossary.md` before using in specs or code |
 | Placement is clear | About to create a new folder or file | Consult `agent-kit/agent-rules/repo-guide.md` |
 | CHANGELOG entry | Non-trivial change to specs / plan / scope | Append entry under `[Unreleased]` in feature CHANGELOG |
@@ -117,6 +119,7 @@ Use the existing `docs/` tree only — no new registry files.
 | New external integration (architectural boundary) | Brief row in `docs/architecture.md` §5, or `docs/database.md` if the contract is persistence-only |
 | Code change only within an existing layer | No `docs/architecture.md` update unless a new project-specific invariant belongs in §4 |
 | Deferred or partial fix | Record under `[Unreleased]` → `Decided` in CHANGELOG with follow-up scope |
+| AC or Req changed during build | Update `specs.md` §5/§8 or CHANGELOG `Specs`; update `plan.md` §1 Req/AC columns |
 | Feature cycle closes | Add or update `report.md`; promote `[Unreleased]` to a semver release when shipping |
 
 ### DOC-9 Doc hygiene at session and PR close [MUST]
@@ -139,6 +142,7 @@ Before handoff or PR:
 - Recording deferred work only in chat or `.local-context/` — use CHANGELOG `Decided` (DOC-7).
 - Restating the default codemap from `repo-guide.md` inside `docs/architecture.md`.
 - Growing `docs/architecture.md` with runtime how-to that belongs in feature `plan.md` (DOC-8).
+- Filling every skeleton section in **standard** Harness mode when the Section guide marks sections omit — trim instead.
 
 ## See also
 

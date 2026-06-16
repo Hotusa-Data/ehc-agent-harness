@@ -119,6 +119,24 @@ Development traceability only. Business prose above must not reference this.
 
 Keep code identifiers here and only here. No line numbers. Prefer the highest-signal artifact per concept.
 
+### Build verification (internal)
+
+Technical closure checklist — not business prose. Verify against `plan.md` when the feature ships.
+
+- [ ] Implementation followed `plan.md` §1 tasks (or deviations in CHANGELOG / PR)
+- [ ] Every non-deferred Must AC has `plan.md` §3 evidence recorded
+- [ ] Test modules match `plan.md` §2 (ran vs written vs blocked per COOP-3)
+- [ ] `specs.md` and `plan.md` reflect scope or approach drift (DOC-8)
+- [ ] Documentation impact from `plan.md` §8 resolved (DOC-9)
+- [ ] `plan.md` §7 Future TODOs promoted to CHANGELOG `Decided` or a follow-up feature
+- [ ] Rollout notes from `plan.md` §10 captured when applicable
+
+Optional trace table (from `plan.md` §2):
+
+| AC | Test module | Evidence |
+|---|---|---|
+| AC1 |  |  |
+
 ## Self-Check
 
 - [ ] Report type is `business-flow` or `system-narrative`.

@@ -148,35 +148,38 @@ See [../theory/spec-driven-development.md](../theory/spec-driven-development.md)
 
 ## Plan
 
-**What you do:** Decide how to build it. The plan translates the approved specs into approach, contracts, evidence strategy, and executable slices.
+**What you do:** Decide how to build it. The plan defines **tasks (§1)**, **testing plan (§2)**, and **evidence (§3)** — approach and contracts support those sections.
 
 Define:
 
-- technical approach and contracts
-- slices of work (small, vertical, dependency-ordered)
-- evidence strategy (tests, notebook outputs, quality checks)
-- documentation impact (which docs will need updating)
-- known risks and assumptions
+- ordered tasks traceable to specs Req/AC
+- testing plan per Must AC (level, modules, doubles)
+- evidence commands per AC
+- technical approach and contracts (when tasks need them)
+- external dependencies and future TODOs deferred out of scope
+- documentation impact
 
 **Skills:**
 
-- [`plan-write`](../../skills/skills-for-planning/plan-write/) — translates approved specs into `plan.md`: approach, contracts, test strategy, risks, and ordered task slices; classifies each slice AFK or HITL; optionally publishes to the tracker
+- [`plan-write`](../../skills/skills-for-planning/plan-write/) — drafts `plan.md` in order §1 → §2 → §3, then supporting sections; classifies each task AFK or HITL; optionally publishes to the tracker
 
 **Model suggestion:** **Stronger reasoning tier** — architectural decisions and tradeoffs benefit from higher reasoning effort. See [ai-configuration.md](ai-configuration.md#models-and-privacy).
 
 **Exit criteria:**
 
-- [ ] Technical approach approved (by you or a reviewer)
-- [ ] Slices defined in dependency order
-- [ ] Evidence strategy chosen
-- [ ] Documentation impact listed
-- [ ] Human review completed — technical lead approves `plan.md`
+- [ ] §1 tasks ordered with Req/AC traceability
+- [ ] §2 testing plan covers every Must AC
+- [ ] §3 evidence commands (or TEST-10 justification) per §2 row
+- [ ] Documentation impact listed (§8)
+- [ ] Human review completed — technical lead approves `plan.md` §1–§3 (§4+ optional in standard mode)
 
 ---
 
 ## Build
 
-**What you do:** Implement in small, reviewable slices. One cohesive behavior per slice.
+**What you do:** Implement in small, reviewable slices. One task from `plan.md` §1 per slice.
+
+Load for each slice: **plan §1** (task row), **§2** (testing plan row), **§3** (evidence command), plus matching ACs in `specs.md` §8.
 
 Prefer:
 
@@ -246,7 +249,7 @@ Three human review points guard the lifecycle. They are not AI phases — a pers
 | When | What is reviewed | Who |
 |---|---|---|
 | **Post-Spec** | `specs.md` — scope, ACs, business rules | Domain expert or lead |
-| **Post-Plan** | `plan.md` — approach, slices, evidence strategy | Technical lead |
+| **Post-Plan** | `plan.md` — §1 tasks, §2 testing plan, §3 evidence | Technical lead |
 | **Post-Build** | PR diff + [`pr-summary`](../../skills/skills-for-docs/pr-summary/) — implementation, tests, docs | Reviewer assigned to the PR |
 
 No phase advances without human sign-off at the required level.
@@ -261,7 +264,19 @@ Each developer finds their own rhythm. Some work best with a tight spec-first ap
 
 **Standard mode** — the full cycle. Use it when the task has real behavior change, moderate complexity, or you want the assurance of a spec and a plan before building.
 
-**Lightweight mode** — skip Spec and Plan, jump from Context straight to Build. Great for obvious small fixes, docs changes, experiments, or when you have a clear mental model and just need the AI to execute. Still update docs at the end.
+**Lightweight mode** — skip Spec and Plan, jump from Context straight to Build. Great for obvious small fixes, docs changes, experiments, or when you have a clear mental model and just need the AI to execute. Still update docs at the end. Name skipped phases in the PR or CHANGELOG.
+
+### Harness mode (spec and plan density)
+
+When Spec and Plan artifacts exist, skeletons adapt by **Harness mode** in metadata (`standard` | `full`). See Section guide in `agent-kit/skeletons/_specs.md` and `_plan.md`.
+
+| Mode | Spec / plan | Typical use |
+|---|---|---|
+| **lightweight** (cycle) | No `specs.md` or `plan.md` | Obvious fix, docs-only, low risk |
+| **standard** | Compact sections only | Normal behavior change, 1–4 tasks |
+| **full** | All sections | Migrations, public contracts, multi-system scope |
+
+`Harness mode` in `specs.md` and `plan.md` must match when both exist.
 
 There's no wrong choice. The wrong move is using a mode that doesn't fit the task — like writing a full design doc for a one-line fix, or skipping the spec on a change that affects customer billing. Fit the cycle to the work, not the other way around.
 

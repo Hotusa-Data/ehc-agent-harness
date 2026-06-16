@@ -68,6 +68,11 @@ Mark unknowns as "unknown — needs confirmation before Plan" rather than invent
 
 Write the spec using the shape in `agent-kit/skeletons/_specs.md`. The spec answers *what* and *why* — not *how*. Implementation decisions belong in `plan-write`.
 
+1. Choose **Harness mode** (`standard` | `full`) before drafting — see the skeleton **Section guide**.
+2. Omit sections marked omit for that mode (delete heading or `not applicable`).
+3. Keep §5–§8 in domain language — no API routes, schema class names, test paths, or commands.
+4. Set **Evidence type (planned)** in §8 AC (`unit`, `integration`, etc.) — paths and commands belong in `plan.md` §2–§3.
+
 Use vocabulary from `docs/glossary.md` throughout. If a term appears in an AC but is absent from the glossary, add it to "Assumptions and Open Questions" — do not coin new terms in a spec without flagging them.
 
 ### 4. Write artifact
@@ -82,7 +87,9 @@ Save to `docs/features/<feature>/specs.md`, creating the directory and file if t
 |---|---|
 | Asking the user clarifying questions | This skill synthesises — switch to `grill-me` if you need to interview. |
 | Inventing requirements the conversation didn't establish | A spec is a contract; invented scope poisons the rest of the lifecycle. |
-| Including implementation or testing decisions | Those belong in Plan (`plan.md`). Spec answers *what* and *why*. |
+| Including implementation or testing decisions | Those belong in Plan (`plan.md` §1–§3). Spec answers *what* and *why*. |
+| Technical schemas or test paths in specs | Domain boundaries only in full mode §7; test paths live in `plan.md` §2. |
+| Filling every skeleton section in standard mode | Follow the Section guide — omit §7, §9, and doc impact duplication. |
 | Non-observable acceptance criteria | If you cannot observe it, you cannot verify it. |
 | Publishing to the tracker before writing `specs.md` | The durable artifact lives in the repo. Always write the file first. |
 | Using non-canonical vocabulary | Refresh the glossary before writing if it is in flux. |

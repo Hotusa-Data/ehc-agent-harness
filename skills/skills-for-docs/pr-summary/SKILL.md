@@ -80,9 +80,11 @@ For each meaningful changed file, read enough of the surrounding code at HEAD to
 Build three columns: **planned**, **delivered**, **delta**. Walk through:
 
 - Each AC in `specs.md` — satisfied? Partially? Not at all?
-- Each slice/task in `plan.md` — does the diff match? Touch anything unplanned?
+- Each task in `plan.md` **§1** — cite task ID, Req, and AC columns; does the diff match? Touch anything unplanned?
+- Each **§2** test module — present in the diff? Behavior covered?
 - Each decision or question in `.local-context/` — resolved? Left open? Changed?
-- Each declared dependency — present in the diff? Any undeclared ones?
+- Each **§6** external dependency — still accurate? Any undeclared blockers?
+- Each **§7** future TODO — still deferred, or accidentally implemented?
 
 **Delta** is the most valuable content — reviewers cannot recover it from the diff alone.
 
@@ -116,7 +118,7 @@ For empty sections: write `Not specified` (missing inputs) or `None`. Never dele
 
 ### Step 8 — Verify before finishing
 
-- Plan ↔ Code table cites concrete AC IDs / slice names, not paraphrases.
+- Plan ↔ Code table cites concrete **AC IDs**, **Req IDs**, and **plan §1 task IDs** — not paraphrases.
 - Every behaviour claim traces to a file in the diff.
 - Every open question has a status or is explicitly carried over.
 - The summary stands alone — a reviewer can decide whether to dig deeper without opening the diff.

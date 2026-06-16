@@ -89,7 +89,7 @@ Three points where a person — not the AI — has to approve before work contin
 | Checkpoint        | What is reviewed                                                | Who                          |
 | ----------------- | --------------------------------------------------------------- | ---------------------------- |
 | **Spec Review**   | `specs.md` — scope, acceptance criteria, business rules. | Domain expert or lead        |
-| **Plan Review**   | `plan.md` — approach, slices, evidence strategy. | Technical lead               |
+| **Plan Review**   | `plan.md` — §1 tasks, §2 testing plan, §3 evidence. | Technical lead               |
 | **PR Review**     | PR diff, tests and updated docs.                                | Reviewer assigned to the PR  |
 
 **Non-negotiable rule:** lightweight work may skip phases, but the skipped ones must be named explicitly — usually in the PR description or `CHANGELOG.md`.
@@ -113,7 +113,7 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
 
 3. Adapt root `AGENTS.md` to the project: fill in §Commands and §Pull requests, confirm §Boundaries, and set overrides in `docs/docs-guide.md` §3 (step 2 copies the template when you pass `--agents`).
 4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`.
-5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md` (or use `--feature` in step 2). Add `report.md` only when the cycle closes.
+5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md` (or use `--feature` in step 2). Skeletons adapt by **Harness mode** (`standard` | `full`) — see Section guide in `_specs.md` and `_plan.md`. Add `report.md` only when the cycle closes.
 6. If you skipped the script, add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
 
 Resulting repo shape:

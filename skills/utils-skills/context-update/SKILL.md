@@ -79,11 +79,14 @@ If no, say: `Specs do not need updating - skipping.`
 Check whether the plan needs updating:
 - Did the approach change?
 - Were new contracts added or removed?
-- Were any tasks completed, added, or removed?
-- Did dependencies or slice ordering shift?
+- Were any **§1** tasks completed, added, or removed (Status column)?
+- Did **§2** testing plan or **§3** evidence rows need adjustment?
+- Did **§6** external dependencies or **§7** future TODOs change?
 
 If yes, show the proposed changes and ask for confirmation.
 If no, say: `Plan does not need updating - skipping.`
+
+When the feature cycle closes, confirm `report.md` **Build verification (internal)** matches final `plan.md` §1–§3 and §7.
 
 ---
 

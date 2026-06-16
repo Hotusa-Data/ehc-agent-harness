@@ -41,7 +41,7 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 | When | What is reviewed | Who |
 |---|---|---|
 | Post-Spec | `specs.md` — scope, ACs, business rules | Domain expert or lead |
-| Post-Plan | `plan.md` — approach, slices, evidence strategy | Technical lead |
+| Post-Plan | `plan.md` — §1 tasks, §2 testing plan, §3 evidence | Technical lead |
 | Post-Build | PR diff — implementation, tests, docs | Reviewer assigned to the PR |
 
 ---

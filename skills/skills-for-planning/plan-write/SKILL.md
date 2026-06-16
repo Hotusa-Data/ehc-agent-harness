@@ -73,16 +73,17 @@ Read the affected modules, existing patterns, and nearby conventions.
 
 ### 3. Draft plan
 
-Propose **one** primary technical approach and break it into **tracer-bullet** vertical slices. Cover:
+Draft in this order — the **task list and testing plan are the primary deliverable**:
 
-- **Approach** — chosen solution and rationale
-- **Contracts** — API, schemas, models, migrations
-- **Test strategy** — level, doubles, edge cases, test data
-- **Evidence** — verification artifact per non-trivial AC
-- **Risks and unknowns** — record gaps as "unknown — needs confirmation"
-- **Task slices** — ordered, dependency-aware, AFK or HITL
+1. **§1 Task List** — ordered, dependency-aware rows with Req, AC, Test plan (§2 anchor), Evidence (§3 anchor), Kind (AFK/HITL), and Files/areas.
+2. **§2 Testing Plan** — one row per Must AC (and Should ACs in full mode): level, test module path, behavior under test, doubles/boundaries, edge cases. Follow `testing.md`; link evidence types to `specs.md` §8.
+3. **§3 Evidence And Commands** — concrete command or TEST-10 justification per §2 row.
+4. **§4 Approach** — brief context (standard) or fuller rationale (full).
+5. **§5–§9** — contracts, external dependencies, future TODOs, documentation impact, risks — only rows that **some task** needs.
 
-Classify each slice as **AFK** (implementable without human interaction) or **HITL** (requires a human decision before proceeding). Prefer AFK.
+Respect the skeleton **Section guide** and match **Harness mode** to `specs.md`.
+
+Classify each task as **AFK** (implementable without human interaction) or **HITL** (requires a human decision before proceeding). Prefer AFK.
 
 <slice-rules>
 - Each slice delivers a narrow but complete path through every layer
@@ -100,7 +101,7 @@ Classify each slice as **AFK** (implementable without human interaction) or **HI
 
 ### 4. Confirm with user
 
-Present the proposed approach and slice breakdown. For each slice show: title, type (HITL/AFK), blocked-by, and ACs covered.
+Present **§1 tasks** and **§2 testing plan** first. For each task show: title, Kind (HITL/AFK), blocked-by, Req/AC, and test module from §2. Approach is supporting context.
 
 Ask:
 - Does the approach look right?
@@ -150,7 +151,10 @@ Do NOT close or modify any parent issue.
 | Re-deriving slices without reading `specs.md` | Slicing diverges from the approved spec. |
 | Publishing issues before writing `plan.md` | The durable artifact lives in the repo. Always write the file first. |
 | Running before Spec Review passes | Plans from an unapproved spec carry unresolved decisions into Build. |
-| No test strategy per contract | Build will start without a failing test to target. |
+| No test strategy per AC | Every Must AC needs a `plan.md` §2 row before Build — not just §3 commands. |
+| Evidence commands without §2 row | Build will not know what behavior to test (TEST-1). |
+| Generic §2 rows ("add pytest tests") | Name module, level, behavior, and doubles per AC. |
+| Task list buried after approach | §1 Task List is the authoritative work definition — draft it first. |
 
 ---
 
