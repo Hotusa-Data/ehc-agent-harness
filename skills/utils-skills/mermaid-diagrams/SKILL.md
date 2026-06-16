@@ -125,7 +125,7 @@ Pre-built Markdown templates for full documents that complement the agent-kit wo
 | [`templates/how_to_guide.md`](templates/how_to_guide.md) | Tutorials, runbooks, onboarding walkthroughs — verifiable step-by-step | Yes (process overview) |
 | [`templates/project_documentation.md`](templates/project_documentation.md) | Main project README or `docs/index.md` — quick start, architecture, contribution guide | Yes (architecture + request lifecycle) |
 
-> Templates for feature artefacts (`specs.md`, `plan.md`, `report.md`, `architecture.md`, etc.) live in `agent-kit/skeletons/` — not here. Embed Mermaid blocks in those skeletons using the rules above.
+> Templates for feature artefacts (`specs.md`, `plan.md`, `report.md`, `docs/adr/`, etc.) live in `agent-kit/skeletons/` — not here. Embed Mermaid blocks in those skeletons using the rules above.
 
 ---
 

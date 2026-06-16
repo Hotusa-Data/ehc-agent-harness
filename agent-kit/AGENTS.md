@@ -30,7 +30,7 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 
 | Phase | What you do | Key artifacts |
 |---|---|---|
-| **Context** | Load rules, project docs, feature state | `AGENTS.md`, `docs/docs-guide.md`, `docs/architecture.md`, `docs/glossary.md` |
+| **Context** | Load rules, project docs, feature state | `AGENTS.md`, `docs/docs-guide.md`, `docs/adr/README.md`, `docs/glossary.md` |
 | **Spec** | Define what must change and why | `docs/features/<feature>/specs.md` |
 | **Plan** | Decide how to implement, slice, test, document | `docs/features/<feature>/plan.md` |
 | **Build** | Implement in small, reviewable slices | code, tests, notebook mockups |
@@ -132,7 +132,7 @@ Human review gates (Spec, Plan, PR) are mandatory for non-trivial work — see [
 
 Project-specific knowledge lives in `docs/` (created on demand via `adopt.py` or skeletons):
 
-`docs/architecture.md`, `docs/database.md`, `docs/glossary.md`, `docs/docs-guide.md`, and `docs/features/<feature>/{specs,plan,CHANGELOG,report}.md`.
+`docs/adr/`, `docs/database.md`, `docs/glossary.md`, `docs/docs-guide.md`, and `docs/features/<feature>/{specs,plan,CHANGELOG,report}.md`.
 
 If a target doc does not exist, instantiate it from the matching skeleton — see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md).
 

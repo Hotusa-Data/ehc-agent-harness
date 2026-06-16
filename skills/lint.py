@@ -297,6 +297,35 @@ def check_skeleton_path_casing() -> list[str]:
     return errors
 
 
+ADR_REQUIRED_SKELETONS = (
+    "_adr-index.md",
+    "_adr-entry.md",
+    "_adr-0001-record-decisions.md",
+    "_adr-0002-system-context.md",
+)
+FORBIDDEN_SKELETONS = ("_architecture.md",)
+
+
+def check_adr_skeletons() -> list[str]:
+    """Ensure ADR skeletons exist and legacy architecture skeleton is removed."""
+    errors: list[str] = []
+    skeleton_dir = REPO_ROOT / "agent-kit" / "skeletons"
+    if not skeleton_dir.is_dir():
+        return errors
+
+    for name in FORBIDDEN_SKELETONS:
+        if (skeleton_dir / name).is_file():
+            errors.append(
+                f"agent-kit/skeletons/: remove deprecated skeleton {name} (use ADR skeletons)",
+            )
+
+    for name in ADR_REQUIRED_SKELETONS:
+        if not (skeleton_dir / name).is_file():
+            errors.append(f"agent-kit/skeletons/: missing required ADR skeleton {name}")
+
+    return errors
+
+
 AGENT_RULES_DIR = REPO_ROOT / "agent-kit" / "agent-rules"
 RULE_FILE_PATTERN = re.compile(r"^[A-Z][A-Z0-9_]*\.md$")
 RULE_ID_PATTERN = re.compile(
@@ -470,6 +499,14 @@ def main() -> int:
         total_errors += len(casing_errors)
     else:
         print("  OK    agent-kit/skeletons/ path casing")
+
+    adr_skeleton_errors = check_adr_skeletons()
+    if adr_skeleton_errors:
+        for err in adr_skeleton_errors:
+            print(f"  ERROR adr-skeletons: {err}")
+        total_errors += len(adr_skeleton_errors)
+    else:
+        print("  OK    agent-kit/skeletons/ ADR skeletons")
 
     agents_errors = check_agents_md()
     if agents_errors:

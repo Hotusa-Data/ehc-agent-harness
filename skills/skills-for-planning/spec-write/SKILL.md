@@ -46,7 +46,7 @@ Then load by what the task requires:
 | `docs/docs-guide.md` | Required docs, project overrides, local load-order deviations |
 | `docs/glossary.md` | Canonical vocabulary — use it verbatim in acceptance criteria |
 | `docs/features/<feature>/` (if touching an existing feature) | Current specs, open questions, prior decisions |
-| `docs/architecture.md` | System boundaries — where validation and contracts already live |
+| `docs/adr/README.md` + relevant ADRs | System boundaries — where validation and contracts already live |
 
 If the user referenced an external doc, read it before drafting.
 

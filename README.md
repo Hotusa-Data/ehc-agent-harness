@@ -76,7 +76,7 @@ flowchart LR
 
 | Phase        | What you do                                                                                  | Typical artefacts                                  |
 | ------------ | -------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| **Context**  | Load `AGENTS.md` and project docs so the AI is grounded, not guessing.                       | `AGENTS.md`, `docs/docs-guide.md`, `docs/architecture.md`, glossary   |
+| **Context**  | Load `AGENTS.md` and project docs so the AI is grounded, not guessing.                       | `AGENTS.md`, `docs/docs-guide.md`, `docs/adr/`, glossary   |
 | **Spec**     | Define what changes, why, and what "done" looks like — before touching code.                 | `docs/features/<feature>/specs.md`                 |
 | **Plan**     | Decide how to slice, test and document.                                                      | `docs/features/<feature>/plan.md`                  |
 | **Build**    | Ship small, reviewable slices with evidence (test runs, notebook output).                    | code, tests, notebook outputs                      |
@@ -112,7 +112,7 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
    This creates `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and copies `AGENTS.md` from the kit template when missing. Existing files are kept unless you pass `--force`. Run `python agent-kit/adopt.py --dry-run` first to preview.
 
 3. Adapt root `AGENTS.md` to the project: fill in §Commands and §Pull requests, confirm §Boundaries, and set overrides in `docs/docs-guide.md` §3 (step 2 copies the template when you pass `--agents`).
-4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`.
+4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `adr/` (from `_adr-index.md`, `_adr-0001-*`, `_adr-0002-*`), `database.md`, `docs-guide.md`, `glossary.md`.
 5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md` (or use `--feature` in step 2). Skeletons adapt by **Harness mode** (`standard` | `full`) — see Section guide in `_specs.md` and `_plan.md`. Add `report.md` only when the cycle closes.
 6. If you skipped the script, add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
 
@@ -124,7 +124,10 @@ repo-root/
 ├── agent-kit/                   ← copied from this metarepo
 ├── .gitignore                   ← must exclude .local-context/
 └── docs/
-    ├── architecture.md
+    ├── adr/
+    │   ├── README.md
+    │   ├── 0001-record-architecture-decisions.md
+    │   └── 0002-system-context.md
     ├── database.md
     ├── glossary.md
     ├── docs-guide.md

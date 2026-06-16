@@ -2,7 +2,7 @@
 name: grill-me
 phase: cross-cutting
 description: |
-  Interview the user relentlessly about a plan, design, or proposal, walking down each branch of the decision tree and resolving dependencies one question at a time, with a recommendation for each question. Also challenges the plan against existing domain docs (docs/glossary.md, docs/architecture.md), sharpens terminology, and updates documentation inline as decisions crystallise. Use whenever the user says "grill me", asks to stress-test or be challenged on a design, wants every aspect of a proposal questioned, or wants to align a plan with the project's documented language and decisions.
+  Interview the user relentlessly about a plan, design, or proposal, walking down each branch of the decision tree and resolving dependencies one question at a time, with a recommendation for each question. Also challenges the plan against existing domain docs (docs/glossary.md, docs/adr/), sharpens terminology, and updates documentation inline as decisions crystallise. Use whenever the user says "grill me", asks to stress-test or be challenged on a design, wants every aspect of a proposal questioned, or wants to align a plan with the project's documented language and decisions.
 allowed-tools:
   - Read
   - Edit
@@ -33,7 +33,7 @@ The user has invited a hard interview. Soft-pedalling wastes their time.
 
 - The user says "grill me" or asks to stress-test a design, plan, or proposal.
 - Ambiguity would weaken a spec or plan if not resolved first.
-- Terminology needs sharpening against `docs/glossary.md` or `docs/architecture.md`.
+- Terminology needs sharpening against `docs/glossary.md` or `docs/adr/`.
 
 ## When NOT to use
 
@@ -49,7 +49,7 @@ During the interview, also load existing documentation for context:
 
 - `docs/glossary.md` — canonical domain vocabulary
 - `docs/docs-guide.md` — per-project required docs and overrides
-- `docs/architecture.md` — system shape and global decisions
+- `docs/adr/` — system shape and global structural decisions
 
 ---
 
@@ -84,11 +84,11 @@ Do not put classes, modules, file paths, or implementation decisions in Definiti
 | File | What it covers |
 |---|---|
 | `docs/docs-guide.md` | Required docs and project-specific overrides |
-| `docs/architecture.md` | System shape and global decisions |
+| `docs/adr/README.md` | System shape and global decisions (index + ADRs) |
 | `docs/glossary.md` | Canonical domain vocabulary |
 | `agent-kit/skeletons/_glossary.md` | Format for new or updated glossary entries |
 | `agent-kit/skeletons/_docs-guide.md` | Format for `docs/docs-guide.md` overrides |
-| `agent-kit/skeletons/_architecture.md` | Format for `docs/architecture.md` |
+| `agent-kit/skeletons/_adr-entry.md` | Template for new `docs/adr/NNNN-slug.md` files |
 | `agent-kit/skeletons/_specs.md` | Format for `docs/features/<feature>/specs.md` |
 | `agent-kit/skeletons/_plan.md` | Format for `docs/features/<feature>/plan.md` |
 

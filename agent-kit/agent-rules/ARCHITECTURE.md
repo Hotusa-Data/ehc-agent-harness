@@ -46,7 +46,7 @@ Do not create `utils.py`, `helpers.py`, or `common.py` as catch-all buckets. If 
 
 ## Project Overrides
 
-Project-specific layer contracts: `docs/docs-guide.md` §3 and this section. Layout deltas: `docs/architecture.md` §3. See **DOC-6** (`DOCUMENTATION.md`).
+Project-specific layer contracts: `docs/docs-guide.md` §3 and this section. Layout deltas: `docs/adr/`. See **DOC-6**, **DOC-10** (`DOCUMENTATION.md`).
 
 ## See also
 

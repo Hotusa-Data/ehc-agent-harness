@@ -1,4 +1,4 @@
----
+﻿---
 triggers: [docs, planning, feature-work]
 requires: [CORE]
 see-also: [ARCHITECTURE, TESTING]
@@ -12,7 +12,7 @@ Load when: any task that reads, writes, or relies on `docs/` artifacts, or that 
 
 ## Rules
 
-Rules are numbered **DOC-1** through **DOC-9**. Retired numbers are not reused.
+Rules are numbered **DOC-1** through **DOC-10**. Retired numbers are not reused.
 
 ### DOC-1 Load just-in-time, not eagerly [MUST]
 
@@ -27,9 +27,9 @@ Load by task type:
 |---|---|
 | Touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
 | Uses business vocabulary | `docs/glossary.md` |
-| Placement or structure unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/architecture.md` (project deltas only) |
+| Placement or structure unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/adr/README.md` + relevant ADR (layout deltas only) |
 | Layer contracts, circular imports, or abstraction boundaries | `agent-kit/agent-rules/ARCHITECTURE.md` |
-| Layout or system-boundary change in this repo | `docs/architecture.md` §3, and `REPO_GUIDE.md` / `ARCHITECTURE.md` when kit rules apply |
+| Layout or system-boundary change in this repo | New or updated ADR under `docs/adr/`; `REPO_GUIDE.md` / `ARCHITECTURE.md` when kit rules apply |
 | ORM, queries, migrations, sessions | `agent-kit/agent-rules/PERSISTENCE.md`, `docs/database.md` |
 | Auth, secrets, trust boundaries, sensitive data | `agent-kit/agent-rules/SECURITY.md` |
 | Tests | `agent-kit/agent-rules/TESTING.md` |
@@ -70,7 +70,10 @@ If a target doc does not exist, create it from the matching skeleton in `agent-k
 
 | Skeleton | Target doc |
 |---|---|
-| `agent-kit/skeletons/_architecture.md` | `docs/architecture.md` |
+| `agent-kit/skeletons/_adr-index.md` | `docs/adr/README.md` |
+| `agent-kit/skeletons/_adr-0001-record-decisions.md` | `docs/adr/0001-record-architecture-decisions.md` |
+| `agent-kit/skeletons/_adr-0002-system-context.md` | `docs/adr/0002-system-context.md` |
+| `agent-kit/skeletons/_adr-entry.md` | Template only — copy to `docs/adr/NNNN-slug.md` for new ADRs |
 | `agent-kit/skeletons/_database.md` | `docs/database.md` |
 | `agent-kit/skeletons/_glossary.md` | `docs/glossary.md` |
 | `agent-kit/skeletons/_docs-guide.md` | `docs/docs-guide.md` |
@@ -104,11 +107,11 @@ Use the existing `docs/` tree only — no new registry files.
 
 | Trigger | Required action |
 |---|---|
-| Behavior change | Update `specs.md`, or record the delta under `[Unreleased]` → `Specs` / `Changed` in CHANGELOG — do not add step-by-step flows to `docs/architecture.md` |
+| Behavior change | Update `specs.md`, or record the delta under `[Unreleased]` → `Specs` / `Changed` in CHANGELOG — do not add step-by-step flows to ADRs |
 | New business term in spec or code | Update `docs/glossary.md` before opening the PR |
-| New top-level folder, package layer, or module that changes the codemap | Update `docs/architecture.md` §3 (name modules/folders); or state the deviation in `docs/docs-guide.md` §3 |
-| New external integration (architectural boundary) | Brief row in `docs/architecture.md` §5, or `docs/database.md` if the contract is persistence-only |
-| Code change only within an existing layer | No `docs/architecture.md` update unless a new project-specific invariant belongs in §4 |
+| New top-level folder, package layer, or module that changes the codemap | New ADR (or update existing layout ADR); name modules/folders in the Decision section |
+| New external integration (architectural boundary) | New ADR with brief boundary rule; persistence-only detail → `docs/database.md` |
+| Code change only within an existing layer | No ADR unless a new project-specific invariant must be recorded |
 | Deferred or partial fix | Record under `[Unreleased]` → `Decided` in CHANGELOG with follow-up scope |
 | AC or Req changed during build | Update `specs.md` §5/§8 or CHANGELOG `Specs`; update `plan.md` §1 Req/AC columns |
 | Feature cycle closes | Add or update `report.md`; promote `[Unreleased]` to a semver release when shipping |
@@ -123,6 +126,22 @@ Before handoff or PR:
 - [ ] No parallel feature folder for the same scope — update the existing folder in place
 - [ ] Docs touched by the change match the diff (DOC-8)
 
+### DOC-10 Architecture decisions live in `docs/adr/` [MUST]
+
+Structural decisions use numbered ADRs under `docs/adr/`, indexed in `docs/adr/README.md`.
+
+| Write an ADR when | Do not write an ADR when |
+|---|---|
+| New top-level folder or layer that changes the codemap | Feature behavior or AC change → `specs.md` |
+| External integration or trust boundary | Deferred slice → CHANGELOG `Decided` |
+| Project-wide invariant that outlives one feature | Cycle-scoped choice → `plan.md` §9 |
+| Superseding a prior structural choice | Restating `REPO_GUIDE.md` default layout |
+
+- **Format:** copy `_adr-entry.md`; filename `NNNN-short-slug.md`; update the index in `README.md`.
+- **Load:** read `docs/adr/README.md`, then only ADRs whose **Load when** matches the task (DOC-1).
+- **System overview:** ADR-0002 (`_adr-0002-system-context.md`) — edit on adoption, revisit ~yearly.
+- **Status:** `proposed`, `accepted`, `deprecated`, or `superseded by ADR-XXXX` — do not delete history.
+
 ## Anti-patterns
 
 - Loading every doc in `docs/` regardless of task type.
@@ -131,8 +150,9 @@ Before handoff or PR:
 - Restating load order or gates inside a feature doc instead of pointing at this rule.
 - Leaving stale specs because "the code is the truth" — update the spec or CHANGELOG the delta.
 - Recording deferred work only in chat or `.local-context/` — use CHANGELOG `Decided` (DOC-7).
-- Restating the default codemap from `REPO_GUIDE.md` inside `docs/architecture.md`.
-- Growing `docs/architecture.md` with runtime how-to that belongs in feature `plan.md` (DOC-8).
+- Restating the default codemap from `REPO_GUIDE.md` inside an ADR without recording a real deviation.
+- Growing ADRs with runtime how-to or feature flows that belong in feature `plan.md` (DOC-8).
+- Adding an ADR without a row in `docs/adr/README.md`.
 - Filling every skeleton section in **standard** Harness mode when the Section guide marks sections omit — trim instead.
 
 ## Project Overrides

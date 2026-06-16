@@ -26,10 +26,15 @@ SKELETONS = KIT_DIR / "skeletons"
 AGENTS_TEMPLATE = KIT_DIR / "AGENTS.md"
 
 BASE_DOC_MAP: dict[str, str] = {
-    "_architecture.md": "docs/architecture.md",
     "_database.md": "docs/database.md",
     "_glossary.md": "docs/glossary.md",
     "_docs-guide.md": "docs/docs-guide.md",
+}
+
+ADR_DOC_MAP: dict[str, str] = {
+    "_adr-index.md": "docs/adr/README.md",
+    "_adr-0001-record-decisions.md": "docs/adr/0001-record-architecture-decisions.md",
+    "_adr-0002-system-context.md": "docs/adr/0002-system-context.md",
 }
 
 FEATURE_DOC_MAP: dict[str, str] = {
@@ -129,6 +134,12 @@ def run(args: argparse.Namespace) -> int:
             copy_skeleton(skeleton, target, force=args.force, dry_run=args.dry_run),
         )
 
+    for skeleton, rel_target in ADR_DOC_MAP.items():
+        target = root / rel_target
+        actions.append(
+            copy_skeleton(skeleton, target, force=args.force, dry_run=args.dry_run),
+        )
+
     if args.feature:
         feature_dir = root / "docs" / "features" / args.feature
         for skeleton, filename in FEATURE_DOC_MAP.items():
@@ -150,6 +161,7 @@ def run(args: argparse.Namespace) -> int:
         print("  - Fill in AGENTS.md §Commands and §Pull requests; confirm §Boundaries; set overrides in docs/docs-guide.md §3")
     if not args.feature:
         print("  - Run again with --feature <name> to scaffold docs/features/<name>/")
+    print("  - Edit docs/adr/0002-system-context.md for this project; add ADRs for layout or integration deltas")
     print("  - See README Track 1 and guides/onboarding/managing-context.md")
 
     return 0

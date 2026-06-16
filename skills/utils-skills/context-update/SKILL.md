@@ -2,7 +2,7 @@
 name: context-update
 phase: document
 description: |
-  Step-by-step documentation update at the end of a session. Reviews what was generated or decided, then updates each affected file — feature specs, plan, CHANGELOG, glossary, architecture, docs-guide — one at a time, always asking the developer for confirmation before writing. Use this skill at the end of any session where artefacts were generated or decisions were made.
+  Step-by-step documentation update at the end of a session. Reviews what was generated or decided, then updates each affected file — feature specs, plan, CHANGELOG, glossary, ADRs, docs-guide — one at a time, always asking the developer for confirmation before writing. Use this skill at the end of any session where artefacts were generated or decisions were made.
 allowed-tools:
   - Read
   - Edit
@@ -112,11 +112,11 @@ If no, say: `No new glossary terms - skipping.`
 
 ---
 
-## Step 5 - Project docs (`docs/architecture.md`, `docs/docs-guide.md`)
+## Step 5 - Project docs (`docs/adr/`, `docs/docs-guide.md`)
 
 Check whether durable project knowledge changed:
-- System shape, boundaries, or integrations?
-- New required docs, stricter gates, or load-order overrides for this repo?
+- Structural decision (layout, integration, project-wide invariant)? → new or updated ADR + index row in `docs/adr/README.md`
+- New required docs, stricter gates, or load-order overrides for this repo? → `docs/docs-guide.md`
 
 If yes, show the proposed changes and ask for confirmation.
 If no, say: `Project docs do not need updating - skipping.`
@@ -133,7 +133,7 @@ Updated:
 - docs/features/<feature>/plan.md - skipped (no changes needed)
 - docs/features/<feature>/CHANGELOG.md ✓
 - docs/glossary.md ✓
-- docs/architecture.md - skipped
+- docs/adr/ - skipped
 - docs/docs-guide.md - skipped
 
 Remember: run /context-update at the end of every session.

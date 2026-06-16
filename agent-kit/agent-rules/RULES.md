@@ -8,16 +8,16 @@ Engineering rules for the coding agent — extensions of root `AGENTS.md`, loade
 |---|---|---|---|
 | Agent map | repo root | `AGENTS.md` | Always loaded |
 | Harness rules | `agent-kit/agent-rules/` | `SCREAMING_SNAKE.md` | `CORE.md`, `TESTING.md` |
-| Project docs | `docs/`, feature folders | lowercase | `architecture.md`, `specs.md`, `CHANGELOG.md` |
+| Project docs | `docs/`, feature folders | lowercase | `adr/`, `specs.md`, `CHANGELOG.md` |
 
-`agent-kit/agent-rules/ARCHITECTURE.md` (kit layer contracts) ≠ `docs/architecture.md` (project shape).
+`agent-kit/agent-rules/ARCHITECTURE.md` (kit layer contracts) ≠ `docs/adr/` (project structural decisions).
 
 ## Files and load triggers
 
 | File | Load when | Rule prefix |
 |---|---|---|
 | `CORE.md` | Always (also from `AGENTS.md` bootstrap) | CORE-, COOP- |
-| `DOCUMENTATION.md` | Reading, writing, or gating on `docs/` (DOC-1–DOC-9) | DOC- |
+| `DOCUMENTATION.md` | Reading, writing, or gating on `docs/` (DOC-1–DOC-10) | DOC- |
 | `REPO_GUIDE.md` | Default codemap, placement, dependency direction | REPO- |
 | `ARCHITECTURE.md` | Layer contracts, typed boundaries, circular imports | ARCH- |
 | `PYTHON.md` | Python code | PY- |
@@ -70,6 +70,7 @@ Ambiguity and stop-to-clarify: **COOP-1**, **COOP-2** (`CORE.md`). Project overr
 | DOC-7 | Feature CHANGELOG convention | DOCUMENTATION.md |
 | DOC-8 | Reconcile docs with diff | DOCUMENTATION.md |
 | DOC-9 | Doc hygiene at session/PR close | DOCUMENTATION.md |
+| DOC-10 | Architecture decisions in docs/adr/ | DOCUMENTATION.md |
 | OBS-1 | Prefer structured logging | OBSERVABILITY.md |
 | OBS-2 | One logger per module (Loguru) | OBSERVABILITY.md |
 | OBS-3 | Choose log levels deliberately | OBSERVABILITY.md |

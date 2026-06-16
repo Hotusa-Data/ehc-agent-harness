@@ -6,11 +6,11 @@ see-also: [ARCHITECTURE, DOCUMENTATION]
 
 # Repository Layout And Placement
 
-Default **codemap** and placement rules for the Python data-project template: where files and folders live, and how package layers may depend on each other. For typed contracts across layers, circular imports, and abstraction boundaries, see [ARCHITECTURE](ARCHITECTURE.md). Project-specific layout deltas belong in `docs/architecture.md` §3 and `docs/docs-guide.md` §3.
+Default **codemap** and placement rules for the Python data-project template: where files and folders live, and how package layers may depend on each other. For typed contracts across layers, circular imports, and abstraction boundaries, see [ARCHITECTURE](ARCHITECTURE.md). Project-specific layout deltas belong in `docs/adr/` (layout ADRs) and `docs/docs-guide.md` §3.
 
 Load when: about to create a new file or folder, deciding which layer owns a change, or answering "where does X go?".
 
-Unlike a project-instantiated doc, this file encodes the **default layout** the agent-kit assumes. Project-specific deviations belong in `docs/docs-guide.md` §3 "Project-Specific Overrides" and `docs/architecture.md` §3.
+Unlike a project-instantiated doc, this file encodes the **default layout** the agent-kit assumes. Project-specific deviations belong in `docs/docs-guide.md` §3 "Project-Specific Overrides" and `docs/adr/` (one ADR per structural deviation).
 
 ## Default Top-Level Map
 
@@ -20,7 +20,10 @@ repo-root/
 |-- agent-kit/        # rules, skeletons, adopt.py
 |-- docs/
 |   |-- features/
-|   |-- architecture.md
+|   |-- adr/
+|   |   |-- README.md
+|   |   |-- 0001-record-architecture-decisions.md
+|   |   `-- 0002-system-context.md
 |   |-- database.md
 |   |-- glossary.md
 |   `-- docs-guide.md
@@ -33,7 +36,7 @@ repo-root/
 `-- Makefile
 ```
 
-If the real repo deviates, override in `docs/docs-guide.md` §3 and record deltas in `docs/architecture.md` §3.
+If the real repo deviates, override in `docs/docs-guide.md` §3 and record deltas in `docs/adr/` (new ADR per deviation).
 
 ## Rules
 
@@ -116,7 +119,7 @@ Infrastructure belongs in `core/` and `db/`; domain behavior does not live there
 
 ### REPO-5 Consult before creating a new top-level folder [MUST]
 
-Before adding a folder that does not appear in the default map or the project's overrides, stop and confirm. A new top-level folder is a structural decision, not a placement decision — record it in `docs/architecture.md` §3 and `docs/docs-guide.md` §3, not only in an implicit commit.
+Before adding a folder that does not appear in the default map or the project's overrides, stop and confirm. A new top-level folder is a structural decision, not a placement decision — record it in a new ADR under `docs/adr/` and `docs/docs-guide.md` §3, not only in an implicit commit.
 
 ## Quick Placement Map
 
@@ -143,7 +146,7 @@ In monorepos, place an additional `AGENTS.md` in a subpackage when that package 
 - Raw SQL in routes or CLI commands.
 - Opening a `Session` inside a CRUD function — see **PER-4** (`PERSISTENCE.md`).
 - Importing from `api/` or `cli/` into `data/`, `crud/`, or `models/` (dependency direction is one-way — REPO-2).
-- Creating a new top-level folder without recording the decision in `docs/architecture.md` §3.
+- Creating a new top-level folder without recording the decision in `docs/adr/`.
 
 ## Project Overrides
 

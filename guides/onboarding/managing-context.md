@@ -23,7 +23,7 @@ This framework gives you four layers of context, each with a clear home, so the 
 | Layer | Lives in | What it tells the AI |
 |---|---|---|
 | **Framework** | `AGENTS.md`, `agent-kit/agent-rules/`, `agent-kit/skeletons/` | How to work in this metarepo |
-| **Project** | `docs/docs-guide.md`, `docs/architecture.md`, `docs/database.md`, `docs/glossary.md` | What kind of project this is |
+| **Project** | `docs/docs-guide.md`, `docs/adr/`, `docs/database.md`, `docs/glossary.md` | What kind of project this is |
 | **Feature** | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` | What's happening in the feature being touched |
 | **Session** | `.local-context/` (gitignored) | Temporary working state for the current session |
 
@@ -37,7 +37,7 @@ Single source of truth. Use this table before creating anything new:
 | Knowledge | Goes to | Example |
 |---|---|---|
 | Stable repo operating rules | `AGENTS.md` | "Use Conventional Commits" |
-| Durable project truth | `docs/architecture.md`, `docs/docs-guide.md` | "We deploy to AWS via GitHub Actions" |
+| Durable project truth | `docs/adr/`, `docs/docs-guide.md` | "We deploy to AWS via GitHub Actions" |
 | Shared vocabulary | `docs/glossary.md` | "*Tenant* = a customer organization" |
 | What a feature must do | `docs/features/<feature>/specs.md` | Acceptance criteria, scope |
 | How a feature is built | `docs/features/<feature>/plan.md` | §1 tasks, §2 testing plan, §3 evidence; approach/contracts as support |
@@ -111,7 +111,10 @@ A predictable layout lets the AI find things without guessing. Stick to this tre
 
 ```text
 docs/
-├── architecture.md
+├── adr/
+│   ├── README.md
+│   ├── 0001-record-architecture-decisions.md
+│   └── 0002-system-context.md
 ├── database.md
 ├── glossary.md
 ├── docs-guide.md
@@ -161,7 +164,7 @@ A scratchpad that lives in the repo but never gets committed.
 
 - `AGENTS.md`
 - `agent-kit/agent-rules/CORE.md`
-- Relevant project docs (`docs/docs-guide.md`, `docs/architecture.md`, `docs/glossary.md`)
+- Relevant project docs (`docs/docs-guide.md`, `docs/adr/README.md`, `docs/glossary.md`)
 - Relevant feature context (if the feature is known)
 - Existing specs, plan, or CHANGELOG for the same area
 - The code and tests being touched
@@ -174,7 +177,7 @@ Rule file index and canonical topics: [`agent-kit/agent-rules/RULES.md`](../../a
 |---|---|
 | Task touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
 | Request uses business terms ("tenant", "billing cycle") | `docs/glossary.md` |
-| Placement or layout unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/architecture.md` (project deltas) |
+| Placement or layout unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/adr/README.md` + relevant ADR |
 | Layer contracts or import boundaries | `agent-kit/agent-rules/ARCHITECTURE.md` |
 | ORM, queries, migrations, sessions | `agent-kit/agent-rules/PERSISTENCE.md`, `docs/database.md` |
 | Tests or verification strategy | `agent-kit/agent-rules/TESTING.md` |
@@ -241,7 +244,7 @@ You just implemented billing for multi-tenant orgs. The code works, tests pass. 
 
 ## Anti-patterns
 
-- Starting work without reading project docs (`docs/docs-guide.md`, `docs/architecture.md`)
+- Starting work without reading project docs (`docs/docs-guide.md`, `docs/adr/README.md`)
 - Loading every feature folder regardless of scope
 - Treating chat memory as project memory
 - Treating `.local-context/` as durable documentation

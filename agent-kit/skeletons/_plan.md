@@ -166,7 +166,7 @@ Promote to §1 when it becomes in-scope; otherwise close here and record in CHAN
 |---|---|---|
 | Glossary |  | todo |
 | Business logic / report |  | todo |
-| Repo / architecture guide |  | todo |
+| Repo / ADR(s) / docs-guide |  | todo |
 | API / schema docs |  | todo |
 | Runbook |  | todo |
 

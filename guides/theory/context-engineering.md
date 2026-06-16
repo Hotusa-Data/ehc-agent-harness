@@ -109,7 +109,7 @@ Think of an LLM session like the protagonist in *Memento* — each turn resets t
 | **Handoff** | A fresh agent should continue a focused slice without inheriting the old token load | Keep it scoped, temporary, and free of secrets |
 | **Durable notes** | Knowledge should survive across sessions | Notes must stay curated |
 
-Write long-lived knowledge to markdown: `glossary.md`, `architecture.md`, specs, issues, or task notes. The chat is a workspace, not a database.
+Write long-lived knowledge to markdown: `glossary.md`, `docs/adr/`, specs, issues, or task notes. The chat is a workspace, not a database.
 
 Treat chat history like code: refactor it. When it gets tangled, extract the important decisions and restart from a clean, focused state.
 

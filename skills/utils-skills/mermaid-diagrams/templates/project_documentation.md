@@ -186,7 +186,7 @@ sequenceDiagram
 
 ### Design decisions
 
-- **[Decision 1]:** [Why this approach was chosen over alternatives. Record durable rationale in `docs/architecture.md` or the feature `plan.md`.]
+- **[Decision 1]:** [Why this approach was chosen over alternatives. Record durable rationale in `docs/adr/` or the feature `plan.md`.]
 - **[Decision 2]:** [Why this approach was chosen.]
 
 </details>
@@ -408,7 +408,7 @@ git clone https://github.com/[your-fork]/[repo].git
 
 - [Official framework docs](https://example.com) — [What version and which sections are most relevant]
 - [API specification](https://example.com) — [OpenAPI/Swagger link if applicable]
-- [Architecture](../../docs/architecture.md) — [System shape and key decisions]
+- [Architecture decisions](../../docs/adr/README.md) — [System shape and key decisions]
 
 ---
 

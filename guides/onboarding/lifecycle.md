@@ -82,7 +82,7 @@ Then load context in layers — only as deep as the task needs:
 | Layer | Source | Load when |
 |---|---|---|
 | **Framework** | `AGENTS.md`, `agent-kit/agent-rules/` | Always |
-| **Project** | `docs/docs-guide.md`, `docs/architecture.md`, `docs/glossary.md` | Task touches the project domain |
+| **Project** | `docs/docs-guide.md`, `docs/adr/`, `docs/glossary.md` | Task touches the project domain |
 | **Feature** | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` | Task touches an existing feature |
 | **Session** | `.local-context/` | You have handoff notes or partial work |
 
@@ -223,7 +223,7 @@ Typical updates:
 | Behavior change narrative | `docs/features/<feature>/CHANGELOG.md` (under `[Unreleased]`) |
 | Business validation | `docs/features/<feature>/report.md` (at cycle close) |
 | New vocabulary | `docs/glossary.md` |
-| Project knowledge | `docs/architecture.md`, `docs/docs-guide.md` |
+| Project knowledge | `docs/adr/`, `docs/docs-guide.md` |
 
 **Skills:**
 

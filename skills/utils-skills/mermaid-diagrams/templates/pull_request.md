@@ -316,7 +316,7 @@ git revert [commit-sha]
 ## References
 
 - [Related feature specs](../../docs/features/<feature>/specs.md)
-- [Architecture](../../docs/architecture.md)
+- [Architecture decisions](../../docs/adr/README.md)
 - [Relevant documentation](https://example.com)
 
 ---
