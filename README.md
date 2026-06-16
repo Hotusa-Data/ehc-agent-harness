@@ -103,10 +103,18 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
 ### Track 1 — Project repo (manual)
 
 1. Copy [`agent-kit/`](./agent-kit/) into the project repo root (`cp -r`, drag-and-drop or `git subtree` — your call).
-2. Create a root `AGENTS.md` from the [`agent-kit/AGENTS.md`](./agent-kit/AGENTS.md) template and adapt it to the project.
-3. Instantiate the base docs from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`.
-4. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md`. Add `report.md` only when the cycle closes.
-5. Add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
+2. Bootstrap docs and session gitignore (optional but recommended):
+
+   ```bash
+   python agent-kit/adopt.py --agents --feature <feature-name>
+   ```
+
+   This creates `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and copies `AGENTS.md` from the kit template when missing. Existing files are kept unless you pass `--force`. Run `python agent-kit/adopt.py --dry-run` first to preview.
+
+3. Adapt root `AGENTS.md` to the project (step 2 copies the template when you pass `--agents`).
+4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`.
+5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md` (or use `--feature` in step 2). Add `report.md` only when the cycle closes.
+6. If you skipped the script, add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
 
 Resulting repo shape:
 
@@ -180,16 +188,18 @@ this-metarepo/
 - [x] The guides
 - [x] The development cycle
 - [x] `agent-kit/` as reference template
+- [x] CI lint for skills catalog and skeleton path casing (`.github/workflows/lint.yml`)
 
 **Experimental, expect changes**
 
 - [ ] `skills/` — naming, selection and scope still being tuned with real use
 - [ ] `subagents/` — context-delegation patterns still being tuned with real use
+- [x] `agent-kit/adopt.py` — bootstrap `docs/` + `.gitignore` after manual copy (no full installer yet)
 
 **Not built yet**
 
 - [ ] CLI plugin to register skills and subagents in one step
-- [ ] Automatic delivery of `agent-kit/` into a target repo
+- [ ] One-command delivery of the whole metarepo into a target repo
 - [ ] Versioning between this metarepo and the repos that consume it
 
 Contributions welcome — see [Contributing](#contributing).
@@ -234,6 +244,7 @@ No. The cycle has three explicit human review checkpoints (Spec, Plan, PR) preci
 2. New rules or skills must include at least one real example where the addition would have changed an outcome.
 3. Keep PRs small and focused — the framework preaches this; the framework should practice it.
 4. If you modify a skill, test it end-to-end in your IDE before opening the PR.
+5. Run `python skills/lint.py` before opening a PR that touches skills or skeletons — CI runs the same check on every push.
 
 ---
 

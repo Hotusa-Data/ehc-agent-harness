@@ -57,6 +57,14 @@ Single source of truth. Use this table before creating anything new:
 
 Mandatory when adopting the agent-kit in a project repo (Track 1 in [README.md](../../README.md#track-1--project-repo-manual)). Optional refinements (hooks, 350-line rule) come after these three.
 
+After copying `agent-kit/` into the project repo, you can bootstrap the layout with:
+
+```bash
+python agent-kit/adopt.py --agents --feature <feature-name>
+```
+
+Use `--dry-run` to preview. The script creates `docs/` from skeletons and ensures `.gitignore` excludes `.local-context/`; manual steps below still apply if you prefer not to use it.
+
 Minimal setup so context flows correctly in every session.
 
 ### `AGENTS.md` — Always Loaded Rules
