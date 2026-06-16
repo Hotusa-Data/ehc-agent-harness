@@ -15,7 +15,7 @@ This file lists **what this repo requires**. It does not restate load order, val
 
 | Doc | Status | Purpose |
 |---|---|---|
-| `AGENTS.md` | required | Entrypoint: how the agent works, what to load, when to clarify |
+| `AGENTS.md` | required | Entrypoint: cycle, commands, boundaries, what to load, when to clarify |
 | `docs/architecture.md` | required | System shape: components, runtime boundaries, integrations |
 | `docs/glossary.md` | required | Canonical vocabulary |
 | `docs/docs-guide.md` | required | This file |
@@ -33,9 +33,10 @@ For load order, validation gates, creation-vs-update policy, and skeleton-to-doc
 
 ## 3. Project-Specific Overrides
 
-Use this section for repository-specific deviations: stricter gates, extra required docs, alternative load order, or local rules that take precedence over `agent-rules/documentation.md`. State each override explicitly so the agent can detect it.
+Use this section for repository-specific deviations: stricter gates, extra required docs, alternative load order, command overrides, or local rules that take precedence over `agent-rules/documentation.md`. State each override explicitly so the agent can detect it.
 
 - Example: `specs.md` is required even for single-slice changes in this repo (reason: regulatory).
+- Example: test command override — `uv run pytest tests/unit -xvs` (reason: integration tests need Docker; see AGENTS.md §Commands).
 -
 
 ## 4. Change Log

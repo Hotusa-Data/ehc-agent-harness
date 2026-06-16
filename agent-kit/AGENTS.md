@@ -2,9 +2,17 @@
 
 Entry point for any AI coding agent working in this repository. Read this first.
 
-You are the coding agent for this repo. All durable knowledge lives in `docs/` (consumer-repo artifacts). All rules live in `agent-kit/agent-rules/`. All document skeletons live in `agent-kit/skeletons/`.
+You are the coding agent for this repo. Domain knowledge lives in `docs/` (consumer-repo artifacts). Engineering rules live in `agent-kit/agent-rules/`. Document skeletons live in `agent-kit/skeletons/`.
 
 > **Metarepo note.** When this file is read inside the **ehc-agent-harness** metarepo itself, `docs/` usually does not exist yet — that tree is created on adoption in a consumer project. Here, load `agent-kit/agent-rules/` and `guides/` instead of project docs. Session scratch notes still use gitignored `.local-context/` at the repo root.
+
+---
+
+## Role and scope
+
+This project follows a **Python data stack** (see [Assumed stack](#assumed-stack)). Work is organized by features under `docs/features/<feature>/`. Non-trivial changes follow the [working cycle](#working-cycle) below.
+
+In monorepos, nested `AGENTS.md` files may exist in subpackages — the file closest to the edited path takes precedence over this one.
 
 ---
 
@@ -36,13 +44,67 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 
 ---
 
-## What to load at the start of every session
+## Session bootstrap
 
-Always:
+Always load:
+
 1. `agent-kit/agent-rules/core.md` — universal engineering and collaboration rules
-2. `docs/docs-guide.md` — per-project required docs and local overrides (when present); authoritative over the defaults in this kit
+2. `docs/docs-guide.md` — per-project required docs and local overrides (when present); authoritative over kit defaults
 
-For task-specific loads (feature work, persistence, tests, security, etc.), see [`agent-rules/documentation.md` §DOC-1](agent-rules/documentation.md). Do not load files whose content will not influence the current decision.
+For task-specific loads (feature work, persistence, tests, security, etc.), see [`agent-kit/agent-rules/documentation.md` §DOC-1](agent-kit/agent-rules/documentation.md). Do not load files whose content will not influence the current decision.
+
+---
+
+## Commands
+
+Fill in during adoption. List copy-paste commands the agent should run to build, test, lint, and run the app. Authoritative overrides may also live in `docs/docs-guide.md` §3 Project-Specific Overrides.
+
+| Action | Command |
+|---|---|
+| Install dependencies | `uv sync` _(adapt to project)_ |
+| Run all tests | `uv run pytest` _(adapt path/flags)_ |
+| Run one test | `uv run pytest path/to/test.py::test_name -xvs` |
+| Lint | `uv run ruff check .` _(or project equivalent)_ |
+| Format | `uv run ruff format .` _(or project equivalent)_ |
+| Type-check | _(if applicable — e.g. `uv run mypy src/`)_ |
+| Run app / notebook | _(project-specific)_ |
+
+Scope commands to changed packages in monorepos. See [`agent-kit/agent-rules/testing.md`](agent-kit/agent-rules/testing.md) and [`agent-kit/agent-rules/python.md`](agent-kit/agent-rules/python.md) for conventions.
+
+---
+
+## Verification before PR
+
+Before requesting review or marking work complete:
+
+- [ ] Relevant tests for changed behavior pass (see [Commands](#commands))
+- [ ] Lint/format checks pass on touched files
+- [ ] For non-trivial work: `specs.md`, `plan.md`, and `CHANGELOG.md` do not contradict the code
+- [ ] No secrets, credentials, or `.local-context/` content in the diff
+- [ ] Distinguish what you ran from what you only wrote (see `core.md` §COOP-3)
+
+Lightweight work may skip lifecycle phases — name what you skipped and why (usually in the PR or CHANGELOG).
+
+---
+
+## Boundaries
+
+**Ask first**
+
+- Scope, acceptance criteria, or business-rule changes mid-build
+- New dependencies, database migrations, or destructive data operations
+- Skipping a lifecycle phase on non-trivial work
+- Running commands through subshells or one-liner interpreters (`bash -c`, `python -c`, etc.)
+
+**Never**
+
+- Push to remote, publish packages, or bypass git hooks (`--no-verify`, etc.) — a human publishes
+- Commit secrets, credentials, tokens, or anything under `.local-context/`
+- Invent business rules, thresholds, or schemas not in specs or glossary (see `core.md` §COOP-1)
+- Edit generated artifacts by hand when a generator workflow exists
+- Modify files unless the user requested the change or confirmed the plan
+
+Human review gates (Spec, Plan, PR) are mandatory for non-trivial work — see [Working cycle](#working-cycle).
 
 ---
 
@@ -63,18 +125,7 @@ docs/
     └── report.md
 ```
 
-If a target doc does not exist, instantiate it from the matching skeleton in `agent-kit/skeletons/`. Skeleton-to-doc mapping: [`agent-rules/documentation.md` §DOC-4](agent-rules/documentation.md).
-
-### Adopting the kit in a consumer repo
-
-After copying `agent-kit/` into a project repo root, bootstrap the layout:
-
-```bash
-python agent-kit/adopt.py --dry-run --agents --feature <feature-name>
-python agent-kit/adopt.py --agents --feature <feature-name>
-```
-
-Creates base docs under `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and copies this template to root `AGENTS.md` when you pass `--agents` (adapt it afterward). Existing files are kept unless you pass `--force`. Skeleton mapping: [`agent-rules/documentation.md` §DOC-4](agent-rules/documentation.md).
+If a target doc does not exist, instantiate it from the matching skeleton — see [`agent-kit/agent-rules/documentation.md` §DOC-4](agent-kit/agent-rules/documentation.md).
 
 ### Session scratch (never committed)
 
@@ -105,4 +156,13 @@ Ambiguity and stop-to-clarify rules: see `core.md` §COOP-1 and §COOP-2.
 
 Python data-project stack: Python 3.x with `uv`/`pyproject.toml`, SQLAlchemy 2.0 + Alembic, Pydantic v2 + Pandera, FastAPI, Typer, `notebooks/` for exploration, `tests/` mirroring the package.
 
-If the project deviates, record the deviation under `## Project Overrides` in the relevant rule file before applying it.
+If the project deviates, record the deviation under `## Project Overrides` in the relevant rule file and in `docs/docs-guide.md` §3 before applying it.
+
+---
+
+## References
+
+- Load order, validation gates, skeleton mapping: [`agent-kit/agent-rules/documentation.md`](agent-kit/agent-rules/documentation.md)
+- File and folder placement: [`agent-kit/agent-rules/repo-guide.md`](agent-kit/agent-rules/repo-guide.md)
+- Human onboarding (kit adoption, `adopt.py`): metarepo `README.md` Track 1, `guides/onboarding/lifecycle.md`, `guides/onboarding/managing-context.md`
+- Skills by lifecycle phase: metarepo `skills/README.md`

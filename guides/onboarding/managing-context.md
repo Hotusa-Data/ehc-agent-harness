@@ -76,14 +76,13 @@ Minimal setup so context flows correctly in every session.
 
 ### `AGENTS.md` — Always Loaded Rules
 
-Place at repo root. The AI loads it automatically:
+Place at repo root (copied from `agent-kit/AGENTS.md` via `--agents`). The AI loads it automatically. After adoption, customize at least:
 
-```markdown
-# Project rules
-- Always read docs/docs-guide.md before touching code
-- Update specs/plan/CHANGELOG in docs/features/<feature>/ when behavior changes
-- Never commit .local-context/
-```
+- **§Commands** — copy-paste commands for install, test, lint, format, and run
+- **§Boundaries** — confirm Ask first / Never rules match your team policy
+- **Project overrides** — stack deviations and command overrides in `docs/docs-guide.md` §3
+
+The kit template already covers the working cycle, session bootstrap, verification checklist, and rules index — do not duplicate those in a separate rules file unless the IDE requires it.
 
 ### `.gitignore` — Keep Session State Out (required)
 

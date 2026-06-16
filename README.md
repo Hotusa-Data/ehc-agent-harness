@@ -111,7 +111,7 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
 
    This creates `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and copies `AGENTS.md` from the kit template when missing. Existing files are kept unless you pass `--force`. Run `python agent-kit/adopt.py --dry-run` first to preview.
 
-3. Adapt root `AGENTS.md` to the project (step 2 copies the template when you pass `--agents`).
+3. Adapt root `AGENTS.md` to the project: fill in §Commands, confirm §Boundaries, and set overrides in `docs/docs-guide.md` §3 (step 2 copies the template when you pass `--agents`).
 4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: `architecture.md`, `database.md`, `docs-guide.md`, `glossary.md`.
 5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md` (or use `--feature` in step 2). Add `report.md` only when the cycle closes.
 6. If you skipped the script, add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
