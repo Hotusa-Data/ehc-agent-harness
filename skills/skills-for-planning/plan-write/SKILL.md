@@ -46,9 +46,10 @@ Load additionally when applicable:
 
 | File | When to load | What to extract |
 |---|---|---|
-| `docs/architecture.md` | Architectural or system-boundary change | Which layers and boundaries are already drawn |
+| `docs/architecture.md` | Layout delta or project boundary change | §3 deltas and §4–§5 invariants already documented |
 | `docs/glossary.md` | Business vocabulary in the specs | Canonical names for function signatures and variable names |
-| `agent-kit/agent-rules/architecture.md` | Module or system-boundary decisions | Module rules and layer constraints |
+| `agent-kit/agent-rules/repo-guide.md` | Placement or new folder/layer | Default codemap and dependency direction (REPO-2) |
+| `agent-kit/agent-rules/architecture.md` | Layer contracts or circular imports | Typed boundaries and abstraction rules (ARCH-1–3) |
 | `agent-kit/agent-rules/persistence.md` | ORM, queries, migrations | Session and transaction patterns already in use |
 | `agent-kit/agent-rules/security.md` | Auth, secrets, or trust boundary involved | Trust model and validation-placement rules |
 | `docs/features/<related>/plan.md` | A similar prior feature exists | Architectural precedent — copy the pattern, don't reinvent |

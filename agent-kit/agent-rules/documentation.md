@@ -28,8 +28,9 @@ Load by task type:
 |---|---|
 | Touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
 | Uses business vocabulary | `docs/glossary.md` |
-| Placement or structure unclear | `agent-kit/agent-rules/repo-guide.md`, `docs/architecture.md` |
-| Architectural or system-boundary change | `agent-kit/agent-rules/architecture.md`, `docs/architecture.md` |
+| Placement or structure unclear | `agent-kit/agent-rules/repo-guide.md` (default codemap), `docs/architecture.md` (project deltas only) |
+| Layer contracts, circular imports, or abstraction boundaries | `agent-kit/agent-rules/architecture.md` |
+| Layout or system-boundary change in this repo | `docs/architecture.md` §3, and `repo-guide.md` / `architecture.md` when kit rules apply |
 | ORM, queries, migrations, sessions | `agent-kit/agent-rules/persistence.md`, `docs/database.md` |
 | Auth, secrets, trust boundaries, sensitive data | `agent-kit/agent-rules/security.md` |
 | Tests | `agent-kit/agent-rules/testing.md` |
@@ -110,9 +111,11 @@ Use the existing `docs/` tree only — no new registry files.
 
 | Trigger | Required action |
 |---|---|
-| Behavior change | Update `specs.md`, or record the delta under `[Unreleased]` → `Specs` / `Changed` in CHANGELOG |
+| Behavior change | Update `specs.md`, or record the delta under `[Unreleased]` → `Specs` / `Changed` in CHANGELOG — do not add step-by-step flows to `docs/architecture.md` |
 | New business term in spec or code | Update `docs/glossary.md` before opening the PR |
-| New module, top-level folder, or external integration | Update `docs/architecture.md`, or state the deviation in `docs/docs-guide.md` §3 |
+| New top-level folder, package layer, or module that changes the codemap | Update `docs/architecture.md` §3 (name modules/folders); or state the deviation in `docs/docs-guide.md` §3 |
+| New external integration (architectural boundary) | Brief row in `docs/architecture.md` §5, or `docs/database.md` if the contract is persistence-only |
+| Code change only within an existing layer | No `docs/architecture.md` update unless a new project-specific invariant belongs in §4 |
 | Deferred or partial fix | Record under `[Unreleased]` → `Decided` in CHANGELOG with follow-up scope |
 | Feature cycle closes | Add or update `report.md`; promote `[Unreleased]` to a semver release when shipping |
 
@@ -134,6 +137,8 @@ Before handoff or PR:
 - Restating load order or gates inside a feature doc instead of pointing at this rule.
 - Leaving stale specs because "the code is the truth" — update the spec or CHANGELOG the delta.
 - Recording deferred work only in chat or `.local-context/` — use CHANGELOG `Decided` (DOC-7).
+- Restating the default codemap from `repo-guide.md` inside `docs/architecture.md`.
+- Growing `docs/architecture.md` with runtime how-to that belongs in feature `plan.md` (DOC-8).
 
 ## See also
 

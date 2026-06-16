@@ -1,5 +1,5 @@
 ---
-triggers: [placement, structure, new-file, new-folder]
+triggers: [placement, structure, new-file, new-folder, codemap, layout]
 requires: [core]
 see-also: [architecture, documentation]
 severity-default: SHOULD
@@ -7,11 +7,11 @@ severity-default: SHOULD
 
 # Repository Layout And Placement
 
-How code is organized in a consumer repo and where new code belongs. Complements `architecture.md` (dependency direction and abstraction boundaries) — this file is strictly about **placement**: which folder, which layer, which file gets the new code.
+Default **codemap** and placement rules for the Python data-project template: where files and folders live, and how package layers may depend on each other. For typed contracts across layers, circular imports, and abstraction boundaries, see [architecture](architecture.md). Project-specific layout deltas belong in `docs/architecture.md` §3 and `docs/docs-guide.md` §3.
 
-Load when: about to create a new file or folder, deciding which layer owns a change, or reviewing placement of existing code.
+Load when: about to create a new file or folder, deciding which layer owns a change, or answering "where does X go?".
 
-Unlike a project-instantiated doc, this rule encodes the **default layout** the agent-kit assumes (Python data-project template). Project-specific deviations belong in `docs/docs-guide.md` §3 "Project-Specific Overrides".
+Unlike a project-instantiated doc, this file encodes the **default layout** the agent-kit assumes. Project-specific deviations belong in `docs/docs-guide.md` §3 "Project-Specific Overrides" and `docs/architecture.md` §3.
 
 ## Default Top-Level Map
 
@@ -34,7 +34,7 @@ repo-root/
 `-- Makefile
 ```
 
-If the real repo deviates, override in `docs/docs-guide.md` §3 and link from there.
+If the real repo deviates, override in `docs/docs-guide.md` §3 and record deltas in `docs/architecture.md` §3.
 
 ## Rules
 
@@ -85,6 +85,22 @@ Responsibilities:
 
 Only keep folders that exist in the project. If `ml/` or `viz/` is absent, do not invent it.
 
+**Dependency direction** — lower layers must not import from higher layers:
+
+```text
+api/ (FastAPI routes)  |  cli/ (Typer commands)
+  ->
+data/ (workflows, ETL)
+  ->
+crud/ (reusable queries)
+  ->
+models/ (SQLAlchemy)  |  schemas/ (Pydantic)  |  schemas_df/ (Pandera)
+  ->
+core/ (config, logger, exceptions)  |  db/ (session, engine)
+```
+
+Infrastructure belongs in `core/` and `db/`; domain behavior does not live there. Production code lives in the package; exploration stays in `notebooks/WIP/` or `pyscripts/` (see REPO-3).
+
 ### REPO-3 Exploration stays out of the package [SHOULD]
 
 - Prototypes and exploration live in `notebooks/WIP/` or `pyscripts/`.
@@ -99,7 +115,7 @@ Only keep folders that exist in the project. If `ml/` or `viz/` is absent, do no
 
 ### REPO-5 Consult before creating a new top-level folder [MUST]
 
-Before adding a folder that does not appear in the default map or the project's overrides, stop and confirm. A new top-level folder is a structural decision, not a placement decision — it belongs in `architecture.md` and the project's overrides, not in an implicit commit.
+Before adding a folder that does not appear in the default map or the project's overrides, stop and confirm. A new top-level folder is a structural decision, not a placement decision — record it in `docs/architecture.md` §3 and `docs/docs-guide.md` §3, not only in an implicit commit.
 
 ## Quick Placement Map
 
@@ -125,8 +141,8 @@ In monorepos, place an additional `AGENTS.md` in a subpackage when that package 
 
 - Raw SQL in routes or CLI commands.
 - Opening a `Session` inside a CRUD function (see [persistence](persistence.md) PER-4).
-- Importing from `api/` or `cli/` into `data/`, `crud/`, or `models/` (dependency direction is one-way).
-- Creating a new top-level folder without recording the decision in `architecture.md`.
+- Importing from `api/` or `cli/` into `data/`, `crud/`, or `models/` (dependency direction is one-way — REPO-2).
+- Creating a new top-level folder without recording the decision in `docs/architecture.md` §3.
 
 ## Project Overrides
 

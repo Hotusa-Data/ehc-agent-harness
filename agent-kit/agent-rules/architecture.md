@@ -1,39 +1,21 @@
 ---
-triggers: [architecture, module, package, layer, structure, placement, abstraction, dependency]
+triggers: [architecture, module, package, layer, abstraction, dependency, boundary, contract]
 requires: [core]
-see-also: [python, persistence, validation]
+see-also: [repo-guide, python, persistence, validation]
 severity-default: MUST
 ---
 
 # Architecture And Modularization
 
-Rules for dependency direction, abstraction boundaries, and layer responsibilities.
+Rules for **layer contracts**: typed shapes across boundaries, circular-import fixes, and abstraction discipline. The default codemap and dependency direction live in [repo-guide](repo-guide.md) REPO-2 — load that file for placement questions.
 
-Load when: designing a new module, deciding where code belongs, introducing a new layer, or resolving structural drift.
+Load when: defining contracts between layers, fixing circular imports, introducing abstractions, or resolving structural drift that is not answered by the default layout alone.
 
 Framework-specific conventions (FastAPI routes, Typer CLI) live in [python](python.md) PY-13/PY-14.
 
 ## Rules
 
-### ARCH-1 Keep dependencies flowing downward [MUST]
-
-Use a clear dependency direction (matches the template layout):
-
-```text
-api/ (FastAPI routes)  |  cli/ (Typer commands)
-  ->
-data/ (workflows, ETL)
-  ->
-crud/ (reusable queries)
-  ->
-models/ (SQLAlchemy)  |  schemas/ (Pydantic)  |  schemas_df/ (Pandera)
-  ->
-core/ (config, logger, exceptions)  |  db/ (session, engine)
-```
-
-A lower layer must not import from a higher layer. Infrastructure belongs in `core/`; domain behavior does not. `notebooks/WIP/` is for exploration only — production code lives in the package.
-
-### ARCH-2 Cross boundaries with typed shapes [MUST]
+### ARCH-1 Cross boundaries with typed shapes [MUST]
 
 When one layer hands results to another, use a schema or explicit return type. Do not pass raw `dict` objects or untyped tuples across public or layer boundaries.
 
@@ -47,29 +29,29 @@ def get_headlines(db, limit=100) -> dict: ...
 
 Local dictionaries may exist inside small private functions when the shape does not escape that function.
 
-### ARCH-3 Fix circular imports at the design level [MUST]
+### ARCH-2 Fix circular imports at the design level [MUST]
 
-If two modules import from each other, one of them owns the wrong responsibility. Fix placement instead of hiding the problem with delayed imports or string annotations.
+If two modules import from each other, one of them owns the wrong responsibility. Fix placement per [repo-guide](repo-guide.md) instead of hiding the problem with delayed imports or string annotations.
 
-### ARCH-4 Avoid generic dumping grounds [SHOULD]
+### ARCH-3 Avoid generic dumping grounds [SHOULD]
 
-Do not create `utils.py`, `helpers.py`, or `common.py` as catch-all buckets. If code has a real responsibility, give it a real home.
+Do not create `utils.py`, `helpers.py`, or `common.py` as catch-all buckets. If code has a real responsibility, give it a real home per [repo-guide](repo-guide.md).
 
 ## Anti-patterns
 
-- Domain logic inside ORM models because "the data is already there".
-- Returning bare `dict` values across layer boundaries.
-- Delayed imports instead of fixing module ownership.
+- Returning bare `dict` values across layer boundaries (see ARCH-1).
+- Delayed imports instead of fixing module ownership (see ARCH-2).
 - Introducing base classes or abstraction layers on the first repetition.
 - Creating folders or modules before the boundary is actually needed.
-- Importing from `api/` or `cli/` into `data/`, `crud/`, or `models/` (dependency direction is one-way).
+- Business logic inside ORM models — see [persistence](persistence.md) PER-1.
 
 ## Project Overrides
 
-Use this section for project-specific placement rules such as approved layer names, allowed adapter patterns, or repository-specific folder conventions.
+Use this section for project-specific layer contracts such as approved adapter patterns, forbidden cross-layer calls, or repository-specific boundary rules. Layout deltas belong in `docs/architecture.md` §3 and `docs/docs-guide.md` §3.
 
 ## See also
 
+- [repo-guide](repo-guide.md)
 - [core](core.md)
 - [python](python.md)
 - [persistence](persistence.md)

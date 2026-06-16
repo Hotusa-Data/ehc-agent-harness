@@ -16,7 +16,7 @@ This file lists **what this repo requires**. It does not restate load order, val
 | Doc | Status | Purpose |
 |---|---|---|
 | `AGENTS.md` | required | Entrypoint: cycle, commands, boundaries, what to load, when to clarify |
-| `docs/architecture.md` | required | System shape: components, runtime boundaries, integrations |
+| `docs/architecture.md` | required | Project overview, layout deltas (§3), project invariants — default codemap in `repo-guide.md` |
 | `docs/glossary.md` | required | Canonical vocabulary |
 | `docs/docs-guide.md` | required | This file |
 | `docs/database.md` | optional | Required if the project persists data |
