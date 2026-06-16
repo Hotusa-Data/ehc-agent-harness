@@ -24,6 +24,10 @@ Run from the repo root:
 Also checks `agent-kit/skeletons/` for case-only filename collisions (e.g.
 `_changelog.md` vs `_CHANGELOG.md`) that break on Linux CI.
 
+Validates `agent-kit/AGENTS.md` carries the required entrypoint sections
+(Commands, Boundaries, References, etc.) and delegates doc rules to
+`agent-kit/agent-rules/documentation.md`.
+
 Exit 0 if no errors, 1 otherwise. Warnings never fail the run.
 
 No third-party dependencies — stdlib only.
@@ -186,6 +190,51 @@ def check_plugin_sync() -> list[str]:
 
 CHANGELOG_SKELETON = "_CHANGELOG.md"
 
+REQUIRED_AGENTS_SECTIONS = (
+    "## Role and scope",
+    "## Working cycle",
+    "## Session bootstrap",
+    "## Commands",
+    "## Verification before PR",
+    "## Boundaries",
+    "## Where durable knowledge lives",
+    "## Rules index",
+    "## Assumed stack",
+    "## References",
+)
+
+FORBIDDEN_AGENTS_SECTIONS = (
+    "### Adopting the kit",
+    "## Adopting the kit",
+)
+
+
+def check_agents_md() -> list[str]:
+    """Validate agent-kit/AGENTS.md structure for the consumer entrypoint template."""
+    errors: list[str] = []
+    agents = REPO_ROOT / "agent-kit" / "AGENTS.md"
+    if not agents.is_file():
+        errors.append("agent-kit/AGENTS.md missing")
+        return errors
+
+    text = agents.read_text(encoding="utf-8")
+    for section in REQUIRED_AGENTS_SECTIONS:
+        if section not in text:
+            errors.append(
+                f"agent-kit/AGENTS.md: missing required section {section!r}",
+            )
+    for section in FORBIDDEN_AGENTS_SECTIONS:
+        if section in text:
+            errors.append(
+                "agent-kit/AGENTS.md: adoption/bootstrap content belongs in "
+                f"README/guides, not {section!r}",
+            )
+    if "agent-kit/agent-rules/documentation.md" not in text:
+        errors.append(
+            "agent-kit/AGENTS.md: must link to agent-kit/agent-rules/documentation.md",
+        )
+    return errors
+
 
 def check_skeleton_path_casing() -> list[str]:
     """Detect case-only mismatches under agent-kit/skeletons/ (Linux CI safety)."""
@@ -298,6 +347,14 @@ def main() -> int:
         total_errors += len(casing_errors)
     else:
         print("  OK    agent-kit/skeletons/ path casing")
+
+    agents_errors = check_agents_md()
+    if agents_errors:
+        for err in agents_errors:
+            print(f"  ERROR agents-md: {err}")
+        total_errors += len(agents_errors)
+    else:
+        print("  OK    agent-kit/AGENTS.md entrypoint sections")
 
     print()
     print(

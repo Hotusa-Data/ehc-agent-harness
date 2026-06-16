@@ -15,5 +15,5 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Lint skills catalog and skeleton path casing
+      - name: Lint skills catalog, AGENTS.md, and skeleton path casing
         run: python skills/lint.py

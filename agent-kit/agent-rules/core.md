@@ -87,7 +87,7 @@ Do not flatten these into "done".
 
 ## Project Overrides
 
-Use this section to record project-specific constraints such as naming language, approved storage backends, compliance rules, required quality gates, or required commands (lint, test, build, license checks). A task is not complete until every applicable check passes; do not bypass hooks.
+Use this section to record project-specific constraints such as naming language, approved storage backends, compliance rules, and required quality gates. Command overrides belong in root `AGENTS.md` §Commands and `docs/docs-guide.md` §3 — keep them in sync. A task is not complete until every applicable check in `AGENTS.md` §Verification before PR passes; do not bypass hooks.
 
 ## See also
 

@@ -251,7 +251,7 @@ No. The cycle has three explicit human review checkpoints (Spec, Plan, PR) preci
 2. New rules or skills must include at least one real example where the addition would have changed an outcome.
 3. Keep PRs small and focused — the framework preaches this; the framework should practice it.
 4. If you modify a skill, test it end-to-end in your IDE before opening the PR.
-5. Run `python skills/lint.py` before opening a PR that touches skills or skeletons — CI runs the same check on every push.
+5. Run `python skills/lint.py` before opening a PR that touches skills, skeletons, or `agent-kit/AGENTS.md` — CI runs the same check on every push.
 6. When changing skeletons or adoption flow, update `agent-kit/adopt.py`, `agent-kit/AGENTS.md`, and the guides under `guides/onboarding/` so consumer repos stay aligned.
 
 ### Conventions worth knowing

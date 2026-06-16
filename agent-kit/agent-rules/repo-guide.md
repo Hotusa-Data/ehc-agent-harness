@@ -17,6 +17,8 @@ Unlike a project-instantiated doc, this rule encodes the **default layout** the 
 
 ```text
 repo-root/
+|-- AGENTS.md         # agent entrypoint (from agent-kit/AGENTS.md template)
+|-- agent-kit/        # rules, skeletons, adopt.py
 |-- docs/
 |   |-- features/
 |   |-- architecture.md
@@ -114,6 +116,10 @@ Before adding a folder that does not appear in the default map or the project's 
 | Domain exceptions | `core/exceptions.py` |
 | Exploration not yet productionized | `notebooks/WIP/` or `pyscripts/` |
 | Utility / CI script | `scripts/` |
+
+### REPO-6 Nested AGENTS.md in monorepos [SHOULD]
+
+In monorepos, place an additional `AGENTS.md` in a subpackage when that package needs different commands, boundaries, or layout than the repo root. The file closest to the edited path takes precedence. Subpackage files should reference root `AGENTS.md` for shared cycle and doc rules rather than duplicating them.
 
 ## Anti-patterns
 
