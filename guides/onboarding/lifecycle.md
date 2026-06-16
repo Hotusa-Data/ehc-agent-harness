@@ -13,7 +13,7 @@ python agent-kit/adopt.py --dry-run --agents --feature <feature-name>
 python agent-kit/adopt.py --agents --feature <feature-name>
 ```
 
-The script creates `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and optionally copies `AGENTS.md` from the kit template. Before the first agent session, fill in `AGENTS.md` §Commands, confirm §Boundaries, and record project-specific overrides in `docs/docs-guide.md` §3.
+The script creates `docs/` from skeletons, ensures `.gitignore` excludes `.local-context/`, and optionally copies `AGENTS.md` from the kit template. Before the first agent session, fill in `AGENTS.md` §Commands, §Pull requests, confirm §Boundaries, and record project-specific overrides in `docs/docs-guide.md` §3.
 
 ## Core Flow
 

@@ -147,7 +147,7 @@ def run(args: argparse.Namespace) -> int:
     if not args.agents:
         print("  - Create or adapt root AGENTS.md from agent-kit/AGENTS.md")
     else:
-        print("  - Fill in AGENTS.md §Commands; confirm §Boundaries; set overrides in docs/docs-guide.md §3")
+        print("  - Fill in AGENTS.md §Commands and §Pull requests; confirm §Boundaries; set overrides in docs/docs-guide.md §3")
     if not args.feature:
         print("  - Run again with --feature <name> to scaffold docs/features/<name>/")
     print("  - See README Track 1 and guides/onboarding/managing-context.md")

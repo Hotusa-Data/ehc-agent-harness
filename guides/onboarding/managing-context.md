@@ -79,6 +79,7 @@ Minimal setup so context flows correctly in every session.
 Place at repo root (copied from `agent-kit/AGENTS.md` via `--agents`). The AI loads it automatically. After adoption, customize at least:
 
 - **§Commands** — copy-paste commands for install, test, lint, format, and run
+- **§Pull requests** — title format, description fields, commit convention
 - **§Boundaries** — confirm Ask first / Never rules match your team policy
 - **Project overrides** — stack deviations and command overrides in `docs/docs-guide.md` §3
 

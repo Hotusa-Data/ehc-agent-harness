@@ -7,7 +7,7 @@ severity-default: MUST
 
 # Documentation Rules
 
-How the agent loads, creates, and updates durable documentation in a consumer repo. Authoritative source for load order, validation gates, creation-vs-update policy, and skeleton-to-doc mapping. `AGENTS.md` covers the working cycle, commands, boundaries, and session bootstrap; it must reference this file for doc rules rather than duplicate them. `docs/docs-guide.md` holds per-project overrides.
+How the agent loads, creates, and updates durable documentation in a consumer repo. Authoritative source for load order, validation gates, creation-vs-update policy, and skeleton-to-doc mapping. `AGENTS.md` covers the working cycle, commands, verification, pull requests, boundaries, and session bootstrap; it must reference this file for doc rules rather than duplicate them. `docs/docs-guide.md` holds per-project overrides.
 
 Load when: any task that reads, writes, or relies on `docs/` artifacts, or that triggers a validation gate below.
 

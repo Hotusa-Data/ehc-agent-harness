@@ -196,6 +196,7 @@ REQUIRED_AGENTS_SECTIONS = (
     "## Session bootstrap",
     "## Commands",
     "## Verification before PR",
+    "## Pull requests",
     "## Boundaries",
     "## Where durable knowledge lives",
     "## Rules index",

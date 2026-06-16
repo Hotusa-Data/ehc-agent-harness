@@ -4,7 +4,7 @@ Entry point for any AI coding agent working in this repository. Read this first.
 
 You are the coding agent for this repo. Domain knowledge lives in `docs/` (consumer-repo artifacts). Engineering rules live in `agent-kit/agent-rules/`. Document skeletons live in `agent-kit/skeletons/`.
 
-> **Metarepo note.** When this file is read inside the **ehc-agent-harness** metarepo itself, `docs/` usually does not exist yet — that tree is created on adoption in a consumer project. Here, load `agent-kit/agent-rules/` and `guides/` instead of project docs. Session scratch notes still use gitignored `.local-context/` at the repo root.
+> **Note.** If `docs/` is missing, bootstrap with `python agent-kit/adopt.py` or instantiate from `agent-kit/skeletons/` (see [`agent-kit/agent-rules/documentation.md` §DOC-4](agent-kit/agent-rules/documentation.md)). Session scratch notes use gitignored `.local-context/` at the repo root.
 
 ---
 
@@ -87,6 +87,26 @@ Lightweight work may skip lifecycle phases — name what you skipped and why (us
 
 ---
 
+## Pull requests
+
+Fill in during adoption. Title format and commit conventions may also be overridden in `docs/docs-guide.md` §3.
+
+**Title format:** `[<feature>] <short user-facing impact>` _(adapt — e.g. Conventional Commits scope)_
+
+**Description must include:**
+
+- What changed and why (2–4 sentences)
+- Feature link: `docs/features/<feature>/` when applicable
+- Test evidence: commands run and outcome (see [Verification before PR](#verification-before-pr))
+- Lifecycle: phases skipped and why, if any
+- Open questions or follow-ups for the reviewer
+
+**Commits:** _(adapt — e.g. imperative subject line; one logical change per commit)_
+
+A human opens and publishes the PR — do not push to remote (see [Boundaries](#boundaries)). Draft the description from specs, plan, and diff before handoff to the reviewer.
+
+---
+
 ## Boundaries
 
 **Ask first**
@@ -164,5 +184,4 @@ If the project deviates, record the deviation under `## Project Overrides` in th
 
 - Load order, validation gates, skeleton mapping: [`agent-kit/agent-rules/documentation.md`](agent-kit/agent-rules/documentation.md)
 - File and folder placement: [`agent-kit/agent-rules/repo-guide.md`](agent-kit/agent-rules/repo-guide.md)
-- Human onboarding (kit adoption, `adopt.py`): metarepo `README.md` Track 1, `guides/onboarding/lifecycle.md`, `guides/onboarding/managing-context.md`
-- Skills by lifecycle phase: metarepo `skills/README.md`
+- Kit bootstrap: `python agent-kit/adopt.py` (see `agent-kit/adopt.py --help`)

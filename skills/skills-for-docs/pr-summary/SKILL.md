@@ -31,6 +31,8 @@ This skill is **read-only on production code**.
 
 Use when: the user asks for a PR summary, branch summary, handoff, or wants to verify plan alignment before opening a PR.
 
+Load root `AGENTS.md` §Pull requests for the project's title format and required description fields, and §Verification before PR for the test-evidence checklist.
+
 ## When NOT to use
 
 - Planning or implementation work — use [`plan-write`](../../skills-for-planning/plan-write/SKILL.md) or Build slices instead.
@@ -53,10 +55,11 @@ If the feature folder is missing, ask the user which feature this branch belongs
 
 ### Step 1 — Gather intent
 
-1. Identify the feature. If unclear, ask the user.
-2. Read `specs.md`, `plan.md`, `CHANGELOG.md` (skip missing ones, note the gap).
-3. Read everything under `.local-context/`.
-4. Confirm the comparison base (default `main`; ask if stacked).
+1. Read root `AGENTS.md` §Pull requests and §Verification before PR.
+2. Identify the feature. If unclear, ask the user.
+3. Read `specs.md`, `plan.md`, `CHANGELOG.md` (skip missing ones, note the gap).
+4. Read everything under `.local-context/`.
+5. Confirm the comparison base (default `main`; ask if stacked).
 
 ### Step 2 — Collect branch context
 
@@ -95,7 +98,7 @@ Include one Mermaid block only if a decision or data flow changed materially. Ot
 
 ### Step 7 — Write the document
 
-Write to `PR_info.md` (or the path requested). Use this section order:
+Write to `PR_info.md` (or the path requested). Match the title format from `AGENTS.md` §Pull requests when the user will paste into GitHub. Use this section order:
 
 1. **Summary** — 2–3 sentences a non-technical reader can understand.
 2. **Task description** — feature + plan reference (`docs/features/<feature>/`).

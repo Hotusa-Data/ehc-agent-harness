@@ -37,6 +37,7 @@ Use this section for repository-specific deviations: stricter gates, extra requi
 
 - Example: `specs.md` is required even for single-slice changes in this repo (reason: regulatory).
 - Example: test command override — `uv run pytest tests/unit -xvs` (reason: integration tests need Docker; see AGENTS.md §Commands).
+- Example: PR title format — `feat(<feature>): <description>` (reason: Conventional Commits; see AGENTS.md §Pull requests).
 -
 
 ## 4. Change Log
