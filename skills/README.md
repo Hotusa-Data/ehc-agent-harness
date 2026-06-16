@@ -95,7 +95,15 @@ metadata:
 
 Narrow skills (handoff) may ship with only purpose + workflow + Related.
 
-When adding or editing a skill, run `python skills/lint.py` from the repo root to validate the `SKILL.md` frontmatter, required fields, folder/`name:` match, and internal links before committing. It does not scaffold a new skill — it only checks what already exists.
+When adding or editing a skill, run `python skills/lint.py` from the repo root to validate the `SKILL.md` frontmatter, required fields, folder/`name:` match, internal links, and plugin copies. It does not scaffold a new skill — it only checks what already exists.
+
+Skills shipped in the team plugin (`plugins/test-plugin/skills/`) are **generated copies** of selected `utils-skills/` skills. Edit the canonical file under `skills/utils-skills/<name>/SKILL.md`, then run:
+
+```bash
+python skills/lint.py --sync-plugin
+```
+
+Do not edit plugin copies by hand — `lint.py` fails if they drift from the canonical source.
 
 ## Language policy
 

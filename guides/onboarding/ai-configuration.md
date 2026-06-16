@@ -183,7 +183,7 @@ Use this as the safe baseline for this repo:
 - In this metarepo, use the Cursor plugin at `plugins/test-plugin/` for shared team behavior:
   - `rules/entrypoint.mdc` points Cursor to `agent-kit/AGENTS.md`; do not duplicate the kit rules there.
   - `rules/team-safety-policy.mdc`, `hooks/hooks.json`, and `scripts/team-safety-policy.js` define the team safety policy.
-  - `skills/` holds reusable agent workflows such as `grill-me`.
+  - `skills/` holds plugin copies of `grill-me` and `handoff`; edit the canonical files under `skills/utils-skills/` and run `python skills/lint.py --sync-plugin` before committing.
 - Prefer `AGENTS.md` for simple, portable repo instructions.
 - Enable MCP servers only when they are needed.
 - Keep Git, releases, deployments, and package publishing as human-controlled steps.

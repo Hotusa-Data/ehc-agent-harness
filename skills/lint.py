@@ -12,8 +12,14 @@ Checks per SKILL.md:
     When NOT to use, Related skills.
   - Internal links to other SKILL.md files resolve to existing files.
 
+Plugin skills under plugins/*/skills/ are linted too. Mapped copies must match
+their canonical source in skills/utils-skills/ (link paths rewritten). Run
+`python skills/lint.py --sync-plugin` after editing a canonical skill that is
+shipped in the team plugin.
+
 Run from the repo root:
     python skills/lint.py
+    python skills/lint.py --sync-plugin
 
 Exit 0 if no errors, 1 otherwise. Warnings never fail the run.
 
@@ -21,6 +27,7 @@ No third-party dependencies — stdlib only.
 """
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -31,6 +38,13 @@ REQUIRED_METADATA = ("owner", "last_reviewed", "skill-version")
 RECOMMENDED_SECTIONS = ("## When to use", "## When NOT to use", "## Related skills")
 
 SKILLS_ROOT = Path(__file__).resolve().parent
+REPO_ROOT = SKILLS_ROOT.parent
+
+# plugin skill dir (relative to repo root) -> canonical utils-skills dir
+PLUGIN_SKILL_SOURCES: dict[str, str] = {
+    "plugins/test-plugin/skills/grill-me": "skills/utils-skills/grill-me",
+    "plugins/test-plugin/skills/handoff": "skills/utils-skills/handoff",
+}
 
 
 def parse_frontmatter(text: str) -> dict | None:
@@ -48,7 +62,6 @@ def parse_frontmatter(text: str) -> dict | None:
         line = raw_line.strip()
         if indent == 0:
             if line.endswith(":"):
-                # Section header (e.g. "metadata:" or "allowed-tools:")
                 current_parent = line[:-1]
                 result[current_parent] = {} if current_parent == "metadata" else []
             elif ":" in line:
@@ -62,13 +75,45 @@ def parse_frontmatter(text: str) -> dict | None:
             else:
                 current_parent = None
         else:
-            # Indented under current_parent
             if current_parent == "metadata" and ":" in line:
                 key, _, value = line.partition(":")
                 result["metadata"][key.strip()] = value.strip().strip('"').strip("'")
             elif current_parent == "allowed-tools" and line.startswith("- "):
                 result["allowed-tools"].append(line[2:].strip())
     return result
+
+
+def canonical_to_plugin_skill(text: str) -> str:
+    """Rewrite intra-repo skill links for plugin copy layout."""
+    text = text.replace(
+        "../../skills-for-planning/",
+        "../../../../skills/skills-for-planning/",
+    )
+    text = text.replace(
+        "../../skills-for-docs/",
+        "../../../../skills/skills-for-docs/",
+    )
+    text = re.sub(
+        r"\]\(\.\./([^/)]+)/SKILL\.md\)",
+        r"](../../../../skills/utils-skills/\1/SKILL.md)",
+        text,
+    )
+    return text
+
+
+def discover_skill_files() -> list[Path]:
+    """All SKILL.md files under skills/ and plugins/*/skills/."""
+    files = sorted(SKILLS_ROOT.glob("**/SKILL.md"))
+    files.extend(sorted(REPO_ROOT.glob("plugins/*/skills/**/SKILL.md")))
+    # dedupe while preserving order
+    seen: set[Path] = set()
+    unique: list[Path] = []
+    for path in files:
+        resolved = path.resolve()
+        if resolved not in seen:
+            seen.add(resolved)
+            unique.append(path)
+    return unique
 
 
 def lint_skill(skill_md: Path) -> tuple[list[str], list[str]]:
@@ -82,33 +127,27 @@ def lint_skill(skill_md: Path) -> tuple[list[str], list[str]]:
         errors.append("frontmatter missing or unparseable")
         return errors, warnings
 
-    # Required fields
     for field in REQUIRED_FIELDS:
         if field not in fm or fm[field] in (None, "", []):
             errors.append(f"frontmatter missing required field: {field}")
 
-    # name matches folder
     folder = skill_md.parent.name
     if fm.get("name") and fm["name"] != folder:
         errors.append(f"`name: {fm['name']}` does not match folder `{folder}`")
 
-    # phase value
     phase = fm.get("phase")
     if phase and phase not in VALID_PHASES:
         errors.append(f"`phase: {phase}` is not in {sorted(VALID_PHASES)}")
 
-    # metadata
     metadata = fm.get("metadata", {}) if isinstance(fm.get("metadata"), dict) else {}
     for key in REQUIRED_METADATA:
         if key not in metadata or not metadata[key]:
             errors.append(f"frontmatter.metadata missing required field: {key}")
 
-    # Recommended sections (warnings only)
     for section in RECOMMENDED_SECTIONS:
         if section not in text:
             warnings.append(f"recommended section missing: {section!r}")
 
-    # Internal SKILL.md links resolve
     for link in re.findall(r"\]\(([^)]*SKILL\.md)\)", text):
         target = (skill_md.parent / link).resolve()
         if not target.is_file():
@@ -117,16 +156,73 @@ def lint_skill(skill_md: Path) -> tuple[list[str], list[str]]:
     return errors, warnings
 
 
+def check_plugin_sync() -> list[str]:
+    """Return errors when plugin copies drift from canonical utils-skills sources."""
+    errors: list[str] = []
+    for plugin_rel, canonical_rel in PLUGIN_SKILL_SOURCES.items():
+        canonical = REPO_ROOT / canonical_rel / "SKILL.md"
+        plugin = REPO_ROOT / plugin_rel / "SKILL.md"
+        if not canonical.is_file():
+            errors.append(f"{plugin_rel}: canonical missing at {canonical_rel}/SKILL.md")
+            continue
+        if not plugin.is_file():
+            errors.append(f"{plugin_rel}: plugin copy missing (run --sync-plugin)")
+            continue
+        expected = canonical_to_plugin_skill(
+            canonical.read_text(encoding="utf-8"),
+        )
+        actual = plugin.read_text(encoding="utf-8")
+        if expected != actual:
+            errors.append(
+                f"{plugin_rel}: out of sync with {canonical_rel}/SKILL.md "
+                f"(run python skills/lint.py --sync-plugin)",
+            )
+    return errors
+
+
+def sync_plugin_skills() -> int:
+    """Regenerate plugin SKILL.md copies from canonical utils-skills sources."""
+    written = 0
+    for plugin_rel, canonical_rel in PLUGIN_SKILL_SOURCES.items():
+        canonical = REPO_ROOT / canonical_rel / "SKILL.md"
+        plugin = REPO_ROOT / plugin_rel / "SKILL.md"
+        if not canonical.is_file():
+            print(f"  SKIP  {plugin_rel}: canonical missing at {canonical_rel}/SKILL.md")
+            continue
+        content = canonical_to_plugin_skill(canonical.read_text(encoding="utf-8"))
+        plugin.parent.mkdir(parents=True, exist_ok=True)
+        plugin.write_text(content, encoding="utf-8", newline="\n")
+        print(f"  SYNC  {plugin_rel} <- {canonical_rel}/SKILL.md")
+        written += 1
+    print()
+    print(f"Synced {written} plugin skill(s).")
+    return 0 if written == len(PLUGIN_SKILL_SOURCES) else 1
+
+
 def main() -> int:
-    skill_files = sorted(SKILLS_ROOT.glob("**/SKILL.md"))
+    parser = argparse.ArgumentParser(description="Lint skill catalog and plugin copies.")
+    parser.add_argument(
+        "--sync-plugin",
+        action="store_true",
+        help="Regenerate plugin SKILL.md copies from skills/utils-skills/ sources",
+    )
+    args = parser.parse_args()
+
+    if args.sync_plugin:
+        return sync_plugin_skills()
+
+    skill_files = discover_skill_files()
     if not skill_files:
-        print("No SKILL.md files found under", SKILLS_ROOT)
+        print("No SKILL.md files found under skills/ or plugins/*/skills/")
         return 1
 
     total_errors = 0
     total_warnings = 0
     for skill_md in skill_files:
-        rel = skill_md.relative_to(SKILLS_ROOT)
+        try:
+            rel = skill_md.relative_to(REPO_ROOT)
+        except ValueError:
+            rel = skill_md
         errors, warnings = lint_skill(skill_md)
         if not errors and not warnings:
             print(f"  OK    {rel}")
@@ -138,9 +234,15 @@ def main() -> int:
             print(f"  WARN  {rel}: {warn}")
             total_warnings += 1
 
+    for err in check_plugin_sync():
+        print(f"  ERROR plugin-sync: {err}")
+        total_errors += 1
+
     print()
-    print(f"Checked {len(skill_files)} skill(s). "
-          f"{total_errors} error(s), {total_warnings} warning(s).")
+    print(
+        f"Checked {len(skill_files)} skill(s). "
+        f"{total_errors} error(s), {total_warnings} warning(s).",
+    )
     return 0 if total_errors == 0 else 1
 
 
