@@ -21,6 +21,7 @@ No third-party dependencies — stdlib only.
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -49,9 +50,36 @@ GITIGNORE_BLOCK = """\
 .local-context/
 """
 
+FEATURE_SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
 
 def repo_root() -> Path:
     return KIT_DIR.parent
+
+
+def validate_feature_slug(name: str) -> str | None:
+    """Return an error message when NAME is not a safe single path segment."""
+    if name in (".", ".."):
+        return "feature name must not be . or .."
+    if "/" in name or "\\" in name or ".." in name:
+        return "feature name must be a single slug (no path separators)"
+    if not FEATURE_SLUG_RE.fullmatch(name):
+        return "feature name must match [a-z0-9]+(-[a-z0-9]+)* (lowercase slug)"
+    return None
+
+
+def summarize_actions(actions: list[str]) -> tuple[int, int, int]:
+    """Count CREATE/WRITE/APPEND vs KEEP vs SKIP lines."""
+    created = kept = skipped = 0
+    for line in actions:
+        head = line.split(maxsplit=1)[0] if line else ""
+        if head in {"CREATE", "WRITE", "APPEND", "OVERWRITE"}:
+            created += 1
+        elif head == "KEEP":
+            kept += 1
+        elif head == "SKIP":
+            skipped += 1
+    return created, kept, skipped
 
 
 def copy_skeleton(
@@ -195,6 +223,12 @@ def run(args: argparse.Namespace) -> int:
         print("ERROR: run from the consumer repo root (expected ./agent-kit/)", file=sys.stderr)
         return 1
 
+    if args.feature:
+        slug_error = validate_feature_slug(args.feature)
+        if slug_error:
+            print(f"ERROR: invalid --feature {args.feature!r}: {slug_error}", file=sys.stderr)
+            return 1
+
     actions: list[str] = []
 
     actions.append(ensure_gitignore(force=args.force, dry_run=args.dry_run))
@@ -223,8 +257,13 @@ def run(args: argparse.Namespace) -> int:
     for line in actions:
         print(f"  {line}")
 
+    created, kept, skipped = summarize_actions(actions)
+    print()
+    print(f"Summary: {created} to write, {kept} kept, {skipped} skipped")
+
     print()
     print("Next steps:")
+    print("  - Onboarding: agent-kit/README.md")
     if not args.agents:
         print(
             "  - Re-run with --agents to copy agent-kit/AGENTS.md to repo root "

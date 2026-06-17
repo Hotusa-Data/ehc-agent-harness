@@ -6,7 +6,7 @@ see-also: [ARCHITECTURE, DOCUMENTATION]
 
 # Repository Layout And Placement
 
-Default **codemap** and placement rules for the Python data-project template: where files and folders live, and how package layers may depend on each other. For typed contracts across layers, circular imports, and abstraction boundaries, see [ARCHITECTURE](ARCHITECTURE.md). Project-specific layout deltas belong in `docs/adr/` (layout ADRs) and `docs/docs-guide.md` §3.
+Default **codemap** for the kit's **Python data stack** profile: where files and folders live and how package layers depend on each other. For typed contracts across layers, circular imports, and abstraction boundaries, see [ARCHITECTURE](ARCHITECTURE.md). Project-specific layout deltas belong in `docs/adr/` (layout ADRs) and `docs/docs-guide.md` §3. Non-Python or different layouts: override in §3 and see [`../README.md`](../README.md).
 
 Load when: about to create a new file or folder, deciding which layer owns a change, or answering "where does X go?".
 

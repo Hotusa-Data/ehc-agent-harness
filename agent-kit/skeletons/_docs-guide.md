@@ -41,6 +41,8 @@ Use this section for repository-specific deviations: stricter gates, extra requi
 - Example: test command override — `uv run pytest tests/unit -xvs` (reason: integration tests need Docker; see AGENTS.md §Commands).
 - Example: PR title format — `feat(<feature>): <description>` (reason: Conventional Commits; see AGENTS.md §Pull requests).
 - Example: mark `docs/database.md` as `required` once the project persists data (reason: added SQLAlchemy layer).
+- Example: **non-Python repo** — replace `AGENTS.md` §Commands; in §3 list skipped rules (`PERSISTENCE.md`, `PYTHON.md` PY-13–16, Pandera sections in `VALIDATION.md`); add layout ADR if folder tree differs from `REPO_GUIDE.md`.
+- Example: **no database** — mark `docs/database.md` not applicable; skip `PERSISTENCE.md` unless touching external persistence.
 -
 
 ## 4. Change Log

@@ -10,7 +10,7 @@ Domain knowledge lives in `docs/`. Engineering rules in `agent-kit/agent-rules/`
 
 ## Role and scope
 
-**Default stack:** Python 3.x, `uv`/`pyproject.toml`, SQLAlchemy 2.0 + Alembic, Pydantic v2 + Pandera, FastAPI, Typer, `notebooks/`, `tests/` mirroring the package. Override in `docs/docs-guide.md` §3 and `## Project Overrides` in rule files.
+**Kit profile:** Python **data** stack (template). Override stack, commands, and layout in `docs/docs-guide.md` §3; non-Python guidance in [`agent-kit/README.md`](agent-kit/README.md).
 
 Work is organized by features under `docs/features/<feature>/`. Non-trivial changes follow the [working cycle](#working-cycle). In monorepos, nested `AGENTS.md` in subpackages overrides this file for paths underneath.
 
@@ -79,7 +79,7 @@ Customize after `adopt.py --agents` (defaults below match the template). Overrid
 | Type-check | _(if applicable — e.g. `uv run mypy src/`)_ |
 | Run app / notebook | _(project-specific)_ |
 
-Scope commands to changed packages in monorepos. See [`agent-kit/agent-rules/TESTING.md`](agent-kit/agent-rules/TESTING.md) and [`agent-kit/agent-rules/PYTHON.md`](agent-kit/agent-rules/PYTHON.md) for conventions.
+Scope commands to changed packages in monorepos. Stack defaults: [`PYTHON.md`](agent-kit/agent-rules/PYTHON.md), [`TESTING.md`](agent-kit/agent-rules/TESTING.md).
 
 ---
 
