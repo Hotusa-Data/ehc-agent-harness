@@ -29,6 +29,8 @@ Engineering rules for the coding agent — extensions of root `AGENTS.md`, loade
 
 Ambiguity and stop-to-clarify: **COOP-1**, **COOP-2** (`CORE.md`). Project overrides: `docs/docs-guide.md` §3 and `## Project Overrides` in each rule file.
 
+When several files touch the same topic, load only the **Primary rule** from the table below — not every cross-reference.
+
 ## Canonical topics (load the owner, not every file)
 
 | Topic | Primary rule | File |
@@ -42,7 +44,7 @@ Ambiguity and stop-to-clarify: **COOP-1**, **COOP-2** (`CORE.md`). Project overr
 | CLI human output vs logging | OBS-11 | OBSERVABILITY.md |
 | Reproducible dependencies (uv.lock) | PY-7 | PYTHON.md |
 | Doc load order and gates | DOC-1, DOC-2 | DOCUMENTATION.md |
-| Structural decisions (ADRs) | DOC-10 | DOCUMENTATION.md + `docs/adr/` |
+| Structural decisions (ADRs) | DOC-10 | DOCUMENTATION.md + `docs/adr/changelog.md` |
 
 ## Rule ID index
 
@@ -69,8 +71,8 @@ Ambiguity and stop-to-clarify: **COOP-1**, **COOP-2** (`CORE.md`). Project overr
 | DOC-5 | docs-guide.md is project authority | DOCUMENTATION.md |
 | DOC-6 | Overrides must not silently contradict | DOCUMENTATION.md |
 | DOC-7 | Feature changelog convention | DOCUMENTATION.md |
-| DOC-8 | Reconcile docs with diff | DOCUMENTATION.md |
-| DOC-9 | Doc hygiene at session/PR close | DOCUMENTATION.md |
+| DOC-8 | Reconcile docs with diff; session/PR checklist | DOCUMENTATION.md |
+| DOC-9 | Doc hygiene at session/PR close (see DOC-8) | DOCUMENTATION.md |
 | DOC-10 | Architecture decisions in docs/adr/ | DOCUMENTATION.md |
 | OBS-1 | Prefer structured logging | OBSERVABILITY.md |
 | OBS-2 | One logger per module (Loguru) | OBSERVABILITY.md |

@@ -332,7 +332,52 @@ def check_adr_skeletons() -> list[str]:
                 errors.append(
                     f"agent-kit/skeletons/_adr.md: missing ## §{section} section",
                 )
+        if "docs/adr/README.md" in text:
+            errors.append(
+                "agent-kit/skeletons/_adr.md: must target docs/adr/changelog.md, not README.md",
+            )
+        if "docs/adr/changelog.md" not in text:
+            errors.append(
+                "agent-kit/skeletons/_adr.md: must document docs/adr/changelog.md as §Index target",
+            )
 
+    return errors
+
+
+DEPRECATED_ADR_README = "docs/adr/README.md"
+ADR_CHANGELOG_SCAN_ROOTS = (
+    REPO_ROOT / "agent-kit",
+    REPO_ROOT / "guides",
+    REPO_ROOT / "skills",
+    REPO_ROOT / "README.md",
+)
+
+
+def check_deprecated_adr_readme_refs() -> list[str]:
+    """Fail if kit docs still reference the old docs/adr/README.md index."""
+    errors: list[str] = []
+    paths: list[Path] = []
+    for root in ADR_CHANGELOG_SCAN_ROOTS:
+        if root.is_file():
+            paths.append(root)
+        elif root.is_dir():
+            paths.extend(root.rglob("*.md"))
+            paths.extend(root.rglob("*.py"))
+
+    for path in paths:
+        if not path.is_file():
+            continue
+        if path.resolve() == Path(__file__).resolve():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8-sig")
+        except OSError:
+            continue
+        if DEPRECATED_ADR_README in text:
+            rel = path.relative_to(REPO_ROOT).as_posix()
+            errors.append(
+                f"{rel}: replace deprecated {DEPRECATED_ADR_README!r} with docs/adr/changelog.md",
+            )
     return errors
 
 
@@ -517,6 +562,14 @@ def main() -> int:
         total_errors += len(adr_skeleton_errors)
     else:
         print("  OK    agent-kit/skeletons/ ADR skeletons")
+
+    adr_ref_errors = check_deprecated_adr_readme_refs()
+    if adr_ref_errors:
+        for err in adr_ref_errors:
+            print(f"  ERROR adr-refs: {err}")
+        total_errors += len(adr_ref_errors)
+    else:
+        print("  OK    docs/adr/changelog.md references")
 
     agents_errors = check_agents_md()
     if agents_errors:

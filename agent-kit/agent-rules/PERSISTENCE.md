@@ -14,7 +14,7 @@ Load when: defining or modifying models, writing queries, handling sessions, or 
 
 ### PER-1 Keep ORM models focused on mapping [MUST]
 
-`models/` should define tables, columns, nullability, keys, and indexes. Do not put API shapes, business workflows, or session management there. Schema roles: **VAL-2** (`VALIDATION.md`).
+`models/` should define tables, columns, nullability, keys, and indexes — not API shapes, workflows, or sessions. Schema roles: **VAL-2** (`VALIDATION.md`).
 
 ### PER-2 Make required columns explicit [MUST]
 
@@ -58,7 +58,7 @@ Adding a table requires three coordinated changes; missing any one is a silent b
 
 ### PER-11 CRUD inherits from CRUDBase with three generics [MUST]
 
-Reusable CRUD classes inherit `CRUDBase[Model, PydanticSchema, PanderaDFSchema]` and are instantiated at module scope:
+**Template default** when the project ships `CRUDBase`: inherit `CRUDBase[Model, PydanticSchema, PanderaDFSchema]` and export a module-scope instance from `crud/__init__.py`:
 
 ```python
 class CRUDHeadline(CRUDBase[Headline, HeadlineSchema, HeadlineDFSchema]):
@@ -67,9 +67,7 @@ class CRUDHeadline(CRUDBase[Headline, HeadlineSchema, HeadlineDFSchema]):
 headline = CRUDHeadline(Headline, HeadlineDFSchema)
 ```
 
-Export the instance from `crud/__init__.py` so callers use `crud.headline`, not the class.
-
-Method names should express behavior: prefer `get_by_source`, `get_latest`, `count_by_day`, `upsert_batch` over vague names like `fetch`, `load`, or `query`.
+Method names should express behavior (`get_by_source`, `upsert_batch`) over vague names (`fetch`, `query`). Override CRUD pattern in `docs/docs-guide.md` §3 if the project differs.
 
 ### PER-12 SQLite is for local only [SHOULD]
 

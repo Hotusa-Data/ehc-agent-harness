@@ -112,7 +112,7 @@ A predictable layout lets the AI find things without guessing. Stick to this tre
 ```text
 docs/
 ├── adr/
-│   ├── README.md
+│   ├── changelog.md
 │   └── 0001-system-context.md
 ├── database.md
 ├── glossary.md
@@ -131,7 +131,7 @@ When updating an older project that still uses the monolithic architecture file:
 
 1. Scaffold `docs/adr/` with `python agent-kit/adopt.py` (existing files are kept unless you pass `--force`).
 2. Move §1 overview into `0001-system-context.md`; §2 into glossary/database; §3–§5 into ADRs from **§Entry** in `agent-kit/skeletons/_adr.md`.
-3. Update the index in `docs/adr/README.md` and remove the old `architecture.md` row from `docs/docs-guide.md` §1.
+3. Update `docs/adr/changelog.md` (Index table) and remove the old `architecture.md` row from `docs/docs-guide.md` §1.
 
 See [DOCUMENTATION.md](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-10 for when to write an ADR vs update feature docs.
 
@@ -173,7 +173,7 @@ A scratchpad that lives in the repo but never gets committed.
 
 - `AGENTS.md`
 - `agent-kit/agent-rules/CORE.md`
-- Relevant project docs (`docs/docs-guide.md`, `docs/adr/README.md`, `docs/glossary.md`)
+- Relevant project docs (`docs/docs-guide.md`, `docs/adr/changelog.md`, `docs/glossary.md`)
 - Relevant feature context (if the feature is known)
 - Existing specs, plan, or changelog for the same area
 - The code and tests being touched
@@ -186,7 +186,7 @@ Rule file index and canonical topics: [`agent-kit/agent-rules/RULES.md`](../../a
 |---|---|
 | Task touches an existing feature | `docs/features/<feature>/{specs,plan,changelog}.md` |
 | Request uses business terms ("tenant", "billing cycle") | `docs/glossary.md` |
-| Placement or layout unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/adr/README.md` + relevant ADR |
+| Placement or layout unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/adr/changelog.md` + relevant ADR |
 | Layer contracts or import boundaries | `agent-kit/agent-rules/ARCHITECTURE.md` |
 | ORM, queries, migrations, sessions | `agent-kit/agent-rules/PERSISTENCE.md`, `docs/database.md` |
 | Tests or verification strategy | `agent-kit/agent-rules/TESTING.md` |
@@ -253,7 +253,7 @@ You just implemented billing for multi-tenant orgs. The code works, tests pass. 
 
 ## Anti-patterns
 
-- Starting work without reading project docs (`docs/docs-guide.md`, `docs/adr/README.md`)
+- Starting work without reading project docs (`docs/docs-guide.md`, `docs/adr/changelog.md`)
 - Loading every feature folder regardless of scope
 - Treating chat memory as project memory
 - Treating `.local-context/` as durable documentation

@@ -46,7 +46,7 @@ Load additionally when applicable:
 
 | File | When to load | What to extract |
 |---|---|---|
-| `docs/adr/` | Layout delta or project boundary change | Relevant ADRs and index already document the deviation |
+| `docs/adr/changelog.md` | Layout delta or project boundary change | Relevant ADRs and changelog Index already document the deviation |
 | `docs/glossary.md` | Business vocabulary in the specs | Canonical names for function signatures and variable names |
 | `agent-kit/agent-rules/REPO_GUIDE.md` | Placement or new folder/layer | Default codemap and dependency direction (REPO-2) |
 | `agent-kit/agent-rules/ARCHITECTURE.md` | Layer contracts or circular imports | Typed boundaries and abstraction rules (ARCH-1–3) |

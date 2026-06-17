@@ -46,7 +46,7 @@ Commit `uv.lock`. Security-sensitive upgrades should be reviewed deliberately. W
 
 ### SEC-9 Permissive licenses only [MUST]
 
-Only packages with permissive licenses (MIT, Apache-2.0, BSD-*, ISC, MPL-2.0, PSF, Unlicense, Artistic) are allowed. **No GPL / AGPL / LGPL.** Exceptions require project-lead approval and an explicit entry in `[tool.liccheck.authorized_packages]`. `make license-check` enforces this in CI.
+**Template default:** only permissive licenses (MIT, Apache-2.0, BSD-*, ISC, MPL-2.0, PSF, Unlicense, Artistic). **No GPL / AGPL / LGPL.** Exceptions need project-lead approval and `[tool.liccheck.authorized_packages]`. `make license-check` in CI. Stricter policy → `docs/docs-guide.md` §3.
 
 ### SEC-10 Prefer least privilege [SHOULD]
 

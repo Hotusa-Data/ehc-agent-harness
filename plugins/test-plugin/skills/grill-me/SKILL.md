@@ -84,11 +84,11 @@ Do not put classes, modules, file paths, or implementation decisions in Definiti
 | File | What it covers |
 |---|---|
 | `docs/docs-guide.md` | Required docs and project-specific overrides |
-| `docs/adr/README.md` | System shape and global decisions (index + ADRs) |
+| `docs/adr/changelog.md` | System shape and global decisions (index + ADRs) |
 | `docs/glossary.md` | Canonical domain vocabulary |
 | `agent-kit/skeletons/_glossary.md` | Format for new or updated glossary entries |
 | `agent-kit/skeletons/_docs-guide.md` | Format for `docs/docs-guide.md` overrides |
-| `agent-kit/skeletons/_adr.md` | Unified ADR kit — §Index (README), §Entry (new ADRs), §Bootstrap (0001) |
+| `agent-kit/skeletons/_adr.md` | Unified ADR kit — §Index (changelog), §Entry (new ADRs), §Bootstrap (0001) |
 | `agent-kit/skeletons/_specs.md` | Format for `docs/features/<feature>/specs.md` |
 | `agent-kit/skeletons/_plan.md` | Format for `docs/features/<feature>/plan.md` |
 

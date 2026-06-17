@@ -109,7 +109,7 @@ def parse_adr_skeleton(path: Path) -> dict[str, str]:
 
 
 def bootstrap_adr_folder(*, force: bool, dry_run: bool) -> list[str]:
-    """Materialize docs/adr/ from §Index and §Bootstrap in the unified _adr.md skeleton."""
+    """Materialize docs/adr/ from §Index → changelog.md and §Bootstrap in _adr.md."""
     adr_dir = repo_root() / "docs" / "adr"
     actions: list[str] = []
     skeleton_path = SKELETONS / ADR_SKELETON
@@ -128,9 +128,9 @@ def bootstrap_adr_folder(*, force: bool, dry_run: bool) -> list[str]:
 
     actions.append(
         write_text_target(
-            adr_dir / "README.md",
+            adr_dir / "changelog.md",
             parts["index"],
-            label=f"{ADR_SKELETON} §Index",
+            label=f"{ADR_SKELETON} §Index → changelog.md",
             force=force,
             dry_run=dry_run,
         ),
@@ -227,7 +227,7 @@ def run(args: argparse.Namespace) -> int:
         print("  - Fill in AGENTS.md §Commands and §Pull requests; confirm §Boundaries; set overrides in docs/docs-guide.md §3")
     if not args.feature:
         print("  - Run again with --feature <name> to scaffold docs/features/<name>/")
-    print("  - Edit docs/adr/0001-system-context.md; copy §Entry from agent-kit/skeletons/_adr.md for new ADRs")
+    print("  - Edit docs/adr/0001-system-context.md; update docs/adr/changelog.md when adding ADRs (copy §Entry from agent-kit/skeletons/_adr.md)")
     print("  - See README Track 1 and guides/onboarding/managing-context.md")
 
     return 0

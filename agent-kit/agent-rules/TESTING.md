@@ -90,15 +90,7 @@ Test envs load from `.env.ci` via `pytest-dotenv` / `pytest-env` (`env_files` in
 
 ## Project Overrides
 
-Default commands for this project template (Makefile wraps these):
-
-```text
-make test                                # full suite
-uv run pytest tests/test_<...>.py        # single file
-uv run pytest --cov-report term-missing --cov=<pkg> tests/
-```
-
-Project-specific test policy: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
+Test commands: root `AGENTS.md` §Commands. Project-specific test policy: `docs/docs-guide.md` §3 and this section. See **DOC-6** (`DOCUMENTATION.md`).
 
 ## See also
 

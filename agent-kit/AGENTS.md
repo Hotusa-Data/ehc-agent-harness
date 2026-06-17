@@ -1,16 +1,16 @@
 # AGENTS.md
 
-Entry point for any AI coding agent working in this repository. Read this first.
+Template for the agent entrypoint at **repo root**. `python agent-kit/adopt.py --agents` copies this file to `./AGENTS.md`. Paths below (`agent-kit/…`, `docs/…`) assume that layout — read this first every session.
 
-You are the coding agent for this repo. Domain knowledge lives in `docs/` (consumer-repo artifacts). Engineering rules live in `agent-kit/agent-rules/`. Document skeletons live in `agent-kit/skeletons/`.
+Domain knowledge lives in `docs/`. Engineering rules in `agent-kit/agent-rules/`. Skeletons in `agent-kit/skeletons/`.
 
-> **Note.** If `docs/` is missing, bootstrap with `python agent-kit/adopt.py` or instantiate from `agent-kit/skeletons/` (see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md)). Session scratch notes use gitignored `.local-context/` at the repo root.
+> **Note.** If `docs/` is missing, run `python agent-kit/adopt.py` (see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md)). Session scratch: gitignored `.local-context/` at repo root.
 
 ---
 
 ## Role and scope
 
-This project follows a **Python data stack**: Python 3.x with `uv`/`pyproject.toml`, SQLAlchemy 2.0 + Alembic, Pydantic v2 + Pandera, FastAPI, Typer, `notebooks/` for exploration, `tests/` mirroring the package. Record deviations under `## Project Overrides` in the relevant rule file and in `docs/docs-guide.md` §3.
+**Default stack:** Python 3.x, `uv`/`pyproject.toml`, SQLAlchemy 2.0 + Alembic, Pydantic v2 + Pandera, FastAPI, Typer, `notebooks/`, `tests/` mirroring the package. Override in `docs/docs-guide.md` §3 and `## Project Overrides` in rule files.
 
 Work is organized by features under `docs/features/<feature>/`. Non-trivial changes follow the [working cycle](#working-cycle) below.
 
@@ -30,7 +30,7 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 
 | Phase | What you do | Key artifacts |
 |---|---|---|
-| **Context** | Load rules, project docs, feature state | `AGENTS.md`, `docs/docs-guide.md`, `docs/adr/README.md`, `docs/glossary.md` |
+| **Context** | Load rules, project docs, feature state | `AGENTS.md`, `docs/docs-guide.md`, `docs/adr/changelog.md`, `docs/glossary.md` |
 | **Spec** | Define what must change and why | `docs/features/<feature>/specs.md` |
 | **Plan** | Decide how to implement, slice, test, document | `docs/features/<feature>/plan.md` |
 | **Build** | Implement in small, reviewable slices | code, tests, notebook mockups |
@@ -59,7 +59,7 @@ For other rules, see [`agent-kit/agent-rules/RULES.md`](agent-kit/agent-rules/RU
 
 ## Commands
 
-Fill in during adoption. List copy-paste commands the agent should run to build, test, lint, and run the app. Authoritative overrides may also live in `docs/docs-guide.md` §3 Project-Specific Overrides.
+Customize after `adopt.py --agents` (defaults below match the template). Overrides also live in `docs/docs-guide.md` §3.
 
 | Action | Command |
 |---|---|
@@ -83,13 +83,13 @@ Before requesting review or marking work complete:
 - [ ] Lint/format checks pass on touched files
 - [ ] For non-trivial work: feature docs and touched base docs match the code (see `agent-kit/agent-rules/DOCUMENTATION.md` §DOC-8)
 - [ ] No secrets, credentials, or `.local-context/` content in the diff
-- [ ] Distinguish what you ran from what you only wrote (see `CORE.md` §COOP-3)
+- [ ] Distinguish what you ran from what you only wrote (see `agent-kit/agent-rules/CORE.md` §COOP-3)
 
 ---
 
 ## Pull requests
 
-Fill in during adoption. Title format and commit conventions may also be overridden in `docs/docs-guide.md` §3.
+Customize after adoption. Title format and commit conventions may also be overridden in `docs/docs-guide.md` §3.
 
 **Title format:** `[<feature>] <short user-facing impact>` _(adapt — e.g. Conventional Commits scope)_
 
@@ -120,7 +120,7 @@ A human opens and publishes the PR — do not push to remote (see [Boundaries](#
 
 - Push to remote, publish packages, or bypass git hooks (`--no-verify`, etc.) — a human publishes
 - Commit secrets, credentials, tokens, or anything under `.local-context/`
-- Invent business rules, thresholds, or schemas not in specs or glossary (see `CORE.md` §COOP-1)
+- Invent business rules, thresholds, or schemas not in specs or glossary (see `agent-kit/agent-rules/CORE.md` §COOP-1)
 - Edit generated artifacts by hand when a generator workflow exists
 - Modify files unless the user requested the change or confirmed the plan
 

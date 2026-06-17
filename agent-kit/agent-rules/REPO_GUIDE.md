@@ -21,9 +21,6 @@ repo-root/
 |-- docs/
 |   |-- features/
 |   |-- adr/
-|   |   |-- README.md
-|   |   |-- README.md
-|   |   `-- 0001-system-context.md
 |   |-- database.md
 |   |-- glossary.md
 |   `-- docs-guide.md
@@ -50,6 +47,8 @@ Each feature lives in `docs/features/<feature>/` with:
 | `plan.md` | How and atomic work units |
 | `report.md` | What was actually built (created at cycle close) |
 | `changelog.md` | Narrative of evolution |
+
+`docs/adr/changelog.md` indexes structural ADRs (see **DOC-10**). Same lowercase `changelog.md` convention; different skeleton (`_adr.md` §Index).
 
 "Feature" covers user-facing features, subsystems, or substantial refactors. Never split one coherent scope into parallel folders.
 

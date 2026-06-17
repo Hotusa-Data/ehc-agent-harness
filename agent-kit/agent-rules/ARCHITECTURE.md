@@ -6,8 +6,7 @@ see-also: [REPO_GUIDE, PYTHON, PERSISTENCE, VALIDATION]
 
 # Architecture And Modularization
 
-Rules for **layer contracts**: typed shapes across boundaries, circular-import fixes, and abstraction discipline. The default codemap and dependency direction live in [REPO_GUIDE](REPO_GUIDE.md) REPO-2 — load that file for placement questions.
-
+**Kit layer contracts** — typed shapes, circular-import fixes, abstraction discipline. Project structural decisions live in `docs/adr/` (see **DOC-10**). Default codemap and dependency direction: [REPO_GUIDE](REPO_GUIDE.md) REPO-2.
 Load when: defining contracts between layers, fixing circular imports, introducing abstractions, or resolving structural drift that is not answered by the default layout alone.
 
 Framework-specific conventions (FastAPI routes, Typer CLI) live in [PYTHON](PYTHON.md) PY-13/PY-14.

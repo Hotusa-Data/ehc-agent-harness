@@ -408,7 +408,7 @@ git clone https://github.com/[your-fork]/[repo].git
 
 - [Official framework docs](https://example.com) — [What version and which sections are most relevant]
 - [API specification](https://example.com) — [OpenAPI/Swagger link if applicable]
-- [Architecture decisions](../../docs/adr/README.md) — [System shape and key decisions]
+- [Architecture decisions](../../docs/adr/changelog.md) — [System shape and key decisions]
 
 ---
 

@@ -1,22 +1,37 @@
 # ADR skeleton
 
-Single source for everything under `docs/adr/`. On adoption, `adopt.py` writes **§Index** → `docs/adr/README.md` and **§Bootstrap** → `docs/adr/0001-system-context.md`. For each new decision, copy **§Entry** to `docs/adr/NNNN-short-slug.md`, fill it, and add a row to the index table.
+Single source for everything under `docs/adr/`. On adoption, `adopt.py` writes **§Index** → `docs/adr/changelog.md` and **§Bootstrap** → `docs/adr/0001-system-context.md`. For each new decision, copy **§Entry** to `docs/adr/NNNN-short-slug.md`, fill it, and update `changelog.md` (Index table + `[Unreleased]`).
 
 Default codemap and placement rules: [`agent-kit/agent-rules/REPO_GUIDE.md`](../../agent-kit/agent-rules/REPO_GUIDE.md) — record **deviations** in ADRs, not copies of the default tree.
 
 ## §Index
 
-# Architecture Decision Records
+# Changelog — architecture decisions
 
-Durable structural decisions for this repository. Load this file first, then only ADRs whose **Load when** matches the task ([`DOCUMENTATION.md`](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-1).
+Durable structural decisions for this repository. Load this file first, then only ADRs whose **Load when** matches the task ([`DOCUMENTATION.md`](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-1). Conventions: [`DOCUMENTATION.md`](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-10.
 
-### Index
+## 0. Metadata
+
+- Last reviewed:
+
+## Index
 
 | ID | File | Title | Status | Load when |
 |---|---|---|---|---|
 | 0001 | [0001-system-context.md](0001-system-context.md) | System context | accepted | Onboarding, scope, stack constraints |
 
-Add a row for every new ADR. Keep **Load when** short and task-oriented.
+Add a row for every accepted ADR. Keep **Load when** short and task-oriented.
+
+## [Unreleased]
+
+### Proposed
+-
+
+### Decided
+-
+
+### Added
+-
 
 ### When to write an ADR
 
@@ -25,14 +40,14 @@ See **DOC-10** in [`DOCUMENTATION.md`](../../agent-kit/agent-rules/DOCUMENTATION
 | Write an ADR | Do not write an ADR |
 |---|---|
 | Layout delta vs kit default | Feature behavior → `specs.md` |
-| External integration boundary | Deferred work → changelog `Decided` |
+| External integration boundary | Deferred work → feature `changelog.md` `Decided` |
 | Project-wide invariant | Cycle-scoped choice → `plan.md` §9 |
 
 ### Creating a new ADR
 
 1. Copy **§Entry** from [`agent-kit/skeletons/_adr.md`](../../agent-kit/skeletons/_adr.md) to `docs/adr/NNNN-short-slug.md` (next id, lowercase slug).
 2. Fill **Context**, **Decision**, and **Consequences** from the real codebase — not aspirations.
-3. Add a row to the index table above.
+3. Add a row to **Index** and an entry under `[Unreleased]` → `Added`.
 4. Vocabulary → `docs/glossary.md`; persistence detail → `docs/database.md`; runtime how-to → feature `plan.md`.
 
 ### Authoring rules

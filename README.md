@@ -125,7 +125,7 @@ repo-root/
 ├── .gitignore                   ← must exclude .local-context/
 └── docs/
     ├── adr/
-    │   ├── README.md
+    │   ├── changelog.md
     │   └── 0001-system-context.md
     ├── database.md
     ├── glossary.md
@@ -149,10 +149,12 @@ If the project still has the old monolithic architecture doc after updating `age
    - §2 domains → `docs/glossary.md` and `docs/database.md`
    - §3 layout deltas → copy **§Entry** from `_adr.md` (from `0002` onward)
    - §4 invariants / §5 integrations → one ADR each, or `docs/docs-guide.md` §3 for operational overrides
-3. Add a row per new ADR in `docs/adr/README.md`.
+3. Add a row per new ADR in `docs/adr/changelog.md`.
 4. Remove `docs/architecture.md` and update `docs/docs-guide.md` §1 to list `docs/adr/` instead.
 
 Use `--force` only if you accept overwriting bootstrap targets.
+
+If an older kit used `README.md` as the ADR index under `docs/adr/`, rename it to `docs/adr/changelog.md` and merge into the `_adr.md` §Index shape (Index table + `[Unreleased]`).
 
 </details>
 

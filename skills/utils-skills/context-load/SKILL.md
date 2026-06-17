@@ -57,7 +57,7 @@ Optional index (when choosing JIT rules): `agent-kit/agent-rules/RULES.md`.
 
 ## Step 2 — Load project docs
 
-Read `docs/adr/README.md` and matching ADRs (by **Load when** in the index) when the task involves architectural or system-boundary decisions. Read `docs/adr/0001-system-context.md` when onboarding or scope is unclear.
+Read `docs/adr/changelog.md` and matching ADRs (by **Load when** in the index) when the task involves architectural or system-boundary decisions. Read `docs/adr/0001-system-context.md` when onboarding or scope is unclear.
 
 Read `docs/glossary.md` when the task uses business vocabulary.
 
@@ -67,7 +67,7 @@ For task-type-specific loads, use this table (authoritative source: `agent-kit/a
 |---|---|
 | Touches an existing feature | `docs/features/<feature>/{specs,plan,changelog}.md` |
 | Uses business vocabulary | `docs/glossary.md` |
-| Placement or structure unclear | `REPO_GUIDE.md`, `docs/adr/README.md` + relevant ADR |
+| Placement or structure unclear | `REPO_GUIDE.md`, `docs/adr/changelog.md` + relevant ADR |
 | Layer contracts, circular imports | `ARCHITECTURE.md` |
 | ORM, queries, migrations, sessions | `PERSISTENCE.md`, `docs/database.md` |
 | Auth, secrets, trust boundaries | `SECURITY.md` |
@@ -133,7 +133,7 @@ If the feature folder does not exist:
 Context loaded:
 - Framework: agent-kit/agent-rules/CORE.md ✓
 - Docs guide: docs/docs-guide.md ✓
-- ADRs: docs/adr/README.md — (missing, skipped)
+- ADRs: docs/adr/changelog.md — (missing, skipped)
 - Glossary: docs/glossary.md — (missing, skipped)
 - Session: .local-context/ — (missing, skipped)
 - Feature: docs/features/<feature>/ ✓

@@ -18,7 +18,7 @@ Use structured fields instead of string-built log messages whenever possible.
 
 ### OBS-2 Keep one logger per module [SHOULD]
 
-Use the shared **Loguru** logger from `<pkg>.core` instead of ad hoc loggers or `print()`:
+**Template default:** shared **Loguru** logger from `<pkg>.core` — not ad hoc loggers or `print()`:
 
 ```python
 from <pkg>.core import logger
@@ -36,7 +36,7 @@ Include safe identifiers, counts, timings, run IDs, and operation names where th
 
 ### OBS-5 Never log secrets or PII [MUST]
 
-Use safe identifiers, hashing, redaction, or omission when data is sensitive. Authoritative rule: **SEC-6** (`SECURITY.md`).
+Authoritative rule: **SEC-6** (`SECURITY.md`). Use safe identifiers, redaction, or omission.
 
 ### OBS-6 Log workflow or pipeline boundaries [SHOULD]
 
@@ -48,13 +48,13 @@ When many records fail, log counts and safe identifiers rather than dumping raw 
 
 ### OBS-8 Preserve exception context [MUST]
 
-Log exceptions with stack traces and avoid replacing the original failure with a less informative generic one. When swallowing is intentional, log the exception before continuing:
+Log exceptions with stack traces (`logger.exception(...)`) and avoid replacing the original failure with a generic one. When swallowing is intentional, log before continuing:
 
 ```python
 try:
     do_thing(x)
-except SomeError as e:
-    logger.error(e)
+except SomeError:
+    logger.exception("do_thing failed")
 ```
 
 ### OBS-9 Use metrics when logs are the wrong tool [SHOULD]
@@ -74,7 +74,7 @@ Avoid threading the same identifiers into every message manually.
 
 ### OBS-11 Use rich for human-facing CLI output [SHOULD]
 
-When a Typer command's output is for human eyes (tables, progress, status), use **`rich`** (Console, Table, Progress). Logs still go through **Loguru**; do not mix the two as a substitute for logging. Server/library code logs only — no `rich` prints. Typer conventions: **PY-14** (`PYTHON.md`).
+**Template default:** **`rich`** for Typer human output (tables, progress); **Loguru** for logs — do not mix. Typer conventions: **PY-14** (`PYTHON.md`).
 
 ## Anti-patterns
 

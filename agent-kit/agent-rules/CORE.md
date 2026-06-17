@@ -35,7 +35,7 @@ normalize = lambda r, lo, hi: (r - lo) / (hi - lo)
 
 ### CORE-2 Make boundary contracts explicit [MUST]
 
-Input/output schemas and data assumptions must be explicit at every system boundary. Validate where data enters or leaves the system, not deep inside business logic. Typed shapes across layers: **ARCH-1** (`ARCHITECTURE.md`). Schema placement and validation: **VAL-1**, **VAL-8** (`VALIDATION.md`). Do not assume column names, dtypes, or cardinality from exploration alone.
+Every system boundary must declare input/output shape and data assumptions. Details: typed shapes **ARCH-1** (`ARCHITECTURE.md`); validation placement **VAL-1**, **VAL-8** (`VALIDATION.md`). Do not assume column names, dtypes, or cardinality from exploration alone.
 
 ### CORE-3 Keep changes small and reviewable [MUST]
 

@@ -115,7 +115,7 @@ If no, say: `No new glossary terms - skipping.`
 ## Step 5 - Project docs (`docs/adr/`, `docs/docs-guide.md`)
 
 Check whether durable project knowledge changed:
-- Structural decision (layout, integration, project-wide invariant)? → new or updated ADR + index row in `docs/adr/README.md`
+- Structural decision (layout, integration, project-wide invariant)? → new or updated ADR + index row in `docs/adr/changelog.md`
 - New required docs, stricter gates, or load-order overrides for this repo? → `docs/docs-guide.md`
 
 If yes, show the proposed changes and ask for confirmation.

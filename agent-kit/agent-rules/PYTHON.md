@@ -22,7 +22,7 @@ IO, database writes, logging, and network calls should live at workflow edges, n
 
 ### PY-3 Pick containers deliberately [MUST]
 
-Use **Pydantic v2** models for boundary crossing (API, CRUD inputs), `dataclass` for simple internal immutable structures, and **Pandera** schemas when DataFrame column contracts matter. Do not pass raw `dict` across meaningful boundaries — see **ARCH-1** (`ARCHITECTURE.md`). Use `obj.model_dump()` (Pydantic v2), not the deprecated `.dict()`.
+Use Pydantic v2 at API/CRUD boundaries, `dataclass` for simple internal structures, Pandera when DataFrame contracts matter — see **VAL-2** (`VALIDATION.md`). Do not pass raw `dict` across layer boundaries — **ARCH-1** (`ARCHITECTURE.md`). Use `model_dump()`, not deprecated `.dict()`.
 
 ### PY-4 Avoid chained pandas assignment [MUST]
 
@@ -48,7 +48,7 @@ Treat DataFrames like SQL tables: by columns, not by position. Ruff `PD` rules e
 
 ### PY-7 Dependency and pre-commit workflow [MUST]
 
-Use **uv** for dependency management (`uv add <pkg>`, `uv add --dev <pkg>`, `uv sync`, `uv run <cmd>`). Commit `uv.lock`. Use **prek** for pre-commit hooks (`uv run prek install --install-hooks`). Do not bypass hooks; if one fails, fix the underlying issue. Reproducible resolution also applies to **SEC-8** (`SECURITY.md`).
+**Template default:** **uv** for dependencies (`uv add`, `uv sync`, `uv run`); commit `uv.lock`; **prek** for hooks. Do not bypass hooks. Reproducible resolution: **SEC-8** (`SECURITY.md`). Override commands in `docs/docs-guide.md` §3.
 
 ### PY-8 Modern type syntax [MUST]
 
@@ -61,9 +61,7 @@ Only import from `typing` what has no builtin form (`Annotated`, `TypeVar`, `Pro
 
 ### PY-9 Linting and typechecking [MUST]
 
-- Lint and format with **Ruff**. The template enables (among others) `ANN`, `D`, `PD`, `UP`, `N`, `TRY`, `SIM`, `RET`, `PTH`. Do not silence rules locally without a comment explaining why.
-- Typecheck with **`ty`** (Astral), not mypy. Resolve typing issues; do not paper over them with `# type: ignore`.
-- Audit dependencies with **deptry**: every imported package must be declared; unused declared deps must be removed or whitelisted in `[tool.deptry.per_rule_ignores]` with reason.
+**Template default:** Ruff for lint/format; `ty` for typecheck; deptry for declared imports. Do not silence rules without a comment. Override toolchain in `docs/docs-guide.md` §3.
 
 ### PY-10 Docstrings: Google style, never empty [MUST]
 
@@ -73,21 +71,17 @@ Only import from `typing` what has no builtin form (`Annotated`, `TypeVar`, `Pro
 
 ### PY-11 License headers on Python and bash files [MUST]
 
-Every `.py` and `.sh` file carries the project license header from `.license.tmpl`. New files: run `make license-headers` before committing; `make license-check` verifies.
+**Template default:** every `.py` and `.sh` file carries the project license header from `.license.tmpl`. New files: `make license-headers`; verify with `make license-check`.
 
 ### PY-12 Visualization conventions [MUST]
 
-- Use **Altair** or **Seaborn** for plots. Prefer them over raw matplotlib [SHOULD].
-- Apply the project theme via the `viz/` subpackage — never style chart-by-chart [MUST].
-- Labels, ticks, titles use the project language (not always English) and human-readable terms — no underscores in axis labels, include units [MUST].
-- Naming: lowercase + underscores for variables; PascalCase for classes; UPPER_CASE for module constants — Ruff `N` enforces.
+**Template default:** Altair or Seaborn via the `viz/` subpackage theme — not ad hoc matplotlib styling. Labels in the project language, human-readable, with units. Naming: Ruff `N` rules.
 
 ### PY-13 FastAPI route conventions [MUST]
 
 - One file per feature under `api/routes/<feature>.py`. Create the router with `APIRouter(prefix="/<feature>", tags=["<Area>"])` and include it from `api/main.py` with `api_router.include_router(...)`.
 - Every endpoint declares its response shape via `response_model=...` or a typed return annotation. Do not return raw ORM objects or `dict`.
-- Inject dependencies with `Depends(...)` (DB session, settings, current user). Session scope: **PER-4** (`PERSISTENCE.md`).
-- Raise `HTTPException` for HTTP-shaped failures at the route boundary. Inner layers raise domain exceptions (see PY-15); the route translates them.
+- Inject dependencies with `Depends(...)` (DB session, settings, current user). Session scope: **PER-4** (`PERSISTENCE.md`).- Raise `HTTPException` for HTTP-shaped failures at the route boundary. Inner layers raise domain exceptions (see PY-15); the route translates them.
 - Status codes: `200` success, `201` created, `404` not found, `409` conflict, `422` validation error (Pydantic handles automatically), `500` unexpected failure. Never return `200` when the resource was not found.
 
 ### PY-14 Typer CLI conventions [MUST]
