@@ -21,6 +21,8 @@ repo-root/
 |-- docs/
 |   |-- features/
 |   |-- adr/
+|   |   |-- changelog.md
+|   |   `-- 0001-system-context.md
 |   |-- database.md
 |   |-- glossary.md
 |   `-- docs-guide.md

@@ -403,6 +403,70 @@ RULE_PREFIX_TO_FILE: dict[str, str] = {
 REQUIRED_RULE_FRONTMATTER = ("triggers:", "requires:", "see-also:")
 FORBIDDEN_RULE_FRONTMATTER = ("severity-default:",)
 RELATIVE_LINK_PATTERN = re.compile(r"\]\(([A-Za-z0-9_]+\.md)\)")
+RULES_INDEX_ROW_PATTERN = re.compile(
+    r"^\| ((?:CORE|COOP|DOC|REPO|ARCH|PY|PER|TEST|VAL|SEC|OBS)-\d+) \| .+ \| ([A-Z_]+\.md) \|",
+    re.MULTILINE,
+)
+
+
+def collect_defined_rule_ids() -> dict[str, str]:
+    """Map rule ID to the file that defines it (repo-relative path)."""
+    defined: dict[str, str] = {}
+    rules_dir = AGENT_RULES_DIR
+    if not rules_dir.is_dir():
+        return defined
+    for path in rules_dir.glob("*.md"):
+        if path.name == "RULES.md":
+            continue
+        rel = path.relative_to(REPO_ROOT).as_posix()
+        text = path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+        for match in RULE_ID_PATTERN.finditer(text):
+            defined[match.group(1)] = rel
+    return defined
+
+
+def parse_rules_md_index() -> dict[str, str]:
+    """Map rule ID to file column from RULES.md §Rule ID index."""
+    rules_md = AGENT_RULES_DIR / "RULES.md"
+    if not rules_md.is_file():
+        return {}
+    text = rules_md.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+    indexed: dict[str, str] = {}
+    for match in RULES_INDEX_ROW_PATTERN.finditer(text):
+        indexed[match.group(1)] = match.group(2)
+    return indexed
+
+
+def check_rules_index_sync() -> list[str]:
+    """Ensure RULES.md index matches rule IDs defined in agent-rules/."""
+    errors: list[str] = []
+    defined = collect_defined_rule_ids()
+    indexed = parse_rules_md_index()
+    if not indexed and defined:
+        errors.append("agent-kit/agent-rules/RULES.md: Rule ID index missing or unparseable")
+        return errors
+
+    for rule_id, source in sorted(defined.items()):
+        if rule_id not in indexed:
+            errors.append(
+                f"agent-kit/agent-rules/RULES.md: missing index row for {rule_id} (defined in {source})",
+            )
+            continue
+        prefix = rule_id.split("-", 1)[0]
+        expected_file = RULE_PREFIX_TO_FILE.get(prefix)
+        indexed_file = indexed[rule_id]
+        if expected_file and indexed_file != expected_file:
+            errors.append(
+                f"agent-kit/agent-rules/RULES.md: {rule_id} indexed as {indexed_file}, "
+                f"expected {expected_file}",
+            )
+
+    for rule_id in sorted(indexed):
+        if rule_id not in defined:
+            errors.append(
+                f"agent-kit/agent-rules/RULES.md: stale index row for {rule_id} (not defined in any rule file)",
+            )
+    return errors
 
 
 def check_agent_rules() -> list[str]:
@@ -486,6 +550,7 @@ def check_agent_rules() -> list[str]:
             + ", ".join(missing),
         )
 
+    errors.extend(check_rules_index_sync())
     return errors
 
 
