@@ -12,9 +12,7 @@ Domain knowledge lives in `docs/`. Engineering rules in `agent-kit/agent-rules/`
 
 **Default stack:** Python 3.x, `uv`/`pyproject.toml`, SQLAlchemy 2.0 + Alembic, Pydantic v2 + Pandera, FastAPI, Typer, `notebooks/`, `tests/` mirroring the package. Override in `docs/docs-guide.md` §3 and `## Project Overrides` in rule files.
 
-Work is organized by features under `docs/features/<feature>/`. Non-trivial changes follow the [working cycle](#working-cycle) below.
-
-In monorepos, nested `AGENTS.md` files may exist in subpackages — the file closest to the edited path takes precedence over this one.
+Work is organized by features under `docs/features/<feature>/`. Non-trivial changes follow the [working cycle](#working-cycle). In monorepos, nested `AGENTS.md` in subpackages overrides this file for paths underneath.
 
 ---
 
@@ -24,21 +22,19 @@ Every non-trivial task follows five phases. Lightweight work may skip phases —
 
 ### Work sizing
 
-Use one row. When in doubt, treat work as non-trivial and ask.
-
-| Size | When | Feature docs | Harness mode | Human gates |
+| Size | When | Feature docs | Harness mode | Gates |
 |---|---|---|---|---|
-| **Lightweight** | Typo, config tweak, single-file fix with obvious verification and no behavior/contract change | No `specs.md` / `plan.md` — state skips in PR or changelog | _(none)_ | PR only if you open one |
-| **Non-trivial standard** | Behavior change, clear scope, limited blast radius; typically 1–4 slices | `specs.md` + `plan.md` | `standard` | Spec, Plan, PR |
-| **Non-trivial full** | New feature, migrations, public contracts, security/privacy, or high blast radius; typically 5+ slices | `specs.md` + `plan.md` (full sections per skeleton) | `full` | Spec, Plan, PR |
+| **Lightweight** | Typo/tweak; no behavior or contract change | None — state skips in PR/changelog | _(none)_ | PR if opened |
+| **Non-trivial standard** | Behavior change; limited blast radius (~1–4 slices) | `specs.md` + `plan.md` | `standard` | Spec, Plan, PR |
+| **Non-trivial full** | Migrations, contracts, security, high blast radius | `specs.md` + `plan.md` (full skeleton) | `full` | Spec, Plan, PR |
 
-Set `Harness mode` in `specs.md` and `plan.md` metadata when those files exist. Details and section trim rules: skeletons `_specs.md` / `_plan.md` and [`DOCUMENTATION.md` §DOC-2](agent-kit/agent-rules/DOCUMENTATION.md).
+Set `Harness mode` in specs/plan metadata. Section trim rules: [`DOCUMENTATION.md` §DOC-2](agent-kit/agent-rules/DOCUMENTATION.md).
 
 ```
 Context → Spec ──[Spec Review]──► Plan ──[Plan Review]──► Build ──[PR Review]──► Document ──► merge
 ```
 
-Backward loops: if Spec is unclear, return to Context. If an assumption breaks during Build, return to Plan. If docs are stale after Build, return before closing.
+Backward loops: unclear Spec → Context; broken assumption in Build → Plan; stale docs after Build → Document before close.
 
 | Phase | What you do | Key artifacts |
 |---|---|---|
@@ -65,7 +61,7 @@ Always load:
 1. `agent-kit/agent-rules/CORE.md` — universal engineering and collaboration rules
 2. `docs/docs-guide.md` — per-project required docs and local overrides (when present); authoritative over kit defaults
 
-For other rules, see [`agent-kit/agent-rules/RULES.md`](agent-kit/agent-rules/RULES.md) and [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-1](agent-kit/agent-rules/DOCUMENTATION.md). Do not load files whose content will not influence the current decision.
+For other rules, use [`RULES.md`](agent-kit/agent-rules/RULES.md) (pick one file — do not load the whole index) and [`DOCUMENTATION.md` §DOC-1](agent-kit/agent-rules/DOCUMENTATION.md).
 
 ---
 
@@ -113,27 +109,25 @@ Customize after adoption. Title format and commit conventions may also be overri
 - Lifecycle: work size (lightweight / Harness mode), phases skipped and why, if any
 - Open questions or follow-ups for the reviewer
 
-**Commits:** _(adapt — e.g. imperative subject line; one logical change per commit)_
-
-A human opens and publishes the PR — do not push to remote (see [Boundaries](#boundaries)). Draft the description from specs, plan, and diff before handoff to the reviewer.
+A human opens and publishes the PR — do not push to remote (see [Boundaries](#boundaries)).
 
 ---
 
 ## Boundaries
 
+Critical limits for every session. Collaboration detail: [`CORE.md`](agent-kit/agent-rules/CORE.md) (**COOP-1**–**COOP-3**).
+
 **Ask first**
 
 - Scope, acceptance criteria, or business-rule changes mid-build
-- New dependencies, database migrations, or destructive data operations
+- New dependencies, migrations, or destructive data operations
 - Skipping a lifecycle phase on non-trivial work
-- Running commands through subshells or one-liner interpreters (`bash -c`, `python -c`, etc.)
 
 **Never**
 
-- Push to remote, publish packages, or bypass git hooks (`--no-verify`, etc.) — a human publishes
-- Commit secrets, credentials, tokens, or anything under `.local-context/`
-- Invent business rules, thresholds, or schemas not in specs or glossary (see `agent-kit/agent-rules/CORE.md` §COOP-1)
-- Edit generated artifacts by hand when a generator workflow exists
+- Push to remote or bypass git hooks — a human publishes
+- Commit secrets, credentials, or anything under `.local-context/`
+- Invent business rules not in specs or glossary (**COOP-1**)
 - Modify files unless the user requested the change or confirmed the plan
 
 Human review gates (Spec, Plan, PR) are mandatory for non-trivial work — see [Working cycle](#working-cycle).
@@ -142,10 +136,4 @@ Human review gates (Spec, Plan, PR) are mandatory for non-trivial work — see [
 
 ## Where durable knowledge lives
 
-Project-specific knowledge lives in `docs/` (created on demand via `adopt.py` or skeletons):
-
-`docs/adr/`, `docs/database.md`, `docs/glossary.md`, `docs/docs-guide.md`, and `docs/features/<feature>/{specs,plan,changelog,report}.md`.
-
-If a target doc does not exist, instantiate it from the matching skeleton — see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md).
-
-Handoffs and throwaway notes live in `.local-context/` at the repo root — gitignored, never committed. Promote anything durable into `docs/` before closing the cycle.
+`docs/` holds project knowledge: `docs/adr/`, `docs/glossary.md`, `docs/docs-guide.md`, `docs/database.md`, and `docs/features/<feature>/{specs,plan,changelog,report}.md`. Instantiate missing docs from `agent-kit/skeletons/` — [`DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md). Scratch: `.local-context/` (gitignored); promote durable facts into `docs/` before close.

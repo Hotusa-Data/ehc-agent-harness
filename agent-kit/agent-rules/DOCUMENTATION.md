@@ -12,7 +12,7 @@ Load when: any task that reads, writes, or relies on `docs/` artifacts, or that 
 
 ## Rules
 
-Rules are numbered **DOC-1** through **DOC-10**. Retired numbers are not reused.
+Rules are numbered **DOC-1** through **DOC-10**. **DOC-9** is retired (merged into DOC-8). Retired numbers are not reused.
 
 ### DOC-1 Load just-in-time, not eagerly [MUST]
 
@@ -106,7 +106,7 @@ Every feature `changelog.md` must match the shape in `agent-kit/skeletons/_chang
 - Promote to semver (`## [1.1.0] — YYYY-MM-DD`) only when the feature ships; reference `report.md` from the release entry.
 - Narrative only — no git diffs. Full section list and examples: skeleton header and `_changelog.md` body.
 
-### DOC-8 Reconcile docs with the diff and close the session [MUST]
+### DOC-8 Reconcile docs with the diff; close the session and PR [MUST]
 
 Use the existing `docs/` tree only — no new registry files.
 
@@ -121,17 +121,13 @@ Use the existing `docs/` tree only — no new registry files.
 | AC or Req changed during build | Update `specs.md` §5/§8 or feature changelog `Specs`; update `plan.md` §1 Req/AC columns |
 | Feature cycle closes | Add or update `report.md`; promote `[Unreleased]` to a semver release when shipping |
 
-Before handoff or PR:
+Before handoff or PR (session and PR close checklist):
 
 - [ ] Durable facts in `.local-context/` are promoted into `docs/` or discarded
 - [ ] Relevant changelog has a `[Unreleased]` entry when specs, plan, scope, or ADRs moved
 - [ ] Open assumptions are in `plan.md`, `specs.md`, or changelog `Decided` — not only in chat
 - [ ] No parallel feature folder for the same scope — update the existing folder in place
 - [ ] Docs touched by the change match the diff (table above)
-
-### DOC-9 Doc hygiene at session and PR close [MUST]
-
-Complete the checklist in **DOC-8** before handoff or PR.
 
 ### DOC-10 Architecture decisions live in `docs/adr/` [MUST]
 

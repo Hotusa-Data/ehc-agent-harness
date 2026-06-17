@@ -2,6 +2,8 @@
 
 Engineering rules for the coding agent — extensions of root `AGENTS.md`, loaded just-in-time per [`DOCUMENTATION.md` §DOC-1](DOCUMENTATION.md).
 
+**Do not load this file whole.** Use **Files and load triggers** and **Canonical topics** below to pick the one rule file that owns the current decision — then open that file only.
+
 ## Naming convention
 
 | Layer | Location | Filename pattern | Examples |
@@ -71,8 +73,7 @@ When several files touch the same topic, load only the **Primary rule** from the
 | DOC-5 | docs-guide.md is project authority | DOCUMENTATION.md |
 | DOC-6 | Overrides must not silently contradict | DOCUMENTATION.md |
 | DOC-7 | Feature changelog convention | DOCUMENTATION.md |
-| DOC-8 | Reconcile docs with diff; session/PR checklist | DOCUMENTATION.md |
-| DOC-9 | Doc hygiene at session/PR close (see DOC-8) | DOCUMENTATION.md |
+| DOC-8 | Reconcile docs with diff; session/PR close checklist | DOCUMENTATION.md |
 | DOC-10 | Architecture decisions in docs/adr/ | DOCUMENTATION.md |
 | OBS-1 | Prefer structured logging | OBSERVABILITY.md |
 | OBS-2 | One logger per module (Loguru) | OBSERVABILITY.md |
