@@ -40,11 +40,19 @@ Large context is not useful context. Do not load files whose content will not in
 
 ### DOC-2 Satisfy validation gates before broad implementation [MUST]
 
+**Work sizing** (same vocabulary as root `AGENTS.md` §Working cycle → Work sizing):
+
+| Size | `specs.md` / `plan.md` | Harness mode | Declare in |
+|---|---|---|---|
+| Lightweight | Not required | _(none)_ | PR or feature changelog — what was skipped and why |
+| Non-trivial standard | Required before broad Build | `standard` | `specs.md` and `plan.md` metadata |
+| Non-trivial full | Required before broad Build | `full` | `specs.md` and `plan.md` metadata |
+
 | Gate | Trigger | Required action |
 |---|---|---|
-| Specs exist | New or changed behavior | Create or update `specs.md` before broad implementation |
+| Specs exist | New or changed behavior (non-trivial) | Create or update `specs.md` before broad implementation |
 | Plan exists | Non-trivial or multi-slice work | Create or update `plan.md` before coding |
-| Mode declared | Non-trivial feature work | `Harness mode` in specs/plan metadata, or PR/changelog states lightweight skip |
+| Mode declared | Non-trivial feature work | `Harness mode: standard \| full` in specs/plan metadata, or PR/changelog states **lightweight** skip |
 | Testing plan exists | Non-trivial Build after Plan Review | `plan.md` §2 has a row for every Must AC before broad implementation |
 | Glossary covers vocabulary | Ambiguous or new terms appear | Update `docs/glossary.md` before using in specs or code |
 | Placement is clear | About to create a new folder or file | Consult `agent-kit/agent-rules/REPO_GUIDE.md` |
@@ -79,7 +87,7 @@ If a target doc does not exist, create it from the matching skeleton in `agent-k
 | `agent-kit/skeletons/_report.md` | `docs/features/<feature>/report.md` |
 | `agent-kit/skeletons/_changelog.md` | `docs/features/<feature>/changelog.md` |
 
-**Bootstrap shortcut:** After copying `agent-kit/` into a consumer repo, run `python agent-kit/adopt.py` from the project root. It instantiates the base rows in this table, ensures `.gitignore` excludes `.local-context/`, and optionally scaffolds `docs/features/<feature>/` or root `AGENTS.md`. Manual copy from skeletons remains valid when the script is not used.
+**Bootstrap shortcut:** After copying `agent-kit/` into a consumer repo, run `python agent-kit/adopt.py --agents` from the project root (recommended on first bootstrap). It instantiates the base rows in this table, ensures `.gitignore` excludes `.local-context/`, and copies root `AGENTS.md` from the kit template. Use `--feature <name>` to scaffold `specs.md`, `plan.md`, and `changelog.md` under `docs/features/<feature>/` — not `report.md` (create that from `_report.md` at cycle close). Manual copy from skeletons remains valid when the script is not used.
 
 ### DOC-5 Treat `docs/docs-guide.md` as the project's authority on required docs [MUST]
 

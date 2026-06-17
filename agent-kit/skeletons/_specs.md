@@ -6,7 +6,10 @@ Fill what is known. Use `unknown — needs confirmation` instead of guessing. Us
 
 ## Section guide (Harness mode)
 
-Lightweight work in the working cycle (`AGENTS.md`) does **not** create a spec file — name what you skip in the PR or changelog.
+Vocabulary matches root `AGENTS.md` §Working cycle → **Work sizing**:
+
+- **Lightweight** — no spec file; name skips in the PR or changelog.
+- **Non-trivial standard** / **Non-trivial full** — use the matching Harness mode below.
 
 | § | Section | standard | full |
 |---|---|---|---|
@@ -35,10 +38,10 @@ Sections marked omit: delete the heading or write `not applicable — see plan.m
 - Related modules:
 - Last reviewed:
 
-Mode guidance:
+Mode guidance (align with `AGENTS.md` §Work sizing):
 
-- `standard`: normal behavior change with clear scope and limited blast radius.
-- `full`: new feature, business logic, migrations, public contracts, security/privacy impact.
+- `standard` — non-trivial standard: behavior change, clear scope, limited blast radius.
+- `full` — non-trivial full: new feature, business logic, migrations, public contracts, security/privacy impact.
 
 If both `specs.md` and `plan.md` exist, `Harness mode` must match unless justified in changelog `Decided`.
 

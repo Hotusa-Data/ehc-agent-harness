@@ -8,7 +8,10 @@ Use the smallest plan that preserves clarity. Use `unknown — needs confirmatio
 
 ## Section guide (Harness mode)
 
-Lightweight work in the working cycle (`AGENTS.md`) does **not** create a plan file — name what you skip in the PR or changelog.
+Vocabulary matches root `AGENTS.md` §Working cycle → **Work sizing**:
+
+- **Lightweight** — no plan file; name skips in the PR or changelog.
+- **Non-trivial standard** / **Non-trivial full** — use the matching Harness mode below.
 
 | § | Section | standard | full |
 |---|---|---|---|
@@ -40,10 +43,10 @@ Sections marked omit: delete the heading or write `not applicable`.
 - Mode reason:
 - Last reviewed:
 
-Mode guidance:
+Mode guidance (align with `AGENTS.md` §Work sizing):
 
-- `standard`: normal behavior change with clear specs and limited blast radius; typically 1–4 tasks.
-- `full`: new feature, business logic, migrations, public contracts, security/privacy impact; typically 5+ tasks or rollout steps.
+- `standard` — non-trivial standard: clear specs, limited blast radius; typically 1–4 tasks.
+- `full` — non-trivial full: migrations, public contracts, security/privacy, rollout; typically 5+ tasks or rollout steps.
 
 `Harness mode` must match `specs.md` when both exist.
 
@@ -65,7 +68,7 @@ Mode guidance:
 
 ## 2. Testing Plan
 
-How each AC is verified. Follow [`agent-kit/agent-rules/TESTING.md`](../agent-kit/agent-rules/TESTING.md) — do not duplicate TEST-1–TEST-12 here.
+How each AC is verified. Follow [`agent-kit/agent-rules/TESTING.md`](../../../agent-kit/agent-rules/TESTING.md) — do not duplicate TEST-1–TEST-12 here.
 
 **One row per AC** (Must ACs required in standard; add Should ACs in full).
 

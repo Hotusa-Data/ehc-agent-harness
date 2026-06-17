@@ -4,7 +4,7 @@ Template for the agent entrypoint at **repo root**. `python agent-kit/adopt.py -
 
 Domain knowledge lives in `docs/`. Engineering rules in `agent-kit/agent-rules/`. Skeletons in `agent-kit/skeletons/`.
 
-> **Note.** If `docs/` is missing, run `python agent-kit/adopt.py` (see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md)). Session scratch: gitignored `.local-context/` at repo root.
+> **Note.** First bootstrap after copying `agent-kit/`: run `python agent-kit/adopt.py --agents` from the repo root (see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md)). `--feature` scaffolds `specs.md`, `plan.md`, and `changelog.md` only — `report.md` is created at cycle close. Session scratch: gitignored `.local-context/` at repo root.
 
 ---
 
@@ -21,6 +21,18 @@ In monorepos, nested `AGENTS.md` files may exist in subpackages — the file clo
 ## Working cycle
 
 Every non-trivial task follows five phases. Lightweight work may skip phases — name what you skip and why (usually in the PR or changelog).
+
+### Work sizing
+
+Use one row. When in doubt, treat work as non-trivial and ask.
+
+| Size | When | Feature docs | Harness mode | Human gates |
+|---|---|---|---|---|
+| **Lightweight** | Typo, config tweak, single-file fix with obvious verification and no behavior/contract change | No `specs.md` / `plan.md` — state skips in PR or changelog | _(none)_ | PR only if you open one |
+| **Non-trivial standard** | Behavior change, clear scope, limited blast radius; typically 1–4 slices | `specs.md` + `plan.md` | `standard` | Spec, Plan, PR |
+| **Non-trivial full** | New feature, migrations, public contracts, security/privacy, or high blast radius; typically 5+ slices | `specs.md` + `plan.md` (full sections per skeleton) | `full` | Spec, Plan, PR |
+
+Set `Harness mode` in `specs.md` and `plan.md` metadata when those files exist. Details and section trim rules: skeletons `_specs.md` / `_plan.md` and [`DOCUMENTATION.md` §DOC-2](agent-kit/agent-rules/DOCUMENTATION.md).
 
 ```
 Context → Spec ──[Spec Review]──► Plan ──[Plan Review]──► Build ──[PR Review]──► Document ──► merge
@@ -98,7 +110,7 @@ Customize after adoption. Title format and commit conventions may also be overri
 - What changed and why (2–4 sentences)
 - Feature link: `docs/features/<feature>/` when applicable
 - Test evidence: commands run and outcome (see [Verification before PR](#verification-before-pr))
-- Lifecycle: phases skipped and why, if any
+- Lifecycle: work size (lightweight / Harness mode), phases skipped and why, if any
 - Open questions or follow-ups for the reviewer
 
 **Commits:** _(adapt — e.g. imperative subject line; one logical change per commit)_

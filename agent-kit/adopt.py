@@ -7,9 +7,13 @@ from the kit template, and ensures .gitignore excludes .local-context/.
 
 Run from the consumer repo root (where agent-kit/ lives):
 
-    python agent-kit/adopt.py
-    python agent-kit/adopt.py --feature my-feature
+    python agent-kit/adopt.py --agents
+    python agent-kit/adopt.py --agents --feature my-feature
     python agent-kit/adopt.py --dry-run
+
+`--agents` copies this kit's AGENTS.md to the repo root (recommended on first bootstrap).
+`--feature` scaffolds specs.md, plan.md, and changelog.md only — not report.md
+(report is created at cycle close from agent-kit/skeletons/_report.md).
 
 Existing target files are skipped unless --force is passed.
 No third-party dependencies — stdlib only.
@@ -109,7 +113,7 @@ def parse_adr_skeleton(path: Path) -> dict[str, str]:
 
 
 def bootstrap_adr_folder(*, force: bool, dry_run: bool) -> list[str]:
-    """Materialize docs/adr/ from §Index → changelog.md and §Bootstrap in _adr.md."""
+    """Materialize docs/adr/ from §Index -> changelog.md and §Bootstrap in _adr.md."""
     adr_dir = repo_root() / "docs" / "adr"
     actions: list[str] = []
     skeleton_path = SKELETONS / ADR_SKELETON
@@ -130,7 +134,7 @@ def bootstrap_adr_folder(*, force: bool, dry_run: bool) -> list[str]:
         write_text_target(
             adr_dir / "changelog.md",
             parts["index"],
-            label=f"{ADR_SKELETON} §Index → changelog.md",
+            label=f"{ADR_SKELETON} §Index -> changelog.md",
             force=force,
             dry_run=dry_run,
         ),
@@ -222,13 +226,32 @@ def run(args: argparse.Namespace) -> int:
     print()
     print("Next steps:")
     if not args.agents:
-        print("  - Create or adapt root AGENTS.md from agent-kit/AGENTS.md")
+        print(
+            "  - Re-run with --agents to copy agent-kit/AGENTS.md to repo root "
+            "(recommended on first bootstrap)",
+        )
     else:
-        print("  - Fill in AGENTS.md §Commands and §Pull requests; confirm §Boundaries; set overrides in docs/docs-guide.md §3")
+        print(
+            "  - Fill in AGENTS.md §Commands and §Pull requests; confirm §Boundaries; "
+            "set overrides in docs/docs-guide.md §3",
+        )
     if not args.feature:
-        print("  - Run again with --feature <name> to scaffold docs/features/<name>/")
-    print("  - Edit docs/adr/0001-system-context.md; update docs/adr/changelog.md when adding ADRs (copy §Entry from agent-kit/skeletons/_adr.md)")
-    print("  - See README Track 1 and guides/onboarding/managing-context.md")
+        print(
+            "  - Run again with --feature <name> to scaffold "
+            "docs/features/<name>/{specs,plan,changelog}.md",
+        )
+    elif args.feature:
+        print(
+            "  - report.md is not scaffolded by --feature; create it from "
+            "agent-kit/skeletons/_report.md at cycle close",
+        )
+    print("  - Edit docs/adr/0001-system-context.md for this project")
+    print(
+        "  - New ADRs: copy §Entry from agent-kit/skeletons/_adr.md; "
+        "update docs/adr/changelog.md",
+    )
+    print("  - Session scratch: .local-context/ at repo root (gitignored, never committed)")
+    print("  - Doc conventions: agent-kit/agent-rules/DOCUMENTATION.md §DOC-4")
 
     return 0
 
@@ -240,7 +263,10 @@ def main() -> int:
     parser.add_argument(
         "--feature",
         metavar="NAME",
-        help="Also scaffold docs/features/NAME/ with specs.md, plan.md, changelog.md",
+        help=(
+            "Scaffold docs/features/NAME/ with specs.md, plan.md, changelog.md "
+            "(not report.md — create that at cycle close from skeletons/_report.md)"
+        ),
     )
     parser.add_argument(
         "--agents",
