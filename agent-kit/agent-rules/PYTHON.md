@@ -48,7 +48,7 @@ Treat DataFrames like SQL tables: by columns, not by position. Ruff `PD` rules e
 
 ### PY-7 Dependency and pre-commit workflow [MUST]
 
-**Template default:** **uv** for dependencies (`uv add`, `uv sync`, `uv run`); commit `uv.lock`; **prek** for hooks. Do not bypass hooks. Reproducible resolution: **SEC-8** (`SECURITY.md`). Override commands in `docs/docs-guide.md` §3.
+**Template default:** **uv** for dependencies (`uv add`, `uv sync`, `uv run`); commit `uv.lock`; **pre-commit** for hooks. Do not bypass hooks. Reproducible resolution: **SEC-8** (`SECURITY.md`). Override commands in `docs/docs-guide.md` §3.
 
 ### PY-8 Modern type syntax [MUST]
 
@@ -81,7 +81,8 @@ Only import from `typing` what has no builtin form (`Annotated`, `TypeVar`, `Pro
 
 - One file per feature under `api/routes/<feature>.py`. Create the router with `APIRouter(prefix="/<feature>", tags=["<Area>"])` and include it from `api/main.py` with `api_router.include_router(...)`.
 - Every endpoint declares its response shape via `response_model=...` or a typed return annotation. Do not return raw ORM objects or `dict`.
-- Inject dependencies with `Depends(...)` (DB session, settings, current user). Session scope: **PER-4** (`PERSISTENCE.md`).- Raise `HTTPException` for HTTP-shaped failures at the route boundary. Inner layers raise domain exceptions (see PY-15); the route translates them.
+- Inject dependencies with `Depends(...)` (DB session, settings, current user). Session scope: **PER-4** (`PERSISTENCE.md`).
+- Raise `HTTPException` for HTTP-shaped failures at the route boundary. Inner layers raise domain exceptions (see PY-15); the route translates them.
 - Status codes: `200` success, `201` created, `404` not found, `409` conflict, `422` validation error (Pydantic handles automatically), `500` unexpected failure. Never return `200` when the resource was not found.
 
 ### PY-14 Typer CLI conventions [MUST]

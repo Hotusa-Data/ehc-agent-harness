@@ -22,7 +22,8 @@ Run from the repo root:
     python skills/lint.py --sync-plugin
 
 Also checks `agent-kit/skeletons/` for case-only filename collisions (e.g.
-`_changelog.md` vs `_CHANGELOG.md`) that break on Linux CI.
+`_changelog.md` vs `_CHANGELOG.md`) that break on Linux CI, and verifies
+relative links from simulated consumer doc paths after materialization.
 
 Validates `agent-kit/AGENTS.md` carries the required entrypoint sections
 (Commands, Boundaries, Pull requests, etc.), forbids a duplicated rules index,
@@ -344,6 +345,107 @@ def check_adr_skeletons() -> list[str]:
     return errors
 
 
+MARKDOWN_LINK_RE = re.compile(r"\]\(([^)]+)\)")
+
+SKELETON_CONSUMER_PATHS: dict[str, list[str]] = {
+    "_database.md": ["docs/database.md"],
+    "_docs-guide.md": ["docs/docs-guide.md"],
+    "_glossary.md": ["docs/glossary.md"],
+    "_specs.md": ["docs/features/example/specs.md"],
+    "_plan.md": ["docs/features/example/plan.md"],
+    "_report.md": ["docs/features/example/report.md"],
+    "_changelog.md": ["docs/features/example/changelog.md"],
+}
+
+ADR_SECTION_CONSUMER_PATHS: dict[str, str] = {
+    "index": "docs/adr/changelog.md",
+    "entry": "docs/adr/0002-example-slug.md",
+    "bootstrap": "docs/adr/0001-system-context.md",
+}
+
+
+def _parse_adr_skeleton_sections(path: Path) -> dict[str, str]:
+    """Split _adr.md into §Index, §Entry, and §Bootstrap bodies."""
+    text = path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+    sections: dict[str, list[str]] = {}
+    current: str | None = None
+    for line in text.splitlines():
+        if line.startswith("## §"):
+            current = line.removeprefix("## §").strip().lower()
+            sections[current] = []
+            continue
+        if current is not None:
+            sections[current].append(line)
+    return {key: "\n".join(lines) for key, lines in sections.items()}
+
+
+def _markdown_links(text: str) -> list[str]:
+    links: list[str] = []
+    for raw in MARKDOWN_LINK_RE.findall(text):
+        target = raw.strip().split()[0]
+        if not target or target.startswith("#"):
+            continue
+        if target.startswith(("http://", "https://", "mailto:")):
+            continue
+        links.append(target)
+    return links
+
+
+def _agent_kit_markdown_links(text: str) -> list[str]:
+    """Relative links into agent-kit/ from materialized consumer docs."""
+    return [
+        link
+        for link in _markdown_links(text)
+        if link.startswith("agent-kit/") or "/agent-kit/" in link
+    ]
+
+
+def _link_resolves_from(consumer_rel: str, link: str) -> bool:
+    consumer = REPO_ROOT / consumer_rel
+    target = (consumer.parent / link).resolve()
+    try:
+        target.relative_to(REPO_ROOT.resolve())
+    except ValueError:
+        return False
+    return target.is_file()
+
+
+def check_skeleton_links() -> list[str]:
+    """Verify skeleton relative links from simulated post-adopt consumer paths."""
+    errors: list[str] = []
+    skeleton_dir = REPO_ROOT / "agent-kit" / "skeletons"
+    if not skeleton_dir.is_dir():
+        return errors
+
+    for skel_name, consumer_paths in SKELETON_CONSUMER_PATHS.items():
+        skel_path = skeleton_dir / skel_name
+        if not skel_path.is_file():
+            continue
+        text = skel_path.read_text(encoding="utf-8")
+        for link in _agent_kit_markdown_links(text):
+            if not any(_link_resolves_from(rel, link) for rel in consumer_paths):
+                errors.append(
+                    f"agent-kit/skeletons/{skel_name}: link {link!r} broken from "
+                    f"{consumer_paths[0]} (materialized path)",
+                )
+
+    adr_path = skeleton_dir / "_adr.md"
+    if adr_path.is_file():
+        parts = _parse_adr_skeleton_sections(adr_path)
+        for section, consumer_rel in ADR_SECTION_CONSUMER_PATHS.items():
+            body = parts.get(section, "")
+            if not body:
+                continue
+            for link in _agent_kit_markdown_links(body):
+                if not _link_resolves_from(consumer_rel, link):
+                    errors.append(
+                        f"agent-kit/skeletons/_adr.md §{section.title()}: link {link!r} "
+                        f"broken from {consumer_rel}",
+                    )
+
+    return errors
+
+
 DEPRECATED_ADR_README = "docs/adr/README.md"
 ADR_CHANGELOG_SCAN_ROOTS = (
     REPO_ROOT / "agent-kit",
@@ -627,6 +729,14 @@ def main() -> int:
         total_errors += len(adr_skeleton_errors)
     else:
         print("  OK    agent-kit/skeletons/ ADR skeletons")
+
+    skeleton_link_errors = check_skeleton_links()
+    if skeleton_link_errors:
+        for err in skeleton_link_errors:
+            print(f"  ERROR skeleton-links: {err}")
+        total_errors += len(skeleton_link_errors)
+    else:
+        print("  OK    agent-kit/skeletons/ consumer-path links")
 
     adr_ref_errors = check_deprecated_adr_readme_refs()
     if adr_ref_errors:

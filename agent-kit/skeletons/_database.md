@@ -59,7 +59,7 @@ Default conventions follow [`agent-kit/agent-rules/PERSISTENCE.md`](../agent-kit
 - Index strategy:
 - Multi-ORM-base setup (if any) and why:
 
-If the project follows the defaults exactly, write: "Follows `persistence.md` defaults."
+If the project follows the defaults exactly, write: "Follows `PERSISTENCE.md` defaults."
 
 ## 5. Migration Workflow
 
@@ -70,7 +70,7 @@ Default tool: **Alembic** per [`agent-kit/agent-rules/PERSISTENCE.md`](../agent-
 - any stores that are intentionally not migrated here (and why):
 - review expectations before merging a migration:
 
-If the project follows the defaults exactly, write: "Standard Alembic workflow per `persistence.md`."
+If the project follows the defaults exactly, write: "Standard Alembic workflow per `PERSISTENCE.md`."
 
 ## 6. CRUD And Query Layer
 
@@ -81,7 +81,7 @@ Default pattern: `CRUDBase[Model, PydanticSchema, PanderaDFSchema]` per [`agent-
 - known query patterns or N+1 risks specific to this project:
 - bulk-write conventions (if different from `create_multi`):
 
-If the project follows the defaults exactly, write: "Standard `CRUDBase` pattern per `persistence.md`."
+If the project follows the defaults exactly, write: "Standard `CRUDBase` pattern per `PERSISTENCE.md`."
 
 ## 7. DataFrame Access And Validation
 
@@ -91,7 +91,7 @@ Default convention: Pandera schemas in `schemas_df/`, `CRUDBase.get_df()` with `
 - tables or domains where DataFrame access is intentionally absent:
 - known gaps or planned improvements:
 
-If the project follows the defaults exactly, write: "Standard Pandera / `get_df()` pattern per `validation.md`."
+If the project follows the defaults exactly, write: "Standard Pandera / `get_df()` pattern per `VALIDATION.md`."
 
 ## 8. Configuration, Credentials, And Security
 
@@ -131,7 +131,7 @@ If this is out of scope for the repo, say so explicitly.
 
 ## 11. Rules Of The Road
 
-List the non-negotiable persistence rules contributors must follow in this project specifically. Do not restate generic rules from `persistence.md` — only project-specific ones.
+List the non-negotiable persistence rules contributors must follow in this project specifically. Do not restate generic rules from `PERSISTENCE.md` — only project-specific ones.
 
 Examples:
 
@@ -155,4 +155,4 @@ List unresolved persistence decisions or technical debt discovered during inspec
 - Mark missing or not-yet-implemented pieces explicitly.
 - Link to concrete file areas when helpful.
 - Do not present speculation as architecture.
-- Do not restate default patterns from `persistence.md` or `validation.md` — record only deviations and project-specific decisions.
+- Do not restate default patterns from `PERSISTENCE.md` or `VALIDATION.md` — record only deviations and project-specific decisions.
