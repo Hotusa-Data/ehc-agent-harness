@@ -49,7 +49,7 @@ Each feature lives in `docs/features/<feature>/` with:
 | `specs.md` | What and why |
 | `plan.md` | How and atomic work units |
 | `report.md` | What was actually built (created at cycle close) |
-| `CHANGELOG.md` | Narrative of evolution |
+| `changelog.md` | Narrative of evolution |
 
 "Feature" covers user-facing features, subsystems, or substantial refactors. Never split one coherent scope into parallel folders.
 

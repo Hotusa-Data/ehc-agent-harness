@@ -191,7 +191,7 @@ def check_plugin_sync() -> list[str]:
     return errors
 
 
-CHANGELOG_SKELETON = "_CHANGELOG.md"
+CHANGELOG_SKELETON = "_changelog.md"
 AGENTS_MD_MAX_LINES = 140
 
 REQUIRED_AGENTS_SECTIONS = (
@@ -290,7 +290,7 @@ def check_skeleton_path_casing() -> list[str]:
     changelog_variants = by_lower.get(CHANGELOG_SKELETON.lower(), set())
     if changelog_variants and CHANGELOG_SKELETON not in changelog_variants:
         errors.append(
-            f"agent-kit/skeletons/: CHANGELOG skeleton must be named {CHANGELOG_SKELETON} "
+            f"agent-kit/skeletons/: changelog skeleton must be named {CHANGELOG_SKELETON} "
             f"(DOCUMENTATION.md mapping; found {sorted(changelog_variants)})",
         )
 

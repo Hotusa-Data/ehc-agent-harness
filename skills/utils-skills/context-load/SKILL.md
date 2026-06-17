@@ -65,7 +65,7 @@ For task-type-specific loads, use this table (authoritative source: `agent-kit/a
 
 | Task type | Add to load |
 |---|---|
-| Touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
+| Touches an existing feature | `docs/features/<feature>/{specs,plan,changelog}.md` |
 | Uses business vocabulary | `docs/glossary.md` |
 | Placement or structure unclear | `REPO_GUIDE.md`, `docs/adr/README.md` + relevant ADR |
 | Layer contracts, circular imports | `ARCHITECTURE.md` |
@@ -115,14 +115,14 @@ Read these in order, skipping any that do not exist:
 
 1. `docs/features/<feature>/specs.md`
 2. `docs/features/<feature>/plan.md`
-3. `docs/features/<feature>/CHANGELOG.md`
+3. `docs/features/<feature>/changelog.md`
 
 Do not load `report.md` by default — it only exists for shipped cycles and is rarely needed during active work.
 
 If the feature folder does not exist:
 1. Notify the developer: `docs/features/<feature>/ does not exist.`
 2. Ask: `Create it now from the templates?`
-3. If yes, scaffold `specs.md`, `plan.md`, and `CHANGELOG.md` from skeletons — but do not write without developer confirmation.
+3. If yes, scaffold `specs.md`, `plan.md`, and `changelog.md` from skeletons — but do not write without developer confirmation.
 4. If no, proceed without feature context and note the gap.
 
 ---
@@ -139,7 +139,7 @@ Context loaded:
 - Feature: docs/features/<feature>/ ✓
   - specs.md ✓  (status: active)
   - plan.md ✓  (3 of 7 tasks done)
-  - CHANGELOG.md ✓  (last entry: YYYY-MM-DD)
+  - changelog.md ✓  (last entry: YYYY-MM-DD)
 
 Ready to work on: <feature or task description>
 ```

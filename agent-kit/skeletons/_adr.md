@@ -25,7 +25,7 @@ See **DOC-10** in [`DOCUMENTATION.md`](../../agent-kit/agent-rules/DOCUMENTATION
 | Write an ADR | Do not write an ADR |
 |---|---|
 | Layout delta vs kit default | Feature behavior → `specs.md` |
-| External integration boundary | Deferred work → CHANGELOG `Decided` |
+| External integration boundary | Deferred work → changelog `Decided` |
 | Project-wide invariant | Cycle-scoped choice → `plan.md` §9 |
 
 ### Creating a new ADR

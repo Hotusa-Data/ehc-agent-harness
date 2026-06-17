@@ -80,7 +80,7 @@ flowchart LR
 | **Spec**     | Define what changes, why, and what "done" looks like — before touching code.                 | `docs/features/<feature>/specs.md`                 |
 | **Plan**     | Decide how to slice, test and document.                                                      | `docs/features/<feature>/plan.md`                  |
 | **Build**    | Ship small, reviewable slices with evidence (test runs, notebook output).                    | code, tests, notebook outputs                      |
-| **Document** | Update every durable doc the change touched.                                                 | glossary, CHANGELOG, `report.md`                   |
+| **Document** | Update every durable doc the change touched.                                                 | glossary, changelog, `report.md`                   |
 
 ### Human review checkpoints
 
@@ -92,7 +92,7 @@ Three points where a person — not the AI — has to approve before work contin
 | **Plan Review**   | `plan.md` — §1 tasks, §2 testing plan, §3 evidence. | Technical lead               |
 | **PR Review**     | PR diff, tests and updated docs.                                | Reviewer assigned to the PR  |
 
-**Non-negotiable rule:** lightweight work may skip phases, but the skipped ones must be named explicitly — usually in the PR description or `CHANGELOG.md`.
+**Non-negotiable rule:** lightweight work may skip phases, but the skipped ones must be named explicitly — usually in the PR description or `changelog.md`.
 
 ---
 
@@ -113,7 +113,7 @@ Two parallel tracks: set up the project repo once, and set up each developer's I
 
 3. Adapt root `AGENTS.md` to the project: fill in §Commands and §Pull requests, confirm §Boundaries, and set overrides in `docs/docs-guide.md` §3 (step 2 copies the template when you pass `--agents`).
 4. If you skipped the script, instantiate the base docs manually from [`agent-kit/skeletons/`](./agent-kit/skeletons/) into `docs/`: run `adopt.py` for `adr/` or copy `_adr.md` pattern per [`DOCUMENTATION.md`](./agent-kit/agent-rules/DOCUMENTATION.md) §DOC-4; plus `database.md`, `docs-guide.md`, `glossary.md`.
-5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `CHANGELOG.md` (or use `--feature` in step 2). Skeletons adapt by **Harness mode** (`standard` | `full`) — see Section guide in `_specs.md` and `_plan.md`. Add `report.md` only when the cycle closes.
+5. Per feature, create `docs/features/<feature>/` with `specs.md`, `plan.md`, `changelog.md` (or use `--feature` in step 2). Skeletons adapt by **Harness mode** (`standard` | `full`) — see Section guide in `_specs.md` and `_plan.md`. Add `report.md` only when the cycle closes.
 6. If you skipped the script, add `.local-context/` to the project [`.gitignore`](./.gitignore) (or create one). Session handoffs and scratch notes live there — never committed. See [managing-context.md](./guides/onboarding/managing-context.md#setting-it-up).
 
 Resulting repo shape:
@@ -133,7 +133,7 @@ repo-root/
     └── features/<feature>/
         ├── specs.md
         ├── plan.md
-        └── CHANGELOG.md
+        └── changelog.md
 
 .local-context/                  ← created on demand; gitignored; handoffs and session notes
 ```
@@ -245,7 +245,7 @@ The **guides and the cycle** are — apply them today in Cursor. The **harness a
 <details>
 <summary><strong>What if my feature is trivial? Do I still run all five phases?</strong></summary>
 
-No. You may skip phases, but you must state explicitly what you skipped and why — usually in the PR description or `CHANGELOG.md`.
+No. You may skip phases, but you must state explicitly what you skipped and why — usually in the PR description or `changelog.md`.
 
 </details>
 
@@ -280,7 +280,7 @@ No. The cycle has three explicit human review checkpoints (Spec, Plan, PR) preci
 |-------|------------|
 | Lifecycle | Five phases (Context → Spec → Plan → Build → Document); SDD-inspired, not pure SDD — see [spec-driven-development.md](./guides/theory/spec-driven-development.md) |
 | Session notes | `.local-context/` at repo root, gitignored, never committed |
-| Feature changelog | `CHANGELOG.md` (uppercase), not `changelog.md` — Keep a Changelog convention |
+| Feature changelog | `changelog.md` (lowercase) — same convention as `specs.md` and `plan.md` |
 | Cycle-close report | `docs/features/<feature>/report.md` — the `business-reports` skill writes here |
 | Plugin skills | Edit `skills/utils-skills/`; sync with `python skills/lint.py --sync-plugin` |
 | Consumer bootstrap | `python agent-kit/adopt.py` after copying `agent-kit/` into a project repo |

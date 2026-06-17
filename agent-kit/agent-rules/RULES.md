@@ -8,7 +8,7 @@ Engineering rules for the coding agent — extensions of root `AGENTS.md`, loade
 |---|---|---|---|
 | Agent map | repo root | `AGENTS.md` | Always loaded |
 | Harness rules | `agent-kit/agent-rules/` | `SCREAMING_SNAKE.md` | `CORE.md`, `TESTING.md` |
-| Project docs | `docs/`, feature folders | lowercase | `adr/`, `specs.md`, `CHANGELOG.md` |
+| Project docs | `docs/`, feature folders | lowercase | `adr/`, `specs.md`, `changelog.md` |
 
 `agent-kit/agent-rules/ARCHITECTURE.md` (kit layer contracts) ≠ `docs/adr/` (project structural decisions).
 
@@ -68,7 +68,7 @@ Ambiguity and stop-to-clarify: **COOP-1**, **COOP-2** (`CORE.md`). Project overr
 | DOC-4 | Instantiate from skeletons | DOCUMENTATION.md |
 | DOC-5 | docs-guide.md is project authority | DOCUMENTATION.md |
 | DOC-6 | Overrides must not silently contradict | DOCUMENTATION.md |
-| DOC-7 | Feature CHANGELOG convention | DOCUMENTATION.md |
+| DOC-7 | Feature changelog convention | DOCUMENTATION.md |
 | DOC-8 | Reconcile docs with diff | DOCUMENTATION.md |
 | DOC-9 | Doc hygiene at session/PR close | DOCUMENTATION.md |
 | DOC-10 | Architecture decisions in docs/adr/ | DOCUMENTATION.md |

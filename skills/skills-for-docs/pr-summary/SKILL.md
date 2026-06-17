@@ -19,7 +19,7 @@ metadata:
 
 Produce a reviewable change summary that **reconciles three sources of truth**:
 
-1. The **plan and specs** in `docs/features/<feature>/` (specs, plan, CHANGELOG).
+1. The **plan and specs** in `docs/features/<feature>/` (specs, plan, changelog).
 2. The **local session context** in `.local-context/` (handoff notes, open questions, decisions taken mid-session).
 3. The **actual diff** against the comparison base.
 
@@ -57,7 +57,7 @@ If the feature folder is missing, ask the user which feature this branch belongs
 
 1. Read root `AGENTS.md` §Pull requests and §Verification before PR.
 2. Identify the feature. If unclear, ask the user.
-3. Read `specs.md`, `plan.md`, `CHANGELOG.md` (skip missing ones, note the gap).
+3. Read `specs.md`, `plan.md`, `changelog.md` (skip missing ones, note the gap).
 4. Read everything under `.local-context/`.
 5. Confirm the comparison base (default `main`; ask if stacked).
 

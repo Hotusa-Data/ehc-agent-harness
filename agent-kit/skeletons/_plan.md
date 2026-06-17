@@ -8,7 +8,7 @@ Use the smallest plan that preserves clarity. Use `unknown — needs confirmatio
 
 ## Section guide (Harness mode)
 
-Lightweight work in the working cycle (`AGENTS.md`) does **not** create a plan file — name what you skip in the PR or CHANGELOG.
+Lightweight work in the working cycle (`AGENTS.md`) does **not** create a plan file — name what you skip in the PR or changelog.
 
 | § | Section | standard | full |
 |---|---|---|---|
@@ -154,9 +154,9 @@ Work **intentionally left for later** — out of scope for this plan's Build, bu
 
 | ID | Future work | Why deferred | When / where |
 |---|---|---|---|
-| F1 |  |  | next release \| feature X \| CHANGELOG Decided |
+| F1 |  |  | next release \| feature X \| changelog Decided |
 
-Promote to §1 when it becomes in-scope; otherwise close here and record in CHANGELOG `Decided` when the feature ships.
+Promote to §1 when it becomes in-scope; otherwise close here and record in changelog `Decided` when the feature ships.
 
 **standard:** omit if nothing is deferred beyond this plan.
 
@@ -178,7 +178,7 @@ Promote to §1 when it becomes in-scope; otherwise close here and record in CHAN
 | Assumption | A1 |  |  |  |
 | Decision | D1 |  |  |  |
 
-HITL tasks must reference the blocking row here or CHANGELOG `Decided`.
+HITL tasks must reference the blocking row here or changelog `Decided`.
 
 ## 10. Operations And Rollout (full)
 
@@ -197,7 +197,7 @@ A task is `done` when:
 2. The matching **§2** row is implemented (tests exist and cover the declared behavior).
 3. The matching **§3** row was executed with documented signal (COOP-3: ran vs written vs blocked).
 4. Any documentation impact for that task in §8 is resolved.
-5. Blocking **§6** dependencies are `available` or escalated (HITL / CHANGELOG `Decided`).
+5. Blocking **§6** dependencies are `available` or escalated (HITL / changelog `Decided`).
 
 ## Ready Checklist
 

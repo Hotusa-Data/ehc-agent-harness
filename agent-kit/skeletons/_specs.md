@@ -6,7 +6,7 @@ Fill what is known. Use `unknown — needs confirmation` instead of guessing. Us
 
 ## Section guide (Harness mode)
 
-Lightweight work in the working cycle (`AGENTS.md`) does **not** create a spec file — name what you skip in the PR or CHANGELOG.
+Lightweight work in the working cycle (`AGENTS.md`) does **not** create a spec file — name what you skip in the PR or changelog.
 
 | § | Section | standard | full |
 |---|---|---|---|
@@ -40,7 +40,7 @@ Mode guidance:
 - `standard`: normal behavior change with clear scope and limited blast radius.
 - `full`: new feature, business logic, migrations, public contracts, security/privacy impact.
 
-If both `specs.md` and `plan.md` exist, `Harness mode` must match unless justified in CHANGELOG `Decided`.
+If both `specs.md` and `plan.md` exist, `Harness mode` must match unless justified in changelog `Decided`.
 
 ## 1. Problem
 
@@ -141,7 +141,7 @@ Every non-trivial AC maps to a testing-plan row in `plan.md` §2 before Build.
 
 ## Maintaining this spec (spec-anchored)
 
-- During build: scope or AC changes → edit this file or CHANGELOG `[Unreleased]` → `Specs` (DOC-7).
-- Partial or deferred work → CHANGELOG `Decided`, not a parallel doc.
+- During build: scope or AC changes → edit this file or changelog `[Unreleased]` → `Specs` (DOC-7).
+- Partial or deferred work → changelog `Decided`, not a parallel doc.
 - When behavior permanently changes → update §3–§5 in place; set Status `superseded` only when replaced by a new feature folder.
 - Do not duplicate technical contracts here after Plan Review — they live in `plan.md` §4–§5.

@@ -83,7 +83,7 @@ Before claiming done:
 - [ ] Diff is reviewable — one slice, no unrelated changes
 - [ ] Drift from spec is explicit if any
 - [ ] `plan.md` §1 task **Status** updated (ask user, or run [`context-update`](../../utils-skills/context-update/SKILL.md))
-- [ ] Feature `CHANGELOG.md` entry proposed if the change is non-trivial
+- [ ] Feature `changelog.md` entry proposed if the change is non-trivial
 
 Present a short slice summary: what was built, which ACs are satisfied, what remains, and whether the next slice is unblocked.
 
@@ -111,5 +111,5 @@ Present a short slice summary: what was built, which ACs are satisfied, what rem
 
 - [`plan-write`](../plan-write/SKILL.md) — predecessor: produces the slices this skill implements.
 - [`notebook-mockup`](../notebook-mockup/SKILL.md) — optional upstream: supplies function contracts when the plan declares a mockup.
-- [`context-update`](../../utils-skills/context-update/SKILL.md) — update `plan.md`, `CHANGELOG.md`, and related docs after the slice.
+- [`context-update`](../../utils-skills/context-update/SKILL.md) — update `plan.md`, `changelog.md`, and related docs after the slice.
 - [`pr-summary`](../../skills-for-docs/pr-summary/SKILL.md) — run when the branch is ready for human PR review.

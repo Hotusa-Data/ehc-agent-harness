@@ -83,7 +83,7 @@ Then load context in layers — only as deep as the task needs:
 |---|---|---|
 | **Framework** | `AGENTS.md`, `agent-kit/agent-rules/` | Always |
 | **Project** | `docs/docs-guide.md`, `docs/adr/`, `docs/glossary.md` | Task touches the project domain |
-| **Feature** | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` | Task touches an existing feature |
+| **Feature** | `docs/features/<feature>/{specs,plan,changelog}.md` | Task touches an existing feature |
 | **Session** | `.local-context/` | You have handoff notes or partial work |
 
 See [managing-context.md](managing-context.md) and [../theory/context-engineering.md](../theory/context-engineering.md) for the full model.
@@ -121,7 +121,7 @@ docs/features/<feature>/
 ├── specs.md           ← the spec lives here (Spec phase)
 ├── plan.md            ← created in Plan
 ├── report.md          ← created at cycle close
-└── CHANGELOG.md       ← updated throughout
+└── changelog.md       ← updated throughout
 ```
 
 See [../theory/spec-driven-development.md](../theory/spec-driven-development.md) for the full SDD approach.
@@ -220,7 +220,7 @@ Typical updates:
 |---|---|
 | Specs change | `docs/features/<feature>/specs.md` |
 | Plan change | `docs/features/<feature>/plan.md` |
-| Behavior change narrative | `docs/features/<feature>/CHANGELOG.md` (under `[Unreleased]`) |
+| Behavior change narrative | `docs/features/<feature>/changelog.md` (under `[Unreleased]`) |
 | Business validation | `docs/features/<feature>/report.md` (at cycle close) |
 | New vocabulary | `docs/glossary.md` |
 | Project knowledge | `docs/adr/`, `docs/docs-guide.md` |
@@ -264,7 +264,7 @@ Each developer finds their own rhythm. Some work best with a tight spec-first ap
 
 **Standard mode** — the full cycle. Use it when the task has real behavior change, moderate complexity, or you want the assurance of a spec and a plan before building.
 
-**Lightweight mode** — skip Spec and Plan, jump from Context straight to Build. Great for obvious small fixes, docs changes, experiments, or when you have a clear mental model and just need the AI to execute. Still update docs at the end. Name skipped phases in the PR or CHANGELOG.
+**Lightweight mode** — skip Spec and Plan, jump from Context straight to Build. Great for obvious small fixes, docs changes, experiments, or when you have a clear mental model and just need the AI to execute. Still update docs at the end. Name skipped phases in the PR or changelog.
 
 ### Harness mode (spec and plan density)
 

@@ -2,7 +2,7 @@
 name: context-update
 phase: document
 description: |
-  Step-by-step documentation update at the end of a session. Reviews what was generated or decided, then updates each affected file — feature specs, plan, CHANGELOG, glossary, ADRs, docs-guide — one at a time, always asking the developer for confirmation before writing. Use this skill at the end of any session where artefacts were generated or decisions were made.
+  Step-by-step documentation update at the end of a session. Reviews what was generated or decided, then updates each affected file — feature specs, plan, changelog, glossary, ADRs, docs-guide — one at a time, always asking the developer for confirmation before writing. Use this skill at the end of any session where artefacts were generated or decisions were made.
 allowed-tools:
   - Read
   - Edit
@@ -90,7 +90,7 @@ When the feature cycle closes, confirm `report.md` **Build verification (interna
 
 ---
 
-## Step 3 - Feature CHANGELOG (`docs/features/<feature>/CHANGELOG.md`)
+## Step 3 - Feature changelog (`docs/features/<feature>/changelog.md`)
 
 For every non-trivial change made above, append an entry under `[Unreleased]`:
 - Use the right section (Specs / Plan / Decided / Added / Changed / Removed / Fixed)
@@ -131,7 +131,7 @@ Documentation update complete.
 Updated:
 - docs/features/<feature>/specs.md ✓
 - docs/features/<feature>/plan.md - skipped (no changes needed)
-- docs/features/<feature>/CHANGELOG.md ✓
+- docs/features/<feature>/changelog.md ✓
 - docs/glossary.md ✓
 - docs/adr/ - skipped
 - docs/docs-guide.md - skipped
@@ -147,7 +147,7 @@ Remember: run /context-update at the end of every session.
 - **One file at a time.** Complete each step before moving to the next.
 - **Show diffs, not summaries.** The developer must see exactly what will change.
 - **Skip gracefully.** If a file does not need updating, say so and move on.
-- **CHANGELOG is non-negotiable** for non-trivial changes - that is the trazability mechanism.
+- **Changelog is non-negotiable** for non-trivial changes - that is the trazability mechanism.
 - **Be specific.** Show concrete changes, not generic "updated context".
 - **Do not rewrite existing content** unless correcting an error - append and update only.
 

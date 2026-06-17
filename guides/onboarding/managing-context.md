@@ -24,7 +24,7 @@ This framework gives you four layers of context, each with a clear home, so the 
 |---|---|---|
 | **Framework** | `AGENTS.md`, `agent-kit/agent-rules/`, `agent-kit/skeletons/` | How to work in this metarepo |
 | **Project** | `docs/docs-guide.md`, `docs/adr/`, `docs/database.md`, `docs/glossary.md` | What kind of project this is |
-| **Feature** | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` | What's happening in the feature being touched |
+| **Feature** | `docs/features/<feature>/{specs,plan,changelog}.md` | What's happening in the feature being touched |
 | **Session** | `.local-context/` (gitignored) | Temporary working state for the current session |
 
 > [!TIP]
@@ -42,7 +42,7 @@ Single source of truth. Use this table before creating anything new:
 | What a feature must do | `docs/features/<feature>/specs.md` | Acceptance criteria, scope |
 | How a feature is built | `docs/features/<feature>/plan.md` | §1 tasks, §2 testing plan, §3 evidence; approach/contracts as support |
 | What a feature shipped | `docs/features/<feature>/report.md` | Business validation at cycle close |
-| Evolution of a feature | `docs/features/<feature>/CHANGELOG.md` | Narrative of requirement / specs / scope changes |
+| Evolution of a feature | `docs/features/<feature>/changelog.md` | Narrative of requirement / specs / scope changes |
 | Handoffs and session notes | `.local-context/` | "Stopped mid-refactor, retry test X" |
 
 **Decision rule:**
@@ -81,7 +81,7 @@ Use `--dry-run` to preview. The script creates `docs/` from skeletons and ensure
 |------|--------|
 | `--dry-run` | Print planned actions without writing files |
 | `--agents` | Copy `agent-kit/AGENTS.md` to root `AGENTS.md` when missing |
-| `--feature NAME` | Scaffold `docs/features/NAME/` with `specs.md`, `plan.md`, `CHANGELOG.md` |
+| `--feature NAME` | Scaffold `docs/features/NAME/` with `specs.md`, `plan.md`, `changelog.md` |
 | `--force` | Overwrite files that already exist |
 
 Minimal setup so context flows correctly in every session.
@@ -122,7 +122,7 @@ docs/
         ├── specs.md
         ├── plan.md
         ├── report.md          (created at cycle close)
-        └── CHANGELOG.md
+        └── changelog.md
 ```
 
 ### Migrating from `docs/architecture.md`
@@ -175,7 +175,7 @@ A scratchpad that lives in the repo but never gets committed.
 - `agent-kit/agent-rules/CORE.md`
 - Relevant project docs (`docs/docs-guide.md`, `docs/adr/README.md`, `docs/glossary.md`)
 - Relevant feature context (if the feature is known)
-- Existing specs, plan, or CHANGELOG for the same area
+- Existing specs, plan, or changelog for the same area
 - The code and tests being touched
 
 Rule file index and canonical topics: [`agent-kit/agent-rules/RULES.md`](../../agent-kit/agent-rules/RULES.md). Full load order: [`DOCUMENTATION.md`](../../agent-kit/agent-rules/DOCUMENTATION.md) §DOC-1.
@@ -184,7 +184,7 @@ Rule file index and canonical topics: [`agent-kit/agent-rules/RULES.md`](../../a
 
 | Signal | Load |
 |---|---|
-| Task touches an existing feature | `docs/features/<feature>/{specs,plan,CHANGELOG}.md` |
+| Task touches an existing feature | `docs/features/<feature>/{specs,plan,changelog}.md` |
 | Request uses business terms ("tenant", "billing cycle") | `docs/glossary.md` |
 | Placement or layout unclear | `agent-kit/agent-rules/REPO_GUIDE.md` (default codemap), `docs/adr/README.md` + relevant ADR |
 | Layer contracts or import boundaries | `agent-kit/agent-rules/ARCHITECTURE.md` |
@@ -233,7 +233,7 @@ Before commit, code and durable context must not contradict each other.
 
 - [ ] Implemented behavior matches the current `specs.md`
 - [ ] Current `plan.md` reflects what actually happened
-- [ ] `CHANGELOG.md` has an entry for each non-trivial change made this cycle
+- [ ] `changelog.md` has an entry for each non-trivial change made this cycle
 - [ ] Architecture or docs-guide updated if durable project knowledge changed
 - [ ] Glossary updated if vocabulary changed
 - [ ] Nothing important exists only in chat or `.local-context/`

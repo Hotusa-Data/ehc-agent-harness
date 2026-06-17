@@ -23,7 +23,7 @@ This file lists **what this repo requires**. It does not restate load order, val
 | `docs/features/<feature>/specs.md` | optional | One per feature; required for non-trivial work |
 | `docs/features/<feature>/plan.md` | optional | One per feature; required when work spans multiple slices or needs a technical approach |
 | `docs/features/<feature>/report.md` | optional | Created at cycle close |
-| `docs/features/<feature>/CHANGELOG.md` | optional | Required when the feature has evolved beyond its initial commit |
+| `docs/features/<feature>/changelog.md` | optional | Required when the feature has evolved beyond its initial commit |
 
 Mark docs `required` only if this project actually expects them. Remove rows that do not apply.
 

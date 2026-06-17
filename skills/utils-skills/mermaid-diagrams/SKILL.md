@@ -121,7 +121,7 @@ Pre-built Markdown templates for full documents that complement the agent-kit wo
 
 | Template | When to use | Mermaid embedded |
 |---|---|---|
-| [`templates/pull_request.md`](templates/pull_request.md) | Optional PR archive as a persistent file (`docs/project/pr/` only if enabled in `docs/docs-guide.md` §3); default kit uses `pr-summary` + feature `CHANGELOG.md` | Yes (architecture impact) |
+| [`templates/pull_request.md`](templates/pull_request.md) | Optional PR archive as a persistent file (`docs/project/pr/` only if enabled in `docs/docs-guide.md` §3); default kit uses `pr-summary` + feature `changelog.md` | Yes (architecture impact) |
 | [`templates/how_to_guide.md`](templates/how_to_guide.md) | Tutorials, runbooks, onboarding walkthroughs — verifiable step-by-step | Yes (process overview) |
 | [`templates/project_documentation.md`](templates/project_documentation.md) | Main project README or `docs/index.md` — quick start, architecture, contribution guide | Yes (architecture + request lifecycle) |
 

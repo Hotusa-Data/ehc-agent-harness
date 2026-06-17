@@ -49,7 +49,7 @@ docs/features/<feature>/
 |-- specs.md
 |-- plan.md
 |-- report.md       (created at cycle close)
-`-- CHANGELOG.md
+`-- changelog.md
 ```
 
 A useful `specs.md` covers: problem statement, goals, non-goals, current behavior, target behavior, requirements, acceptance criteria, examples, and assumptions plus open questions.
@@ -128,7 +128,7 @@ SDD is the **conceptual backbone**, not the operating model. The cycle we actual
 
 - **Context** loads rules and project truth before anyone writes a spec.
 - **Spec / Plan / Build** carry the SDD-inspired intent → plan → evidence chain.
-- **Document** closes durable knowledge (glossary, CHANGELOG, `report.md`) — a phase most pure-SDD toolkits under-specify.
+- **Document** closes durable knowledge (glossary, changelog, `report.md`) — a phase most pure-SDD toolkits under-specify.
 
 Skills operationalize each phase; the spec stays the source of intent throughout Build.
 

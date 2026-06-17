@@ -20,7 +20,7 @@ In monorepos, nested `AGENTS.md` files may exist in subpackages — the file clo
 
 ## Working cycle
 
-Every non-trivial task follows five phases. Lightweight work may skip phases — name what you skip and why (usually in the PR or CHANGELOG).
+Every non-trivial task follows five phases. Lightweight work may skip phases — name what you skip and why (usually in the PR or changelog).
 
 ```
 Context → Spec ──[Spec Review]──► Plan ──[Plan Review]──► Build ──[PR Review]──► Document ──► merge
@@ -34,7 +34,7 @@ Backward loops: if Spec is unclear, return to Context. If an assumption breaks d
 | **Spec** | Define what must change and why | `docs/features/<feature>/specs.md` |
 | **Plan** | Decide how to implement, slice, test, document | `docs/features/<feature>/plan.md` |
 | **Build** | Implement in small, reviewable slices | code, tests, notebook mockups |
-| **Document** | Update every durable doc the change touched | glossary, `CHANGELOG.md`, `report.md` |
+| **Document** | Update every durable doc the change touched | glossary, `changelog.md`, `report.md` |
 
 **Human review stops** — a person must approve before the next phase begins.
 
@@ -132,7 +132,7 @@ Human review gates (Spec, Plan, PR) are mandatory for non-trivial work — see [
 
 Project-specific knowledge lives in `docs/` (created on demand via `adopt.py` or skeletons):
 
-`docs/adr/`, `docs/database.md`, `docs/glossary.md`, `docs/docs-guide.md`, and `docs/features/<feature>/{specs,plan,CHANGELOG,report}.md`.
+`docs/adr/`, `docs/database.md`, `docs/glossary.md`, `docs/docs-guide.md`, and `docs/features/<feature>/{specs,plan,changelog,report}.md`.
 
 If a target doc does not exist, instantiate it from the matching skeleton — see [`agent-kit/agent-rules/DOCUMENTATION.md` §DOC-4](agent-kit/agent-rules/DOCUMENTATION.md).
 

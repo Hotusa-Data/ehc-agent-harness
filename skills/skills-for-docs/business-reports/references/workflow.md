@@ -205,7 +205,7 @@ Never write with a best guess. Never mark an unresolved item as 💡 to avoid as
 
 Write to `docs/features/<feature>/report.md`. Folder resolution rules:
 
-1. **If the scope maps to an existing feature folder** in `docs/features/` (look for one whose name matches the scope, or whose `specs.md` reference the same paths), **reuse it**. Don't create a parallel folder. This is the AGENTS.md convention — the report lives next to `specs.md`, `plan.md`, `CHANGELOG.md`.
+1. **If the scope maps to an existing feature folder** in `docs/features/` (look for one whose name matches the scope, or whose `specs.md` reference the same paths), **reuse it**. Don't create a parallel folder. This is the AGENTS.md convention — the report lives next to `specs.md`, `plan.md`, `changelog.md`.
 2. **Otherwise** derive `<feature>` as a kebab-case `scope_slug` from the scope (single file `booking/upgrade.py` → `booking-upgrade`; multiple paths joined with `-and-`) and create the folder.
 
 If refresh mode: `cp <output_path> <output_path>.bak` before overwriting (overwrites any prior `.bak`).

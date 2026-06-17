@@ -36,7 +36,7 @@ BASE_DOC_MAP: dict[str, str] = {
 FEATURE_DOC_MAP: dict[str, str] = {
     "_specs.md": "specs.md",
     "_plan.md": "plan.md",
-    "_CHANGELOG.md": "CHANGELOG.md",
+    "_changelog.md": "changelog.md",
 }
 
 GITIGNORE_MARKER = ".local-context/"
@@ -240,7 +240,7 @@ def main() -> int:
     parser.add_argument(
         "--feature",
         metavar="NAME",
-        help="Also scaffold docs/features/NAME/ with specs.md, plan.md, CHANGELOG.md",
+        help="Also scaffold docs/features/NAME/ with specs.md, plan.md, changelog.md",
     )
     parser.add_argument(
         "--agents",

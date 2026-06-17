@@ -12,7 +12,7 @@ When someone asks "what was PR #123 about?" six months from now, they `grep docs
 
 This is the **Everything is Code** philosophy: project management data lives in the repo, versioned and portable. Don't capture information in GitHub's UI that should be captured in this file. Invest the 10 minutes. A great PR file eliminates the "what was this PR about?" Slack message and the "can someone check the GitHub PR?" context switch — the answer is already in the repo.
 
-> **Agent-kit default:** Durable feature narrative lives in `docs/features/<feature>/` (`CHANGELOG.md`, `report.md`). PR descriptions for reviewers are produced by the [`pr-summary`](../../../skills-for-docs/pr-summary/SKILL.md) skill. The `docs/project/` layout below is an **optional archive** — adopt it only if declared under `docs/docs-guide.md` §3 Project-Specific Overrides.
+> **Agent-kit default:** Durable feature narrative lives in `docs/features/<feature>/` (`changelog.md`, `report.md`). PR descriptions for reviewers are produced by the [`pr-summary`](../../../skills-for-docs/pr-summary/SKILL.md) skill. The `docs/project/` layout below is an **optional archive** — adopt it only if declared under `docs/docs-guide.md` §3 Project-Specific Overrides.
 
 ---
 
@@ -309,7 +309,7 @@ git revert [commit-sha]
 ### Follow-up items
 
 - [ ] [Follow-up task](../../docs/features/<feature>/plan.md)
-- [ ] [Technical debt to address later](../../docs/features/<feature>/CHANGELOG.md)
+- [ ] [Technical debt to address later](../../docs/features/<feature>/changelog.md)
 
 ---
 
