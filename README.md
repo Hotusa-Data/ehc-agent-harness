@@ -124,9 +124,7 @@ repo-root/
 ├── agent-kit/                   ← copied from this metarepo
 ├── .gitignore                   ← must exclude .local-context/
 └── docs/
-    ├── adr/
-    │   ├── changelog.md
-    │   └── 0001-system-context.md
+    ├── adr/                     ← adopt.py: changelog.md + 0001-system-context.md
     ├── database.md
     ├── glossary.md
     ├── docs-guide.md

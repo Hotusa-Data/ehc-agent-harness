@@ -111,9 +111,7 @@ A predictable layout lets the AI find things without guessing. Stick to this tre
 
 ```text
 docs/
-├── adr/
-│   ├── changelog.md
-│   └── 0001-system-context.md
+├── adr/                         ← adopt.py: changelog.md + 0001-system-context.md
 ├── database.md
 ├── glossary.md
 ├── docs-guide.md

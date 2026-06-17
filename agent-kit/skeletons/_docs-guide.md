@@ -16,7 +16,7 @@ This file lists **what this repo requires**. It does not restate load order, val
 | Doc | Status | Purpose |
 |---|---|---|
 | `AGENTS.md` | required | Entrypoint: cycle, commands, boundaries, what to load, when to clarify |
-| `docs/adr/` | required | Structural decisions (`changelog.md` index); edit `0001-system-context.md` on adoption; default codemap in `REPO_GUIDE.md` |
+| `docs/adr/` | required | Structural decisions; `adopt.py` scaffolds `changelog.md` (index) and `0001-system-context.md` — see **DOC-10** |
 | `docs/glossary.md` | required | Canonical vocabulary |
 | `docs/docs-guide.md` | required | This file |
 | `docs/database.md` | optional | Required if the project persists data |
